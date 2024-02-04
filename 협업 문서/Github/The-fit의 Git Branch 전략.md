@@ -34,15 +34,15 @@
  
 
 >2.Github Flow 전략 <br>
-* Github Flow 전략이란?
-	*Github 환경에서 사용하기 적합한 Git Branch 전략, 웹 어플리케이션 개발에 적합한 Git Branch 전략입니다.
-* Github Flow 전략의 Branch 구성
-	* Main Branch : 항상 Stable한 상태, 모든 commit은 언제 배포하든 문제 없어야함, 언제든 새로운 Branch를 만들어도 문제 없어야함, 항상 빌드가 되고, 테스트를 통과해야하는 Branch입니다.
-	* Topic Branch : 새로운 Branch를 개발할 때 사용하는 Branch, 기능 개발 및 버그 수정을 위한 브랜친
-		*Topic Branch의 네이밍 방법 : 기능을 설명하는 명확한 이름 
-			* ex) user-content-cache-key, redis-transition 등 ..
+* Github Flow 전략이란?<br>
+	*Github 환경에서 사용하기 적합한 Git Branch 전략, 웹 어플리케이션 개발에 적합한 Git Branch 전략입니다.<br>
+* Github Flow 전략의 Branch 구성<br>
+	* Main Branch : 항상 Stable한 상태, 모든 commit은 언제 배포하든 문제 없어야함, 언제든 새로운 Branch를 만들어도 문제 없어야함, 항상 빌드가 되고, 테스트를 통과해야하는 Branch입니다.<br>
+	* Topic Branch : 새로운 Branch를 개발할 때 사용하는 Branch, 기능 개발 및 버그 수정을 위한 Branch입니다.<br>
+		*Topic Branch의 네이밍 방법 : 기능을 설명하는 명확한 이름 <br>
+			* ex) user-content-cache-key, redis-transition등.. <br>
 
-* Github Flow 전략의 장점과 단점
+* Github Flow 전략의 장점과 단점<br>
 	*장점<br>
 		*>1. 깔끔하고 간단한 협력이 가능하다.<br>
 		*>2. 지속적인 통합과 편리한 개발이 가능하다.<br>
@@ -51,12 +51,10 @@
 		*>1. Git-Flow 전략에 비해 체계적이지 않고, 자유분방한 코드 관리로 전체적인 개발 프로세스 관리가 더 힘들어질 수 있다.<br>
 		*>2. 짧은 주기가 아닌 큰 주기의 release의 환경에는 맞지 않다.<br>
 		*>3. 운영과 개발 브랜치 모두를 감당하는 Main Branch 코드가 지저분 할 수 있다. <br>
-		*>4. Main Branch에서 release 준비와 버그 수정이 이루어지므로 특별한 주의가 더 필요하다.<br>
-> \---------------------------------------------------------------------------------------------- <br>		
+		*>4. Main Branch에서 release 준비와 버그 수정이 이루어지므로 특별한 주의가 더 필요하다.<br>	
 
 * Github Flow 전략 선정 이유<br>
-* 우리가 개발하는 The-fit은 여러 버전을 관리하지 않고, 가장 최신 버전 하나만을 사용자가 사용하게 된다.<br>
-따라서 롤백이 필요하지 않고, release 버전만 제공하는 Github Flow 전략이 적절하다 판단하여 Github Flow을 사용하게 되었습니다.<br>
+    * 우리가 개발하는 The-fit은 여러 버전을 관리하지 않고, 가장 최신 버전 하나만을 사용자가 사용하게 된다.<br>따라서 롤백이 필요하지 않고, release 버전만 제공하는 Github Flow 전략이 적절하다 판단하여 Github Flow을 사용하게 되었습니다.<br>
 
 >3.기타.<br>
 * ex)Gitlab Flow, Trunk-based-Development 등의 전략이 존재한다.<br>
