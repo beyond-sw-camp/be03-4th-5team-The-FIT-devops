@@ -51,7 +51,9 @@
 		>1. Git-Flow 전략에 비해 체계적이지 않고, 자유분방한 코드 관리로 전체적인 개발 프로세스 관리가 더 힘들어질 수 있다.<br>
 		>2. 짧은 주기가 아닌 큰 주기의 release의 환경에는 맞지 않다.<br>
 		>3. 운영과 개발 브랜치 모두를 감당하는 Main Branch 코드가 지저분 할 수 있다. <br>
-		>4. Main Branch에서 release 준비와 버그 수정이 이루어지므로 특별한 주의가 더 필요하다.<br>	
+		>4. Main Branch에서 release 준비와 버그 수정이 이루어지므로 특별한 주의가 더 필요하다.<br>
+
+		![alt text](asd.PNG)
 
 * Github Flow 전략 선정 이유<br>
     * 우리가 개발하는 The-fit은 여러 버전을 관리하지 않고, 가장 최신 버전 하나만을 사용자가 사용하게 된다.<br>따라서 롤백이 필요하지 않고, release 버전만 제공하는 Github Flow 전략이 적절하다 판단하여 Github Flow을 사용하게 되었습니다.<br>
