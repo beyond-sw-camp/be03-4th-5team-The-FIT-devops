@@ -1,0 +1,177 @@
+.jua-regular {
+  font-family: "Jua", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.modal {
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  animation-name: modalopen;
+  animation-duration: 0.4s;
+}
+
+.modal-content button {
+  margin-top: 10px;
+  margin-right: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #4caf50; /* Green */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal-content button:hover {
+  background-color: #45a049;
+}
+
+/* Add Animation */
+@keyframes modalopen {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.task-modal {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #f2f2f2; /* Light grey background */
+  border-left: 5px solid #2196f3; /* Blue border for distinction */
+}
+
+.not-current-month .date-number {
+  color: #cccccc;
+  /* Gray text color */
+}
+
+.task {
+  width: 50%;
+  height: 100%;
+}
+
+.date-number {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  font-size: smaller;
+}
+
+.calendar-container {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.navigation h2 {
+  margin: 0;
+}
+
+.navigation button {
+  padding: 5px 10px;
+  cursor: pointer;
+  background-color: lightcoral;
+  /* #007bff; */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.navigation button:hover {
+  background-color: crimson;
+  /* #0056b3; */
+}
+
+.weekdays {
+  display: flex;
+  background-color: lightcoral;
+  /* #007bff; */
+  color: white;
+}
+
+.weekday,
+.date {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+}
+
+.dates-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.date {
+  position: relative;
+  background-color: #fdfdfd;
+  /* Default background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.date:not([style]) {
+  background-color: #fdfdfd;
+  /* Fallback for dates without a task */
+}
+
+.date:hover {
+  background-color: #f0f0f0;
+}
+
+.date.past {
+  color: #999;
+}
+
+.date.today {
+  border: 2px solid #ff4500;
+  font-weight: bold;
+}
