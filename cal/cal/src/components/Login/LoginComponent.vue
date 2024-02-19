@@ -1,23 +1,7 @@
 <template>
     <div class="relative w-full h-screen bg-gradient-to-r from-purple-300 to-blue-300">
-        <svg class="absolute w-full h-full " viewBox="0 0 1044 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g filter="url(#filter0_f_2_125)">
-                <circle cx="436.5" cy="512.5" r="307.5" fill="url(#paint0_linear_2_125)"></circle>
-            </g>
-            <defs>
-                <filter id="filter0_f_2_125" x="-171" y="-95" width="1215" height="1215" filterUnits="userSpaceOnUse"
-                    color-interpolation-filters="sRGB">
-                    <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
-                    <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"></feBlend>
-                    <feGaussianBlur stdDeviation="150" result="effect1_foregroundBlur_2_125"></feGaussianBlur>
-                </filter>
-                <linearGradient id="paint0_linear_2_125" x1="129" y1="512.5" x2="744" y2="512.5"
-                    gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#BC96FB"></stop>
-                    <stop offset="1" stop-color="#ABECD6"></stop>
-                </linearGradient>
-            </defs>
-        </svg>
+        <BackgroundComponent></BackgroundComponent>
+
         <section class="relative flex items-center justify-center h-full">
             <div class="w-full max-w-md p-8 space-y-4 bg-white rounded-lg shadow-md dark:bg-gray-800">
                 <h1 class="text-2xl font-bold text-center text-gray-900 dark:text-white">
@@ -50,10 +34,12 @@
 </template>
 
 <script>
+import BackgroundComponent from '../BackgroundComponent.vue';
 
 export default {
-
+    name: 'app',
+    components: {
+        BackgroundComponent
+    }
 }
 </script>
-
-<style></style>

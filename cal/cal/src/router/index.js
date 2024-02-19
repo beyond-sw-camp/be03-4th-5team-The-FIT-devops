@@ -1,8 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeComponent from "@/components/Home/HomeComponent.vue";
-import CalendarComponent from "@/components/CalendarComponent.vue";
+import CalendarComponent from "@/components/Calendar/CalendarComponent.vue";
 import LoginComponent from "@/components/Login/LoginComponent.vue";
 import SignupComponent from "@/components/Signup/SignupComponent.vue";
+import WorkoutComponent from "@/components/Workout/WorkoutComponent.vue";
+import DietComponent from "@/components/Diet/DietComponent.vue";
 
 const routes = [
   {
@@ -26,6 +28,16 @@ const routes = [
     path: "/signup",
     name: "SignupComponent",
     component: SignupComponent,
+  },
+  {
+    path: "/workout",
+    name: "WorkoutComponent",
+    component: WorkoutComponent,
+  },
+  {
+    path: "/diet",
+    name: "DietComponent",
+    component: DietComponent,
   },
 ];
 const router = createRouter({

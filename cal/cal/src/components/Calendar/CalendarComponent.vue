@@ -1,71 +1,62 @@
 <template>
   <title>Calendar</title>
-  <div class="w-[1440px] h-[1024px] relative overflow-hidden animated-background">
-    <svg width="1440px" height="1024" viewBox="0 0 1044 1024" fill="none" xmlns="http://www.w3.org/2000/svg"
-    class="absolute left-32 top-[204px]" preserveAspectRatio="xMidYMid meet">
-      <g filter="url(#filter0_f_2_125)">
-        <circle cx="436.5" cy="512.5" r="307.5" fill="url(#paint0_linear_2_125)"></circle>
-      </g>
-      <defs>
-        <filter id="filter0_f_2_125" x="-171" y="-95" width="1215" height="1215" filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB">
-          <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
-          <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"></feBlend>
-          <feGaussianBlur stdDeviation="150" result="effect1_foregroundBlur_2_125"></feGaussianBlur>
-        </filter>
-        <linearGradient id="paint0_linear_2_125" x1="129" y1="512.5" x2="744" y2="512.5" gradientUnits="userSpaceOnUse">
-          <stop stop-color="#BC96FB"></stop>
-          <stop offset="1" stop-color="#ABECD6"></stop>
-        </linearGradient>
-      </defs>
-    </svg>
+  <div :class="{ 'blur-bg': isModalVisible }" class="app-container">
+    <div class="w-[1440px] h-[1024px] relative overflow-hidden animated-background">
+      <BackgroundComponent></BackgroundComponent>
 
-
-    <div class="calendar-container jua-regular">
-      <div class="navigation">
-        <button @click="changeMonth(-1)">← Prev</button>
-        <h2>{{ currentMonthName }} {{ currentYear }}</h2>
-        <button @click="changeMonth(1)">Next →</button>
-      </div>
-      <div class="weekdays">
-        <div v-for="day in weekdays" :key="day" class="weekday">{{ day }}</div>
-      </div>
-      <div class="dates-grid">
-        <div v-for="date in daysInMonth" :key="date.fullDate" class="date"
-          :class="{ 'not-current-month': !date.isCurrentMonth }" @click="() => taskByDateClick(date)">
-          <div v-for="(task, index) in date.tasks" :key="index" class="task" :style="{ backgroundColor: task.color }">
+      <div class="calendar-container jua-regular">
+        <div class="navigation">
+          <button @click="changeMonth(-1)">← Prev</button>
+          <h2>{{ currentMonthName }} {{ currentYear }}</h2>
+          <button @click="changeMonth(1)">Next →</button>
+        </div>
+        <div class="weekdays">
+          <div v-for="day in weekdays" :key="day" class="weekday">{{ day }}</div>
+        </div>
+        <div class="dates-grid">
+          <div v-for="date in daysInMonth" :key="date.fullDate" class="date"
+            :class="{ 'not-current-month': !date.isCurrentMonth }" @click="() => taskByDateClick(date)">
+            <div v-for="(task, index) in date.tasks" :key="index" class="task" :style="{ backgroundColor: task.color }">
+            </div>
+            <span class="date-number">{{ date.day }}</span>
           </div>
-          <span class="date-number">{{ date.day }}</span>
         </div>
       </div>
-    </div>
-    <div v-if="isModalVisible" class="modal jua-regular">
-      <div class="modal-content">
-        <span class="close" @click="isModalVisible = false">&times;</span>
-        <h2>상세보기 </h2>
-        <button @click="viewDietPlan">View Diet Plan</button>
-        <button @click="viewWorkoutPlan">View Workout Plan</button>
+      <div v-if="isModalVisible" class="modal jua-regular" @click.self="isModalVisible = false">
+        <div class="modal-content">
+          <h1>{{ selectedDateDetails }}</h1>
+          <h2 class="modal-title">상세 정보</h2>
+          <div class="button-container">
+            <a href="/diet" class="modal-button">식단</a>
+            <a href="/workout" class="modal-button">운동</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
-
+<script>
+export default {
+    name: 'app',
+    components: {
+        BackgroundComponent
+    }
+}
+</script>
 <script setup>
 import { ref, computed } from 'vue';
+import BackgroundComponent from '../BackgroundComponent.vue';
+
 
 const isModalVisible = ref(false);
+const selectedDateDetails = ref('');
 
-function taskByDateClick() {
+function taskByDateClick(date) {
+
+  const dateObj = new Date(date.fullDate);
+  const dayOfWeek = dateObj.toLocaleString('default', { weekday: 'long' });
+  selectedDateDetails.value = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, '0')}-${String(dateObj.getDate()).padStart(2, '0')} ${dayOfWeek}`;
   isModalVisible.value = true;
-}
-
-function viewDietPlan() {
-  console.log("diet");
-}
-
-function viewWorkoutPlan() {
-  console.log("workout");
-
 }
 
 const now = new Date();
@@ -143,8 +134,10 @@ function addDate(day, dates, isCurrentMonth) {
 const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const currentMonthName = computed(() => new Date(viewYear.value, viewMonth.value).toLocaleString('default', { month: 'long' }));
 const currentYear = computed(() => viewYear.value);
+
 </script>
 
 <style scoped>
-@import "./CalendarCSS/CalendarStyle.css"
+
+@import "./CalendarStyle.css"
 </style>
