@@ -8,35 +8,35 @@
                     회원가입
                 </h1>
                 <div class="overflow-auto max-h-[calc(100vh-200px)]">
-                    <form class="space-y-4 md:space-y-6" action="#">
+                    <form class="space-y-4 md:space-y-6" @submit.prevent="userCreate">
                         <div>
                             <label for="name"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">성함</label>
                             <input type="text" name="name" id="name"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                required="">
+                                required="" v-model="name">
                         </div>
                         <div>
                             <label for="email"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">이메일</label>
                             <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
              focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 
-             dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                required="">
+             dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required=""
+                                v-model="email">
                         </div>
                         <div>
                             <label for="password"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">비밀번호</label>
                             <input type="password" name="password" id="password"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                required="">
+                                required="" v-model="password">
                         </div>
                         <div>
                             <label for="phoneNumber"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">전화번호</label>
                             <input type="number" name="phoneNumber" id="phoneNumber"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                required="">
+                                required="" v-model="phoneNumber">
                         </div>
                         <div>
                             <label for="cmHeight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">신체정보
@@ -44,7 +44,7 @@
                                 키</label>
                             <input type="number" name="cmHeight" id="cmHeight"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                required="">
+                                required="" v-model="cmHeight">
                         </div>
                         <div>
                             <label for="kgWeight" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">신체정보
@@ -52,7 +52,7 @@
                                 몸무게</label>
                             <input type="number" name="kgWeight" id="kgWeight"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                required="">
+                                required="" v-model="kgWeight">
                         </div>
 
                         <div>
@@ -61,21 +61,11 @@
                             <select type="dropdown" name="gender" id="gender" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
                          focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5
                           dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
-                          dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                          dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" v-model="gender">
                                 <option value="choice">선택</option>
-                                <option value="male">남성</option>
-                                <option value="female">여성</option>
+                                <option value="MALE">남성</option>
+                                <option value="FEMALE">여성</option>
                             </select>
-                        </div>
-                        <div>
-                            <label for="profileImage"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">프로필
-                                사진</label>
-                            <input type="file" name="profileImage" id="profileImage" accept="image/*"
-                                class="bg-gray-50 border 
-                    border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600
-                     focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700
-                      dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" @change="fileUpload">
                         </div>
                         <button type="submit"
                             class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg 
@@ -89,11 +79,50 @@
 </template>
 <script>
 import BackgroundComponent from '../BackgroundComponent.vue';
+import axios from 'axios';
 
 export default {
-    name: 'app',
+    name: 'TrainerCreate',
     components: {
         BackgroundComponent
-    }
+    },
+    data() {
+        return {
+            name: "",
+            email: "",
+            password: "",
+            phoneNumber: "",
+            cmHeight: "",
+            kgWeight: "",
+            gender: "FEMALE",
+            role: "TRAINER",
+        }
+    },
+    methods: {
+        async userCreate() {
+            const registerData = {
+                name: this.name,
+                email: this.email,
+                password: this.password,
+                phoneNumber: this.phoneNumber,
+                cmHeight: this.cmHeight,
+                kgWeight: this.kgWeight,
+                gender: this.gender,
+                role: this.role,
+            };
+
+            try {
+                await axios.post("http://localhost:8080/trainer/create", registerData, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                alert("저장됨!");
+            } catch (error) {
+                console.log(error);
+                alert("오류! 다시 시도하세요!");
+            }
+        }
+    },
 }
 </script>

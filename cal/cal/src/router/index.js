@@ -2,9 +2,11 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeComponent from "@/components/Home/HomeComponent.vue";
 import CalendarComponent from "@/components/Calendar/CalendarComponent.vue";
 import LoginComponent from "@/components/Login/LoginComponent.vue";
-import SignupComponent from "@/components/Signup/SignupComponent.vue";
+import TrainerSignupComponent from "@/components/Signup/TrainerSignupComponent.vue";
+import MemberSignupComponent from "@/components/Signup/MemberSignupComponent.vue";
 import WorkoutComponent from "@/components/Workout/WorkoutComponent.vue";
 import DietComponent from "@/components/Diet/DietComponent.vue";
+import SignupRoleComponent from "@/components/Signup/SignupRole.vue";
 
 const routes = [
   {
@@ -25,9 +27,19 @@ const routes = [
     component: LoginComponent,
   },
   {
-    path: "/signup",
-    name: "SignupComponent",
-    component: SignupComponent,
+    path: "/signupRole",
+    name: "SignupRole",
+    component: SignupRoleComponent,
+  },
+  {
+    path: "/signupTrainer",
+    name: "TrainerSignupComponent",
+    component: TrainerSignupComponent,
+  },
+  {
+    path: "/signupMember",
+    name: "MemberSignupComponent",
+    component: MemberSignupComponent,
   },
   {
     path: "/workout",

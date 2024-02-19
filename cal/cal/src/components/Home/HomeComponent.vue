@@ -19,7 +19,7 @@
                 <br>
                 <br>
 
-                <a href="/signup" v-if="disabled" class="jua-regular relative inline-flex items-center justify-center p-0.5 mb-2 me-2 
+                <a href="/signupRole" v-if="disabled" class="jua-regular relative inline-flex items-center justify-center p-0.5 mb-2 me-2 
                 overflow-hidden text-3xl  text-gray-900 rounded-lg group bg-gradient-to-br from-purple-400
                  to-blue-400 group-hover:from-purple-300 group-hover:to-blue-300 hover:text-white 
                  dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
