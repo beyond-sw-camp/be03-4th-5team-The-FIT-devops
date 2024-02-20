@@ -1,7 +1,6 @@
 <template>
     <div class="relative w-full h-screen bg-gradient-to-r from-purple-300 to-blue-300 overflow-hidden">
         <BackgroundComponent></BackgroundComponent>
-
         <section class="relative flex items-center justify-center h-full">
             <div class="w-full max-w-md px-6 py-8 mx-auto bg-white rounded-lg shadow-md dark:bg-gray-800">
                 <h1 class="text-2xl font-bold text-center text-gray-900 dark:text-white">
@@ -56,8 +55,7 @@
                         </div>
 
                         <div>
-                            <label for="gender"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">성별</label>
+                            <label for="gender" class="block mb-2 text-sm font-medium text-gray-900">성별</label>
                             <select type="dropdown" name="gender" id="gender" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
                          focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5
                           dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
@@ -67,6 +65,14 @@
                                 <option value="FEMALE">여성</option>
                             </select>
                         </div>
+                        <!-- <div class="form-group block mb-2 text-sm font-medium text-gray-900">
+                            <p>
+                                <label>
+                                    프로필 사진
+                                </label>
+                            </p>
+                            <input class="form-control" type="file" accept="image/*" @change="fileUpload">
+                        </div> -->
                         <button type="submit"
                             class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg 
         text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">환영합니다!
@@ -92,15 +98,16 @@ export default {
             email: "",
             password: "",
             phoneNumber: "",
-            cmHeight: "",
-            kgWeight: "",
-            gender: "FEMALE",
+            cmHeight: null,
+            kgWeight: null,
+            gender: "choice",
             role: "TRAINER",
         }
     },
     methods: {
         async userCreate() {
-            const registerData = {
+            const registerData =
+            {
                 name: this.name,
                 email: this.email,
                 password: this.password,
