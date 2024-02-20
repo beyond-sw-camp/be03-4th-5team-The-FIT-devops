@@ -124,7 +124,8 @@ export default {
                         'Content-Type': 'application/json'
                     }
                 });
-                alert("저장됨!");
+                alert("트레이너님 가입 완료!");
+                window.location.href = "/";
             } catch (error) {
                 console.log(error);
                 alert("오류! 다시 시도하세요!");

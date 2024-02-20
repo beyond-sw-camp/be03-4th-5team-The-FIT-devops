@@ -54,18 +54,20 @@ export default {
         async doLogin() {
             try {
                 const loginData = { email: this.email, password: this.password };
-                const response = await axios.post("http://localhost:8080/member/doLogin", loginData);
+                const response = await axios.post("http://localhost:8080/dologin", loginData);
                 const token = response.data.result.token;
+                const refreshToken = response.data.result.refreshToken;
                 if (token) {
                     const decoded = jwtDecode(token);
                     localStorage.setItem("token", token);
+                    localStorage.setItem("refreshToken",refreshToken );
                     localStorage.setItem("role", decoded.role);
-                    alert("환영합니다, " + decoded.sub + " 회원님!");
+                    alert("환영합니다, " + decoded.userName + " 회원님!");
                     window.location.href = "/";
                 }
                 else {
                     console.log("200 ok but not a valid token");
-                    alert("Login failed!");
+                    alert("로그인 실패!");
                 }
             }
             catch (error) {
@@ -76,7 +78,7 @@ export default {
                 }
                 else {
                     console.log(error);
-                    alert("Login failed!");
+                    alert("로그인 실패!");
                 }
             }
         }
