@@ -7,6 +7,7 @@ import MemberSignupComponent from "@/components/Signup/MemberSignupComponent.vue
 import WorkoutComponent from "@/components/Workout/WorkoutComponent.vue";
 import DietComponent from "@/components/Diet/DietComponent.vue";
 import SignupRoleComponent from "@/components/Signup/SignupRole.vue";
+import LoginSuccessComponent from "@/components/Login/LoginSuccessComponent.vue";
 
 const routes = [
   {
@@ -51,6 +52,11 @@ const routes = [
     name: "DietComponent",
     component: DietComponent,
   },
+  {
+    path: "/loginSuccess",
+    name: "LoginSuccessComponent",
+    component: LoginSuccessComponent,
+  }
 ];
 const router = createRouter({
   // vue-router는 내부적으로 두 가지 방식의 history 관리를 제공한다
@@ -59,4 +65,5 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
 });
+
 export default router;

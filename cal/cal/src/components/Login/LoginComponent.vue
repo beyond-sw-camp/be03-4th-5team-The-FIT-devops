@@ -51,22 +51,21 @@ export default {
         return {
             email: "",
             password: "",
-            googleSignInParams: {
-                client_id: 'YOUR_APP_CLIENT_ID.apps.googleusercontent.com'
-            }
         }
+    },
+    created() {
     },
     methods: {
         onSignInSuccess(googleUser) {
-            const profile = googleUser.getBasicProfile() // etc etc
-            console.log('OH NOES', profile)
+            const profile = googleUser.getBasicProfile()
+            console.log('SUCCESS', profile)
 
         },
         onSignInError(error) {
-            // `error` contains any error occurred.
-            console.log('OH NOES', error)
+            console.log('ERROR', error)
         },
-        async googleLogin() {
+
+        googleLogin() {
             window.location.href =
                 "https://accounts.google.com/o/oauth2/auth?" +
                 "scope=email%20profile%20https://www.googleapis.com/auth/cloud-platform%20openid%20" +
@@ -77,7 +76,6 @@ export default {
                 "&redirect_uri=http://localhost:8080/auth/google/callback" +
                 "&client_id=625185374022-79lf2b3q4m7214nvj5jo5g6pm1icl9na.apps.googleusercontent.com" +
                 "&approval_prompt=force";
-           
         },
         async doLogin() {
             try {
