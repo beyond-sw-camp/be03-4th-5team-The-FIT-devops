@@ -43,11 +43,22 @@ const routes = [
     name: "MemberSignupComponent",
     component: MemberSignupComponent,
   },
+
   {
     path: "/workout",
-    name: "WorkoutComponent",
-    component: WorkoutComponent,
+    name: "workout",
+    component: WorkoutComponent, // Your workout component
+    props: (route) => ({
+      date: route.query.date,
+      memberId: route.query.memberId,
+    }),
   },
+
+  // {
+  //   path: "/workout",
+  //   name: "WorkoutComponent",
+  //   component: WorkoutComponent,
+  // },
   {
     path: "/diet",
     name: "DietComponent",
