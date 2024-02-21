@@ -227,7 +227,7 @@ export default {
         return {
             name: "",
             email: "",
-            password: 10,
+            password: null,
             phoneNumber: "",
             cmHeight: null,
             kgWeight: null,
