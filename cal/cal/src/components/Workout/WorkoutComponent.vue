@@ -49,9 +49,9 @@
                             <td class="px-6 py-4">{{ workout.performance }}</td>
                             <td class="px-6 py-4">
                                 <div class="flex items-center">
-                                    <div :class="{ 'bg-green-500': workout.completed, 'bg-red-500': !workout.completed }"
+                                    <div :class="{ 'bg-green-500': workout.workOutStatus, 'bg-red-500': !workout.workOutStatus }"
                                         class="h-2.5 w-2.5 rounded-full me-2"></div>
-                                    {{ workout.completed ? '완료' : '미완료' }}
+                                    {{ workout.workOutStatus ? '완료' : '미완료' }}
                                 </div>
                             </td>
                         </tr>
@@ -114,6 +114,7 @@ export default {
                 const response = await axios.get(url, { headers });
                 console.log(response);
                 this.toTraineeWorkouts = response.data.result;
+                console.log(this.toTraineeWorkouts);
             } catch (error) {
                 console.log(error);
             }
