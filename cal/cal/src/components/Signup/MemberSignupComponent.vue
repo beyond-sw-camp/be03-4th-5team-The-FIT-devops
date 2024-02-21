@@ -282,7 +282,7 @@ export default {
                 kgWeight: this.kgWeight,
                 gender: this.gender,
                 role: this.role,
-                trainerId: 1,
+                trainerId: this.trainerId,
             }
 
             try {

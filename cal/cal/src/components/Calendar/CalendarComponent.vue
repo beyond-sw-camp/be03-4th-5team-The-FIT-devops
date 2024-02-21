@@ -49,9 +49,9 @@ export default {
 <script setup>
 import { ref, computed } from 'vue';
 import BackgroundComponent from '../BackgroundComponent.vue';
-import { useRouter } from 'vue-router';
+// import { useRouter } from 'vue-router';
 
-const router = useRouter(); // Use Vue Router's useRouter hook
+// const router = useRouter(); // Use Vue Router's useRouter hook
 const isModalVisible = ref(false);
 const selectedDateDetails = ref('');
 const selectedDate = ref('');
@@ -64,17 +64,17 @@ function taskByDateClick(date) {
   isModalVisible.value = true;
 }
 
-function navigateToWorkout() {
-  const memberEmail = localStorage.getItem('email'); // Assuming memberID is stored in localStorage
-  console.log(selectedDate.value);
-    console.log(memberEmail)
-  if (memberEmail && selectedDate.value) {
-    router.push({ name: 'workout', query: { date: selectedDate.value, memberEmail: memberEmail } });
-  } else {
+// function navigateToWorkout() {
+//   const memberEmail = localStorage.getItem('email'); // Assuming memberID is stored in localStorage
+//   console.log(selectedDate.value);
+//     console.log(memberEmail)
+//   if (memberEmail && selectedDate.value) {
+//     router.push({ name: 'workout', query: { date: selectedDate.value, memberEmail: memberEmail } });
+//   } else {
   
-    console.error('Member ID or Date not found');
-  }
-}
+//     console.error('Member ID or Date not found');
+//   }
+// }
 
 const now = new Date();
 let viewMonth = ref(now.getMonth());
