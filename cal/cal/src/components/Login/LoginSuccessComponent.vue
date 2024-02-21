@@ -11,9 +11,11 @@ export default {
       const urlParams = new URLSearchParams(window.location.search);
       const accessToken = urlParams.get('accessToken');
       const refreshToken = urlParams.get('refreshToken');
+      const role = urlParams.get('role');
       if (accessToken && refreshToken) {
         localStorage.setItem('accessToken', accessToken);
         localStorage.setItem('refreshToken', refreshToken);
+        localStorage.setItem('role',role);
         this.$router.push('/');
       }
     },
