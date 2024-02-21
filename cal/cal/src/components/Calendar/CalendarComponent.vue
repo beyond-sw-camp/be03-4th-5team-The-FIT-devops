@@ -60,16 +60,19 @@ function taskByDateClick(date) {
   const dateObj = new Date(date.fullDate);
   const dayOfWeek = dateObj.toLocaleString('default', { weekday: 'long' });
   selectedDateDetails.value = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, '0')}-${String(dateObj.getDate()).padStart(2, '0')} ${dayOfWeek}`;
-  selectedDate.value = dateObj.toISOString().split('T')[0]; // Store the selected date in ISO format
+  selectedDate.value = dateObj.toISOString().split('T')[0];
   isModalVisible.value = true;
+
+    const formattedDate = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, '0')}-${String(dateObj.getDate()).padStart(2, '0')}`;
+    selectedDate.value = formattedDate; // Store the formatted date
 }
 
 function navigateToWorkout() {
   const memberEmail = localStorage.getItem('email');
   if (memberEmail && selectedDate.value) {
-    router.push({ name: 'workout', query: {  memberEmail: memberEmail, date: selectedDate.value } });
+    router.push(`/workout?memberEmail=${memberEmail}&date=${selectedDate.value}`);
   } else {
-    console.error('Member ID or Date not found');
+    console.error('Member email or Date not found');
   }
 }
 

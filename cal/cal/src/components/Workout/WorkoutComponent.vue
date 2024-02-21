@@ -85,7 +85,6 @@
         </div>
     </div>
 </template>
-
 <script>
 import BackgroundComponent from '../BackgroundComponent.vue';
 import axios from 'axios';
@@ -95,25 +94,27 @@ export default {
     components: {
         BackgroundComponent
     },
-    created() {
-        this.loadWorkouts();
-    },
     data() {
         return {
             toTraineeWorkouts: [],
         }
     },
+    created() {
+        this.loadWorkouts();
+    },
     methods: {
         async loadWorkouts() {
             try {
-                const email = localStorage.getItem('email');
+                const urlParams = new URLSearchParams(window.location.search);
+                const memberEmail = urlParams.get('memberEmail');
+                const date = urlParams.get('date');
                 const token = localStorage.getItem('token');
                 const headers = token ? { Authorization: `Bearer ${token}` } : {};
-                const response = await axios.get("http://localhost:8080/workout/list/member/" + email, { headers });
+                const url = `http://localhost:8080/workout/list/member?memberEmail=${memberEmail}&date=${date}`;
+                const response = await axios.get(url, { headers });
                 console.log(response);
                 this.toTraineeWorkouts = response.data.result;
-            }
-            catch (error) {
+            } catch (error) {
                 console.log(error);
             }
         }
