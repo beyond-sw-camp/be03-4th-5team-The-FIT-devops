@@ -38,7 +38,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="bborder-b dark:bg-gray-800 dark:border-gray-700">
+                    <tbody>
+                        <tr v-for="workout in toTraineeWorkouts" :key="workout.id"
+                            class="border-b dark:bg-gray-800 dark:border-gray-700">
+                            <!-- <td scope="row" class="px-6 py-4 text-l text-gray-900 whitespace-nowrap dark:text-white">{{ workout.bodyPart }}</td> -->
+                            <td scope="row" class="px-6 py-4 text-l text-gray-900 whitespace-nowrap dark:text-white"> {{
+                                workout.totalWorkOutsId }}</td>
+                            <!-- <td>{{ workout.sets }}</td>
+                            <td>{{ workout.weight }}</td>
+                            <td>{{ workout.reps }}</td>
+                            <td>{{ workout.restTime }}</td>
+                            <td>{{ workout.performance }}</td>
+                            <td>{{ workout.completed ? '완료' : '미완료' }}</td> -->
+                        </tr>
+                    </tbody>
+                    <!-- <tr >
                             <td scope="row" class="px-6 py-4 text-l text-gray-900 whitespace-nowrap dark:text-white">
                                 하체
                             </td>
@@ -93,18 +107,17 @@
                                     <div class="h-2.5 w-2.5 rounded-full bg-red-500 me-2"></div> 미완료
                                 </div>
                             </td>
-                        </tr>
+                        </tr> -->
 
                     </tbody>
                 </table>
             </div>
 
             <div class="flex justify-center -ml-44 relative top-1/3">
-                <!-- This is an example component -->
                 <div class="relative grid grid-cols-1 gap-4 p-4 mb-8 border rounded-lg bg-white shadow-lg">
                     <div class="relative flex gap-4">
-                        <div>트레이너 사진</div>
                         <!-- <img src="https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/charlie-chaplin-icon.png" class="relative rounded-lg -top-8 -mb-4 bg-white border h-20 w-20" alt="" loading="lazy"> -->
+                        <div>트레이너 사진</div>
                         <div class="flex flex-col w-full">
                             <div class="flex flex-row justify-between">
                                 <p class="relative text-xl whitespace-nowrap truncate overflow-hidden">트레이너 이름</p>
@@ -129,12 +142,35 @@
 
 <script>
 import BackgroundComponent from '../BackgroundComponent.vue';
+import axios from 'axios';
 
 export default {
     name: 'app',
     components: {
         BackgroundComponent
-    }
+    },
+    created() { // 화면이 그려지면서 실행됨
+        this.loadWorkouts();
+    },
+    data() {
+        return {
+            toTraineeWorkouts: [],
+        }
+    },
+
+    methods: {
+        async loadWorkouts() {
+            try {
+                const token = localStorage.getItem('token');
+                const headers = token ? { Authorization: `Bearer ${token}` } : {};
+                const response = await axios.get("http://localhost:8080/workout/list", { headers });
+                this.toTraineeWorkouts = response.data.result;
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+    },
 }
 </script>
 
@@ -159,16 +195,11 @@ export default {
     color: teal;
 }
 
-
-/* Ensuring grid layout is correctly applied */
 .content-wrapper {
     display: grid;
     grid-template-columns: 2fr 1fr;
-    /* This will allocate more space to the 'record' section */
     gap: 20px;
-    /* Space between the two sections */
     margin: 30px 0;
-    /* Top and bottom margin for spacing, adjust as needed */
 }
 
 table {

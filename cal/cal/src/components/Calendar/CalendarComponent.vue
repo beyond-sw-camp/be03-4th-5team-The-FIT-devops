@@ -1,9 +1,10 @@
 <template>
   <title>Calendar</title>
+
   <div :class="{ 'blur-bg': isModalVisible }" class="app-container">
     <div class="w-[1440px] h-[1024px] relative overflow-hidden animated-background">
       <BackgroundComponent></BackgroundComponent>
-
+<div class="flex-container">
       <div class="calendar-container jua-regular">
         <div class="navigation">
           <button @click="changeMonth(-1)">← Prev</button>
@@ -34,6 +35,7 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 <script>
 export default {

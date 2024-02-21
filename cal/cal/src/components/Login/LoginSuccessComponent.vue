@@ -16,7 +16,7 @@ export default {
         localStorage.setItem('accessToken', accessToken);
         localStorage.setItem('refreshToken', refreshToken);
         localStorage.setItem('role',role);
-        this.$router.push('/');
+        this.$router.push('/calendar');
       }
     },
   },
