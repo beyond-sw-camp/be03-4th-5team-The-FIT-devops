@@ -9,6 +9,8 @@ import DietComponent from "@/components/Diet/DietComponent.vue";
 import SignupRoleComponent from "@/components/Signup/SignupRole.vue";
 import LoginSuccessComponent from "@/components/Login/LoginSuccessComponent.vue";
 import OAuthSigupComponent from "@/components/Signup/OAuthSigupComponent.vue";
+import MyPageComponent from '@/components/MyPage/MyPageComponent.vue';
+import MyPageTrainerComponent from '@/components/MyPage/MyPageTrainerComponent.vue';
 
 const routes = [
   {
@@ -73,6 +75,19 @@ const routes = [
     path: "/signupoauth",
     name: "OAuthSigupComponent",
     component: OAuthSigupComponent,
+  },
+  
+  {
+    path: '/member/mypage',
+    name: 'MyPageComponent',
+    component : MyPageComponent,
+    props: true,
+  },
+  {
+    path: '/trainer/mypage',
+    name: 'MyPageTrainerComponent',
+    component : MyPageTrainerComponent,
+    props: true,
   },
 ];
 const router = createRouter({
