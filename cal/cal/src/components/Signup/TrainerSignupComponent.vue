@@ -65,14 +65,14 @@
                                 <option value="FEMALE">여성</option>
                             </select>
                         </div>
-                        <!-- <div class="form-group block mb-2 text-sm font-medium text-gray-900">
+                        <div class="form-group block mb-2 text-sm font-medium text-gray-900">
                             <p>
-                                <label>
+                                <label for="image">
                                     프로필 사진
                                 </label>
                             </p>
-                            <input class="form-control" type="file" accept="image/*" @change="fileUpload">
-                        </div> -->
+                            <input type="file" name="image" id="image" @change="handleFileUpload" accept="image/*">
+                        </div>
                         <button type="submit"
                             class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg 
         text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">환영합니다!
@@ -102,6 +102,7 @@ export default {
             kgWeight: null,
             gender: "choice",
             role: "TRAINER",
+            imagePath:"",
         }
     },
     created() {
@@ -115,27 +116,28 @@ export default {
         }
     },
     methods: {
+        handleFileUpload(event) {
+        this.image = event.target.files[0];
+        },
         async userCreate() {
-            const registerData =
-            {
-                name: this.name,
-                email: this.email,
-                password: this.password,
-                phoneNumber: this.phoneNumber,
-                cmHeight: this.cmHeight,
-                kgWeight: this.kgWeight,
-                gender: this.gender,
-                role: this.role,
-            };
-
+            const registerData = new FormData();
+            registerData.append("name",this.name);
+            registerData.append("email",this.email);
+            registerData.append("password",this.password);
+            registerData.append("phoneNumber",this.phoneNumber);
+            registerData.append("cmHeight",this.cmHeight);
+            registerData.append("kgWeight",this.kgWeight);
+            registerData.append("gender",this.gender);
+            registerData.append("role",this.role);
+            registerData.append("profileImage",this.profileImage);
             try {
                 await axios.post("http://localhost:8080/trainer/create", registerData, {
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'multipart/form-data'
                     }
                 });
                 alert("트레이너님 가입 완료!");
-                window.location.href = "/";
+                // window.location.href = "/";
             } catch (error) {
                 console.log(error);
                 console.log(this.name);

@@ -26,35 +26,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="bborder-b dark:bg-gray-800 dark:border-gray-700">
-                            <td scope="row" class="px-6 py-4 text-l text-gray-900 whitespace-nowrap dark:text-white">
-                                아침
-                            </td>
-                            <td class="px-6 py-4">
-                                사진들어갈자리
-                            </td>
-                            <td class="px-6 py-4">
-                                오버나이트오트밀
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ new Date() }}
-                            </td>
-                        </tr>
-                        <tr class="bborder-b dark:bg-gray-800 dark:border-gray-700">
-                            <td scope="row" class="px-6 py-4 text-l text-gray-900 whitespace-nowrap dark:text-white">
-                                저녁
-                            </td>
-                            <td class="px-6 py-4">
-                                사진들어갈자리
-                            </td>
-                            <td class="px-6 py-4">
-                                족발
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ new Date() }}
-                            </td>
-                        </tr>
-
+                        <tr v-for="diet in addDietList" :key="diet.id">
+                        <td>{{ diet.type }}</td>
+                        <td><img :src="diet.imagePath" style="height: 100px; width: auto;"></td>
+                        <td>{{ diet.comment }}</td>
+                        <td>{{ diet.dietDate }}</td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
@@ -63,25 +40,36 @@
                 <!-- This is an example component -->
                 <div class="relative grid grid-cols-1 gap-4 p-4 mb-8 border rounded-lg bg-white shadow-lg">
                     <div class="relative flex gap-4">
-                        <div>트레이너 사진</div>
-                        <!-- <img src="https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/charlie-chaplin-icon.png" class="relative rounded-lg -top-8 -mb-4 bg-white border h-20 w-20" alt="" loading="lazy"> -->
+                        <!-- <div>트레이너 사진</div> -->
+                        <img src="https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/charlie-chaplin-icon.png" class="relative rounded-lg -top-8 -mb-4 bg-white border h-20 w-20" alt="" loading="lazy">
                         <div class="flex flex-col w-full">
                             <div class="flex flex-row justify-between">
-                                <p class="relative text-xl whitespace-nowrap truncate overflow-hidden">트레이너 이름</p>
+                                <p class="relative text-xl whitespace-nowrap truncate overflow-hidden">{{ feedback.trainerName}}</p>
                                 <a class="text-gray-500 text-xl" href="#"><i class="fa-solid fa-trash"></i></a>
                             </div>
-                            <p class="text-gray-400 text-sm">작성시간</p>
+                            <p class="text-gray-400 text-sm">{{feedback.createdTime}}</p>
                         </div>
                     </div>
                     <p class="-mt-4 text-gray-500">
-                        트레이너가 남기는 피드백
-                        트레이너가 남기는 피드백
+                       {{ feedback.feedBack }}
                     </p>
                     <br>
                     <p class="-mt-4 text-gray-500">
-                        평점
+                        {{ feedback.rating }}
                     </p>
                 </div>
+            </div>
+            <div class="flex justify-center -ml-44 relative top-1/3">
+                <button @click="openDietModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                  식단 등록
+                </button>
+                <ModalComponent ref="modal"/>
+            </div>
+            <div class="flex justify-center -ml-44 relative top-1/3">
+                <button @click="openDietModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                  피드백 등록
+                </button>
+                <FeedbackComponent ref="modal"/>
             </div>
         </div>
     </div>
@@ -89,12 +77,56 @@
 
 <script>
 import BackgroundComponent from '../BackgroundComponent.vue';
-
+import ModalComponent from './DietModalComponent.vue';
+import FeedbackComponent from './DietFeedbackModalComponent.vue';
+import axios from 'axios';
 export default {
+    data() {
+        return {
+            addDietList: [],
+            feedback:[],
+        };
+    },
     name: 'app',
     components: {
-        BackgroundComponent
+        BackgroundComponent,
+        ModalComponent,
+        FeedbackComponent
+    },
+    created(){
+        this.fetchDiets();
+        this.fetchFeedback();
+    },
+    methods: {
+        openDietModal() {
+            this.$refs.modal.openModal();
+        },
+        async fetchDiets(){
+            try{
+                const token = localStorage.getItem('token');
+                const refreshToken = localStorage.getItem('refreshToken');
+                const headers = token ? {Authorization: `Bearer ${token}`,refreshToken:`${refreshToken}`}:{};
+                const response = await axios.get("http://localhost:8080/diet/list",{headers});
+                console.log(response);
+                this.addDietList = response.data.result;
+            }catch(error){
+                console.log(error);
+            }
+        },
+        async fetchFeedback(){
+            try{
+                const token = localStorage.getItem('token');
+                const refreshToken = localStorage.getItem('refreshToken');
+                const headers = token ? {Authorization: `Bearer ${token}`,refreshToken:`${refreshToken}`}:{};
+                const response = await axios.get("http://localhost:8080/diet/feedback/my",{headers});
+                console.log(response);
+                this.feedback = response.data.result;
+            }catch(error){
+                console.log(error);
+            }
+        }
     }
+    
 }
 </script>
 
