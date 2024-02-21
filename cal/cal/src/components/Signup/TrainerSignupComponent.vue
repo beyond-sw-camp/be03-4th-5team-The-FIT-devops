@@ -96,7 +96,7 @@ export default {
         return {
             name: "",
             email: "",
-            password: 1,
+            password: null,
             phoneNumber: "",
             cmHeight: null,
             kgWeight: null,
@@ -120,7 +120,7 @@ export default {
             {
                 name: this.name,
                 email: this.email,
-                password: "123",
+                password: this.password,
                 phoneNumber: this.phoneNumber,
                 cmHeight: this.cmHeight,
                 kgWeight: this.kgWeight,
