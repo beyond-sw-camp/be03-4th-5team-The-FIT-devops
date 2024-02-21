@@ -8,8 +8,8 @@
         </h2>
         <div class="content-wrapper">
             <div class="record">
-                <table class="ml-20 justify-center text-l text-left rtl:text-right text-gray-500 ">
-                    <thead class="text-l text-gray-700 uppercase dark:bg-gray-700 ">
+                <table class="workout-table ml-20 justify-center text-l text-left rtl:text-right text-gray-500">
+                    <thead class="text-l text-gray-700 uppercase dark:bg-gray-700">
                         <tr>
                             <th scope="col" class="px-6 py-3">
                                 부위
@@ -38,77 +38,23 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <tbody>
                         <tr v-for="workout in toTraineeWorkouts" :key="workout.id"
                             class="border-b dark:bg-gray-800 dark:border-gray-700">
-                            <!-- <td scope="row" class="px-6 py-4 text-l text-gray-900 whitespace-nowrap dark:text-white">{{ workout.bodyPart }}</td> -->
-                            <td scope="row" class="px-6 py-4 text-l text-gray-900 whitespace-nowrap dark:text-white"> {{
-                                workout.totalWorkOutsId }}</td>
-                            <!-- <td>{{ workout.sets }}</td>
-                            <td>{{ workout.weight }}</td>
-                            <td>{{ workout.reps }}</td>
-                            <td>{{ workout.restTime }}</td>
-                            <td>{{ workout.performance }}</td>
-                            <td>{{ workout.completed ? '완료' : '미완료' }}</td> -->
-                        </tr>
-                    </tbody>
-                    <!-- <tr >
-                            <td scope="row" class="px-6 py-4 text-l text-gray-900 whitespace-nowrap dark:text-white">
-                                하체
-                            </td>
-                            <td class="px-6 py-4">
-                                데드리프트
-                            </td>
-                            <td class="px-6 py-4">
-                                5set
-                            </td>
-                            <td class="px-6 py-4">
-                                10kg
-                            </td>
-                            <td class="px-6 py-4">
-                                20reps
-                            </td>
-                            <td class="px-6 py-4">
-                                30sec
-                            </td>
-                            <td class="px-6 py-4">
-                                100%
-                            </td>
+                            <td class="px-6 py-4">{{ workout.target }}</td>
+                            <td class="px-6 py-4">{{ workout.name }}</td>
+                            <td class="px-6 py-4">{{ workout.sets }}</td>
+                            <td class="px-6 py-4">{{ workout.weight }}</td>
+                            <td class="px-6 py-4">{{ workout.reps }}</td>
+                            <td class="px-6 py-4">{{ workout.restTime }}</td>
+                            <td class="px-6 py-4">{{ workout.performance }}</td>
                             <td class="px-6 py-4">
                                 <div class="flex items-center">
-                                    <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> 완료
+                                    <div :class="{ 'bg-green-500': workout.completed, 'bg-red-500': !workout.completed }"
+                                        class="h-2.5 w-2.5 rounded-full me-2"></div>
+                                    {{ workout.completed ? '완료' : '미완료' }}
                                 </div>
                             </td>
                         </tr>
-                        <tr class="border-b dark:bg-gray-800 ">
-                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                어깨
-                            </td>
-                            <td class="px-6 py-4">
-                                -
-                            </td>
-                            <td class="px-6 py-4">
-                                -
-                            </td>
-                            <td class="px-6 py-4">
-                                -
-                            </td>
-                            <td class="px-6 py-4">
-                                -
-                            </td>
-                            <td class="px-6 py-4">
-                                -
-                            </td>
-                            <td class="px-6 py-4">
-                                0%
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="flex items-center">
-                                    <div class="h-2.5 w-2.5 rounded-full bg-red-500 me-2"></div> 미완료
-                                </div>
-                            </td>
-                        </tr> -->
-
                     </tbody>
                 </table>
             </div>
@@ -149,7 +95,7 @@ export default {
     components: {
         BackgroundComponent
     },
-    created() { // 화면이 그려지면서 실행됨
+    created() {
         this.loadWorkouts();
     },
     data() {
@@ -157,13 +103,14 @@ export default {
             toTraineeWorkouts: [],
         }
     },
-
     methods: {
         async loadWorkouts() {
             try {
+                const email = localStorage.getItem('email');
                 const token = localStorage.getItem('token');
                 const headers = token ? { Authorization: `Bearer ${token}` } : {};
-                const response = await axios.get("http://localhost:8080/workout/list", { headers });
+                const response = await axios.get("http://localhost:8080/workout/list/member/" + email, { headers });
+                console.log(response);
                 this.toTraineeWorkouts = response.data.result;
             }
             catch (error) {

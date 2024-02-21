@@ -12,10 +12,12 @@ export default {
       const accessToken = urlParams.get('accessToken');
       const refreshToken = urlParams.get('refreshToken');
       const role = urlParams.get('role');
+      const email = urlParams.get('email');
       if (accessToken && refreshToken) {
-        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('token', accessToken);
         localStorage.setItem('refreshToken', refreshToken);
         localStorage.setItem('role',role);
+        localStorage.setItem('email', email);
         this.$router.push('/calendar');
       }
     },
