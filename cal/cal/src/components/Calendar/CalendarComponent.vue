@@ -4,61 +4,76 @@
   <div :class="{ 'blur-bg': isModalVisible }" class="app-container">
     <div class="w-[1440px] h-[1024px] relative overflow-hidden animated-background">
       <BackgroundComponent></BackgroundComponent>
-<div class="flex-container">
-      <div class="calendar-container jua-regular">
-        <div class="navigation">
-          <button @click="changeMonth(-1)">← Prev</button>
-          <h2>{{ currentMonthName }} {{ currentYear }}</h2>
-          <button @click="changeMonth(1)">Next →</button>
-        </div>
-        <div class="weekdays">
-          <div v-for="day in weekdays" :key="day" class="weekday">{{ day }}</div>
-        </div>
-        <div class="dates-grid">
-          <div v-for="date in daysInMonth" :key="date.fullDate" class="date"
-            :class="{ 'not-current-month': !date.isCurrentMonth }" @click="() => taskByDateClick(date)">
-            <div v-for="(task, index) in date.tasks" :key="index" class="task" :style="{ backgroundColor: task.color }">
+      <div class="flex-container">
+        <div class="calendar-container jua-regular">
+          <div class="navigation">
+            <button @click="changeMonth(-1)">← Prev</button>
+            <h2>{{ currentMonthName }} {{ currentYear }}</h2>
+            <button @click="changeMonth(1)">Next →</button>
+          </div>
+          <div class="weekdays">
+            <div v-for="day in weekdays" :key="day" class="weekday">{{ day }}</div>
+          </div>
+          <div class="dates-grid">
+            <div v-for="date in daysInMonth" :key="date.fullDate" class="date"
+              :class="{ 'not-current-month': !date.isCurrentMonth }" @click="() => taskByDateClick(date)">
+              <div v-for="(task, index) in date.tasks" :key="index" class="task" :style="{ backgroundColor: task.color }">
+              </div>
+              <span class="date-number">{{ date.day }}</span>
             </div>
-            <span class="date-number">{{ date.day }}</span>
           </div>
         </div>
-      </div>
-      <div v-if="isModalVisible" class="modal jua-regular" @click.self="isModalVisible = false">
-        <div class="modal-content">
-          <h1>{{ selectedDateDetails }}</h1>
-          <h2 class="modal-title">상세 정보</h2>
-          <div class="button-container">
-            <a href="/diet" class="modal-button">식단</a>
-            <a href="/workout" class="modal-button">운동</a>
+        <div v-if="isModalVisible" class="modal jua-regular" @click.self="isModalVisible = false">
+          <div class="modal-content">
+            <h1>{{ selectedDateDetails }}</h1>
+            <h2 class="modal-title">상세 보기</h2>
+            <div class="button-container">
+              <a href="/diet" class="modal-button">식단</a>
+              <a @click="navigateToWorkout" class="modal-button">운동</a>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 </template>
 <script>
 export default {
-    name: 'app',
-    components: {
-        BackgroundComponent
-    }
+  name: 'app',
+  components: {
+    BackgroundComponent
+  },
+  props: ['date', 'apiUrl'],
 }
 </script>
 <script setup>
 import { ref, computed } from 'vue';
 import BackgroundComponent from '../BackgroundComponent.vue';
+import { useRouter } from 'vue-router';
 
-
+const router = useRouter(); // Use Vue Router's useRouter hook
 const isModalVisible = ref(false);
 const selectedDateDetails = ref('');
+const selectedDate = ref('');
 
 function taskByDateClick(date) {
-
   const dateObj = new Date(date.fullDate);
   const dayOfWeek = dateObj.toLocaleString('default', { weekday: 'long' });
   selectedDateDetails.value = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, '0')}-${String(dateObj.getDate()).padStart(2, '0')} ${dayOfWeek}`;
+  selectedDate.value = dateObj.toISOString().split('T')[0]; // Store the selected date in ISO format
   isModalVisible.value = true;
+}
+
+function navigateToWorkout() {
+  const memberEmail = localStorage.getItem('email'); // Assuming memberID is stored in localStorage
+  console.log(selectedDate.value);
+    console.log(memberEmail)
+  if (memberEmail && selectedDate.value) {
+    router.push({ name: 'workout', query: { date: selectedDate.value, memberEmail: memberEmail } });
+  } else {
+  
+    console.error('Member ID or Date not found');
+  }
 }
 
 const now = new Date();
@@ -140,6 +155,5 @@ const currentYear = computed(() => viewYear.value);
 </script>
 
 <style scoped>
-
 @import "./CalendarStyle.css"
 </style>

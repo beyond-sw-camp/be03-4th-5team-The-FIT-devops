@@ -191,7 +191,7 @@ export default {
                          focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5
                           dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
                           dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" v-model="gender">
-                                <option value="choice">선택</option>
+                                <option value="genderchoice">선택</option>
                                 <option value="MALE">남성</option>
                                 <option value="FEMALE">여성</option>
                             </select>
@@ -204,6 +204,18 @@ export default {
                             </p>
                             <input class="form-control" type="file" accept="image/*" @change="fileUpload">
                         </div> -->
+                        <div>
+                            <label for="trainerId" class="block mb-2 text-sm font-medium text-gray-900">담당 트레이너 선택</label>
+                            <select type="dropdown" name="trainerId" id="trainerId" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
+ focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5
+ dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
+ dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" v-model="trainerId">
+                                <option value="">담당 트레이너 선택</option>
+                                <option v-for="trainer in trainersList" :value="trainer.id" :key="trainer.id">{{
+                                    trainer.name }}</option>
+                            </select>
+                        </div>
+
                         <button type="submit"
                             class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg 
         text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">환영합니다!
@@ -225,18 +237,20 @@ export default {
     },
     data() {
         return {
+            trainersList: [],
             name: "",
             email: "",
             password: null,
             phoneNumber: "",
             cmHeight: null,
             kgWeight: null,
-            gender: "choice",
+            gender: "genderchoice",
             role: "MEMBER",
-            trainerId: 1,
+            trainerId: "trainerchoice",
         }
     },
     created() {
+        this.loadTrainers();
         if (localStorage.getItem("email")) {
             this.email = localStorage.getItem("email");
         }
@@ -247,6 +261,16 @@ export default {
         }
     },
     methods: {
+        async loadTrainers() {
+            try {
+                const response = await axios.get("http://localhost:8080/trainer/list");
+                this.trainersList = response.data.result;
+                console.log(this.trainersList);
+            }
+            catch (error) {
+                console.log(error);
+            }
+        },
         async userCreate() {
             const registerData =
             {
