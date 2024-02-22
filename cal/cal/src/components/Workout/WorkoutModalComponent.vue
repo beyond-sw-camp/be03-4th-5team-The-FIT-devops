@@ -76,7 +76,6 @@ export default {
         await axios.patch(`http://localhost:8080/workout/update/${this.workoutId}`, workoutData, { headers });
         this.closeModal();
         this.$emit('workoutUpdated');
-        
         window.location.href=window.location.search;
       } catch (error) {
         console.error(error);
