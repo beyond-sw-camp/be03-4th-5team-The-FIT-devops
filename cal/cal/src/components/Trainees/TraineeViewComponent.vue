@@ -33,10 +33,12 @@
                             </button>
                         </td>
                         <td>
-                            <button @click="navigateToTraineeCalendar(email)"
+                            <button @click="assignWorkout(trainee.id)"
                                 class="bg-gray-500 hover:bg-teal-700 text-white font-bold py-2 px-2 rounded">
                                 운동 할당하기
                             </button>
+                            <TraineeAssignModal ref="assignmodal" :memberId="selectedMemberId" />
+
                         </td>
                     </tr>
                 </tbody>
@@ -47,6 +49,7 @@
 
 <script>
 import axios from 'axios';
+
 export default {
     data() {
         return {
@@ -67,6 +70,9 @@ export default {
         trans(gender) {
             return gender === "MALE" ? "남성" : "여성";
         },
+        // assignWorkout(accessEmail){
+
+        // }
         async fetchTrainees() {
             try {
                 const token = localStorage.getItem('token');
