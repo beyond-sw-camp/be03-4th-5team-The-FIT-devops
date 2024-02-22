@@ -28,7 +28,7 @@
             <h1>{{ selectedDateDetails }}</h1>
             <h2 class="modal-title">상세 보기</h2>
             <div class="button-container">
-              <a href="/diet" class="modal-button">식단</a>
+              <a @click="navigateToDiet" class="modal-button">식단</a>
               <a @click="navigateToWorkout" class="modal-button">운동</a>
             </div>
           </div>
@@ -72,7 +72,17 @@ function navigateToWorkout() {
   if (memberEmail && selectedDate.value) {
     router.push(`/workout?memberEmail=${memberEmail}&date=${selectedDate.value}`);
   } else {
-    console.error('Member email or Date not found');
+    console.error('Workout - 이메일 혹은 날짜를 찾을 수 없어요!');
+  }
+}
+
+function navigateToDiet() {
+  const memberEmail = localStorage.getItem('email');
+  if (memberEmail && selectedDate.value) {
+    router.push(`/diet?memberEmail=${memberEmail}&date=${selectedDate.value}`);
+  } else {
+    console.error('Diet - 이메일 혹은 날짜를 찾을 수 없어요!');
+
   }
 }
 
