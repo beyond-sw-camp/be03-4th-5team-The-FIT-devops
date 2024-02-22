@@ -22,6 +22,7 @@ export default {
         localStorage.setItem('email', email);
         localStorage.setItem('accessEmail', email);
         this.$router.push('/signupRole');
+
       }
     },
   },
