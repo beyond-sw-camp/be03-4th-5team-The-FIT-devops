@@ -99,7 +99,7 @@ export default {
                 }
             }
             catch (error) {
-                const error_message = error.response.data.error_message;
+                const error_message = error.response.data.message;
                 if (error_message) {
                     console.log(error_message);
                     alert(error_message);
