@@ -1,6 +1,5 @@
 <template>
   <title>Calendar</title>
-
   <div :class="{ 'blur-bg': isModalVisible }" class="app-container">
     <div class="w-[1440px] h-[1024px] relative overflow-hidden animated-background">
       <BackgroundComponent></BackgroundComponent>
@@ -63,8 +62,8 @@ function taskByDateClick(date) {
   selectedDate.value = dateObj.toISOString().split('T')[0];
   isModalVisible.value = true;
 
-    const formattedDate = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, '0')}-${String(dateObj.getDate()).padStart(2, '0')}`;
-    selectedDate.value = formattedDate; // Store the formatted date
+  const formattedDate = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, '0')}-${String(dateObj.getDate()).padStart(2, '0')}`;
+  selectedDate.value = formattedDate; // Store the formatted date
 }
 
 function navigateToWorkout() {
