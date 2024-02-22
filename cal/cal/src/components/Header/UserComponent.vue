@@ -17,7 +17,6 @@
                 <th scope="col" class="py-3 px-6">성별</th>
                 <th scope="col" class="py-3 px-6">키</th>
                 <th scope="col" class="py-3 px-6">몸무게</th>
-                <th scope="col" class="py-3 px-6">탈퇴여부</th>
                 <th scope="col" class="py-3 px-6">삭제</th> 
               </tr>
             </thead>
@@ -33,11 +32,6 @@
                 <td class="py-4 px-6">{{ member.gender }}</td>
                 <td class="py-4 px-6">{{ member.cmHeight }}</td>
                 <td class="py-4 px-6">{{ member.kgWeight }}</td>
-                <td class="py-4 px-6">
-                    <span :class="{'text-red-500': member.del_yn === 'Y', 'text-green-500': member.del_yn === 'N'}">
-                      {{ member.del_yn === 'Y' ? '탈퇴한 유저' : '유저' }}
-                    </span>
-                  </td>
                 <td class="py-4 px-6">
                   <button @click="deleteMember(member.id)" class="text-red-500 hover:text-red-700">삭제</button>
                 </td>
@@ -59,7 +53,6 @@
                 <th scope="col" class="py-3 px-6">성별</th>
                 <th scope="col" class="py-3 px-6">키</th>
                 <th scope="col" class="py-3 px-6">몸무게</th>
-                <th scope="col" class="py-3 px-6">탈퇴여부</th>
                 <th scope="col" class="py-3 px-6">삭제</th>
               </tr>
             </thead>
@@ -75,11 +68,6 @@
                 <td class="py-4 px-6">{{ trainer.gender }}</td>
                 <td class="py-4 px-6">{{ trainer.cmHeight }}</td>
                 <td class="py-4 px-6">{{ trainer.kgWeight }}</td>
-                <td class="py-4 px-6">
-                    <span :class="{'text-red-500': trainer.del_yn === 'Y', 'text-green-500': trainer.del_yn === 'N'}">
-                      {{ trainer.del_yn === 'Y' ? '탈퇴한 유저' : '유저' }}
-                    </span>
-                  </td>
                 <td class="py-4 px-6">
                   <button @click="deleteTrainer(trainer.id)" class="text-red-500 hover:text-red-700">삭제</button>
                 </td>
@@ -112,11 +100,13 @@
   
       async fetchMembers() {
         const token = localStorage.getItem('token');
-        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+          const refreshToken = localStorage.getItem('refreshToken');
+          const headers = token ? {Authorization: `Bearer ${token}`,refreshToken:`${refreshToken}`}:{};
         try {
           const response = await axios.get('http://localhost:8080/member/list', { headers });
           // del_yn이 'Y'가 아닌 회원만 필터링하여 할당
-          this.members = response.data.result ? response.data.result.filter(member => member.del_yn !== 'Y') : [];
+          console.log(response.data.result)
+          this.members = response.data.result ? response.data.result.filter(member => member.delYn !== 'Y') : [];
         } catch (error) {
           console.error('Error fetching members:', error);
           this.members = [];
@@ -125,11 +115,12 @@
   
       async fetchTrainers() {
         const token = localStorage.getItem('token');
-        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+          const refreshToken = localStorage.getItem('refreshToken');
+          const headers = token ? {Authorization: `Bearer ${token}`,refreshToken:`${refreshToken}`}:{};
         try {
           const response = await axios.get('http://localhost:8080/trainer/list', { headers });
           // del_yn이 'Y'가 아닌 트레이너만 필터링하여 할당
-          this.trainers = response.data.result ? response.data.result.filter(trainer => trainer.del_yn !== 'Y') : [];
+          this.trainers = response.data.result ? response.data.result.filter(trainer => trainer.delYn !== 'Y') : [];
         } catch (error) {
           console.error('Error fetching trainers:', error);
           this.trainers = [];
@@ -139,7 +130,8 @@
       async deleteMember(memberId) {
         if (confirm('정말로 회원을 삭제하시겠습니까?')) {
           const token = localStorage.getItem('token');
-          const headers = { Authorization: `Bearer ${token}` };
+          const refreshToken = localStorage.getItem('refreshToken');
+          const headers = token ? {Authorization: `Bearer ${token}`,refreshToken:`${refreshToken}`}:{};
           try {
             await axios.delete(`http://localhost:8080/member/delete/${memberId}`, { headers });
             alert('회원이 삭제되었습니다.');
@@ -153,7 +145,8 @@
       async deleteTrainer(trainerId) {
         if (confirm('정말로 트레이너를 삭제하시겠습니까?')) {
           const token = localStorage.getItem('token');
-          const headers = { Authorization: `Bearer ${token}` };
+          const refreshToken = localStorage.getItem('refreshToken');
+          const headers = token ? {Authorization: `Bearer ${token}`,refreshToken:`${refreshToken}`}:{};
           try {
             await axios.delete(`http://localhost:8080/trainer/delete/${trainerId}`, { headers });
             alert('트레이너가 삭제되었습니다.');
