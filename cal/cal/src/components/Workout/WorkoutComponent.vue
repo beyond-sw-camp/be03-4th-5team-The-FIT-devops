@@ -121,7 +121,7 @@ export default {
     },
     methods: {
         openWorkoutModal(workoutId) {
-            this.$refs.workoutmodal.openModal();
+            this.$refs.workoutmodal[0].openModal();
             this.selectedWorkoutId = workoutId;
         },
         openWorkoutFeedbackRegisterModal() {

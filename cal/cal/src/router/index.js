@@ -13,7 +13,7 @@ import MyPageComponent from '@/components/MyPage/MyPageComponent.vue';
 import MyPageTrainerComponent from '@/components/MyPage/MyPageTrainerComponent.vue';
 import TraineeViewComponent from '@/components/Trainees/TraineeViewComponent.vue';
 
-import UserComponent from '@/components/Header/UserComponent.vue';
+import UserComponent from '@/components/Admin/UserComponent.vue';
 import MyTrainerComponent from '../components/Header/MyTrainerComponent.vue';
 import WorkoutAssignComponent from "@/components/Workout/WorkoutAssignComponent.vue";
 
