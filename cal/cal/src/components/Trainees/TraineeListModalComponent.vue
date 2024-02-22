@@ -5,7 +5,8 @@
             <h3 class="modal-title">운동 할당하기</h3>
             <label for="datechoice">날짜를 선택하세요!</label>
             <div>
-            <input type="date" id="datechoice" name="datechoice" min="2024-02-22" max="3000-12-31" v-model="datechoice" />
+                <input type="date" id="datechoice" name="datechoice" min="2024-02-22" max="3000-12-31"
+                    v-model="datechoice" />
             </div>
             <!-- <table class="workout-modal">
                 <thead>
@@ -90,11 +91,11 @@
     cursor: pointer;
 }
 
-#datechoice{
-    margin:30px;
+#datechoice {
+    margin: 30px;
     background-color: lightgrey;
     padding: 50px;
-    border-radius:10px;
+    border-radius: 10px;
 }
 </style>
   
@@ -106,7 +107,6 @@ export default {
     data() {
         return {
             showModal: false,
-            totalworkouts: [],
             workoutId: null, // Initialize as null or appropriate default value
             selected: {},
             datechoice: null,
@@ -119,31 +119,41 @@ export default {
         }
     },
     mounted() {
-        this.loadWorkouts();
+        this.loadTrainers();
     },
     methods: {
         async doAssign() {
-            const token = localStorage.getItem('token');
-            const refreshToken = localStorage.getItem('refreshToken');
-            const headers = token ? { Authorization: `Bearer ${token}`, refreshToken: `${refreshToken}` } : {};
-            console.log(this.datechoice); // Ensure datechoice is logging correctly
-            const request = {
-                memberId: this.memberId,
-                workOutDate: this.datechoice, // Ensure this matches your backend's expected format
-                // Add any other required data here
-            };
-            console.log(request);
             try {
-                const response = await axios.post("http://localhost:8080/workout_list/create", request, { headers });
-                console.log(response); // It's good practice to log the response for debugging
-                alert("운동 할당 화면으로 이동합니다!"); // Consider using a more descriptive message or handling based on response
-                window.location.href="/";
+                const token = localStorage.getItem('token');
+                const refreshToken = localStorage.getItem('refreshToken');
+                const headers = token ? { Authorization: `Bearer ${token}`, refreshToken: `${refreshToken}` } : {};
+                console.log(this.datechoice);
+                localStorage.setItem("date", this.datechoice);
+                // const date = this.datechoice;
+                // const memberEmail = localStorage.getItem("accessEmail");
+                const request = {
+                    memberId: localStorage.getItem("memberId"),
+                    workOutDate: this.datechoice,
+                };
+                await axios.post("http://localhost:8080/workout_list/create", request, { headers });
+                // const url = `http://localhost:8080/workout_list/getid?memberEmail=${memberEmail}&date=${date}`
+                window.location.href = "/workout/assign";
             }
             catch (error) {
-                console.error(error); // Logging the error is good
-                // Consider more user-friendly error handling here
+                console.error(error);
             }
         },
+        async loadTrainers() {
+            try {
+                const response = await axios.get("http://localhost:8080/trainer/list");
+                this.trainersList = response.data.result;
+                console.log(this.trainersList);
+            }
+            catch (error) {
+                console.log(error);
+            }
+        },
+
         // async doAssign() {
         //     const orderItems = Object.keys(this.selectedItems)
         //         .filter(key => this.selectedItems[key] === true)
@@ -172,17 +182,7 @@ export default {
         closeModal() {
             this.showModal = false;
         },
-        async loadWorkouts() {
-            try {
-                const token = localStorage.getItem('token');
-                const refreshToken = localStorage.getItem('refreshToken');
-                const headers = token ? { Authorization: `Bearer ${token}`, refreshToken: `${refreshToken}` } : {};
-                const response = await axios.get("http://localhost:8080/totalworkouts/list", { headers });
-                this.totalworkouts = response.data.result;
-            } catch (error) {
-                console.error(error);
-            }
-        },
+
     }
 }
 </script>

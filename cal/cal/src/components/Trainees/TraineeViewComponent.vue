@@ -33,7 +33,7 @@
                             </button>
                         </td>
                         <td>
-                            <button @click="assignWorkout(trainee.id)"
+                            <button @click="assignWorkout(trainee.email, trainee.id)"
                                 class="bg-gray-500 hover:bg-teal-700 text-white font-bold py-2 px-2 rounded">
                                 운동 할당하기
                             </button>
@@ -70,10 +70,12 @@ export default {
         trans(gender) {
             return gender === "MALE" ? "남성" : "여성";
         },
-        assignWorkout(memberId) {
+        assignWorkout(accessEmail, memberId) {
             this.$refs.assignmodal[0].openModal();
             this.selectedMemberId = memberId;
-            console.log("Selected MemberId:"+this.selectedMemberId);
+            localStorage.setItem("accessEmail", accessEmail);
+            localStorage.setItem("memberId", this.selectedMemberId);
+            // console.log("Selected MemberId:"+this.selectedMemberId);
         },
         async fetchTrainees() {
             try {
