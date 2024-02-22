@@ -122,11 +122,8 @@ export default {
   justify-content: center;
   align-items: center;
   background-color: white;
-  /* Lighter shade for header background */
   padding: 20px 0;
-  /* Increased padding for more space */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  /* Soft shadow for depth */
 }
 
 .header-content {
@@ -135,12 +132,10 @@ export default {
   align-items: center;
   width: 100%;
   max-width: 1200px;
-  /* Restrict content width for better layout */
 }
 
 .header-title {
   color: #BC96FB;
-  /* Matching button color */
   font-size: 36px;
   /* Increased size for prominence */
   font-weight: bold;

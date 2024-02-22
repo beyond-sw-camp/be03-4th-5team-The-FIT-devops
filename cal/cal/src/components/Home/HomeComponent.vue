@@ -2,7 +2,8 @@
     <div class="w-[1440px] h-[1024px] relative overflow-hidden animated-background">
         <BackgroundComponent></BackgroundComponent>
         <button @click="warnDisabled"
-            class="bebas-neue-regular absolute left-[27px] top-[411px] text-[250px] text-left animated-text">
+            class="bebas-neue-regular absolute left-[27px] top-[411px] text-[250px] text-left animated-text"
+            :disabled="isDisabled">
             The FIT</button>
         <div :class="{ shake: disabled }">
             <p class="bebas-neue-regular absolute right-[500px] top-[492px] text-3xl text-left">
@@ -45,6 +46,11 @@ export default {
     components: {
         BackgroundComponent
 
+    },
+    computed: {
+        isDisabled() {
+            return localStorage.getItem('email');
+        }
     },
 
     setup() {
