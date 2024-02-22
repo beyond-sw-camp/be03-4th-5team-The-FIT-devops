@@ -102,7 +102,7 @@ export default {
             kgWeight: null,
             gender: "choice",
             role: "TRAINER",
-            imagePath:"",
+            profileImage:"",
         }
     },
     created() {
@@ -117,7 +117,7 @@ export default {
     },
     methods: {
         handleFileUpload(event) {
-        this.image = event.target.files[0];
+        this.profileImage = event.target.files[0];
         },
         async userCreate() {
             const registerData = new FormData();
