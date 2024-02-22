@@ -32,9 +32,6 @@
                             <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">몸무게</label>
                             <input type="number" v-model="kgWeight" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white" :disabled="!isEditing">
                         </div>
-                        <button @click="viewMemberInfo" class="mt-4 bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
-                            나의 트레이니 보기
-                        </button>
                     </div>
                     <button @click="toggleEdit" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         {{ isEditing ? '취소' : '수정' }}
@@ -46,18 +43,17 @@
             </div>
         </section>
     </div>
-    <MemberListModal :isVisible="isModalVisible" :members="members" @close="isModalVisible = false"/>
+
     </template>
     
     <script>
 import BackgroundComponent from '../BackgroundComponent.vue';
-import MemberListModal from './MemberListModal.vue';
 import axios from 'axios';
 export default {
     name: 'MyPageTrainerComponent',
     components: {
         BackgroundComponent,
-        MemberListModal
+        
     },
     data(){
         return{
@@ -85,7 +81,7 @@ export default {
             const token = localStorage.getItem('token');
             const refreshToken = localStorage.getItem('refreshToken');
             const headers = token ? { Authorization: `Bearer ${token}`, refreshToken: `${refreshToken}` } : {};
-            const response = await axios.get(`http://localhost:8080/trainer/myInfo`, { headers });
+            const response = await axios.get(`http://localhost:8080/trainer/my/info`, { headers });
             this.trainer = response.data.result;
             this.id = this.trainer.id;
             this.memberId = this.member.memberId;
@@ -97,18 +93,6 @@ export default {
             this.role = this.trainer.role;
             this.profileImage = this.trainer.profileImage;
             this.phoneNumber = this.trainer.phoneNumber;
-        },
-        async viewMemberInfo() {
-            try {
-                const token = localStorage.getItem('token');
-                const headers = token ? { Authorization: `Bearer ${token}` } : {};
-                const response = await axios.get(`http://localhost:8080/member/list`, { headers });
-                this.members = response.data; // 회원 목록 데이터 설정
-                this.isModalVisible = true; // 모달 표시
-            } catch (error) {
-                console.error('회원 정보 불러오기 중 에러가 발생했습니다.', error);
-                alert('회원 정보 불러오기에 실패했습니다.');
-            }
         },
         async updateMemberInfo() {
             try {
