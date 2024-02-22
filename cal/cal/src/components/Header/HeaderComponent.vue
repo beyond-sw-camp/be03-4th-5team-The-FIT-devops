@@ -3,7 +3,7 @@
     <div class="header-content">
       <div class="header-buttons-left">
         <button class="header-button" @click="goToCalendar" v-if="userRole === 'MEMBER'">캘린더</button>
-        <button @click="viewTrainerInfo" class="header-button" v-if="userRole === 'MEMBER'">나의 트레이너 보기</button>
+        <button @click="goToMyTrainer" class="header-button" v-if="userRole === 'MEMBER'">나의 트레이너 보기</button>
         <button @click="viewMemberInfo" class="header-button" v-if="userRole === 'TRAINER'">나의 트레이니 관리</button>
         <button @click="userInfo" class="header-button" v-if="userRole === 'ADMIN'">회원 조회</button>
       </div>
@@ -43,6 +43,9 @@ export default {
 
     function goToCalendar() {
       router.push({ name: 'CalendarComponent' });
+    }
+    function goToMyTrainer() {
+    router.push({ name: 'MyTrainerComponent' });
     }
 
     function goToMyInfo() {
@@ -95,6 +98,7 @@ export default {
 
     return {
       goToCalendar,
+      goToMyTrainer,
       goToMyInfo,
       logout,
       viewTrainerInfo,
