@@ -20,6 +20,7 @@ export default {
       const email = urlParams.get('email');
       if (email) {
         localStorage.setItem('email', email);
+        localStorage.setItem('accessEmail', email);
         this.$router.push('/signupRole');
       }
     },

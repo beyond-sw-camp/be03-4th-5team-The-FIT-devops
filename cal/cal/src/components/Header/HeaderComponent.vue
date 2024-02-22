@@ -57,9 +57,10 @@ export default {
       localStorage.removeItem("role");
       localStorage.removeItem("email");
       localStorage.removeItem("refreshToken");
+      localStorage.removeItem("accessEmail");
       isLogin.value = false;
       userRole.value = null;
-      router.push({ name: 'HOME' });
+      window.location.href="/";
     }
 
     async function userInfo() {

@@ -1,32 +1,46 @@
 <template>
     <title>TraineeView</title>
     <div class="w-auto h-auto overflow-hidden animated-background">
-    <div class="container ml-20">
-            <h2 class="dietTitle">나의 트레이니 관리</h2>
-                <table class="text-l text-left rtl:text-right text-gray-500">
-                    <thead class="text-l text-gray-700 uppercase dark:bg-gray-700">
-                        <tr>
-                            <th scope="col" class="px-6 py-3">프로필 사진</th>
-                            <th scope="col" class="px-6 py-3">성함</th>
-                            <th scope="col" class="px-6 py-3">성별</th>
-                            <th scope="col" class="px-6 py-3">전화번호</th>
-                            <th scope="col" class="px-6 py-3">이메일</th>
-                            <th scope="col" class="px-6 py-3">키</th>
-                            <th scope="col" class="px-6 py-3">몸무게</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="trainee in trainees" :key="trainee.id">
-                            <td><img :src="trainee.profileImage" style="height: 100px; width: auto;"></td>
-                            <td>{{ trainee.name }}</td>
-                            <td>{{ trainee.gender }}</td>
-                            <td>{{ trainee.phoneNumber }}</td>
-                            <td>{{ trainee.email }}</td>
-                            <td>{{ trainee.cmHeight }}</td>
-                            <td>{{ trainee.kgWeight }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+        <div class="container ml-20">
+            <h2 class="dietTitle">🏋🏻나의 트레이니 관리🏋🏻‍♀️</h2>
+            <table class="text-l text-left rtl:text-right text-gray-500">
+                <thead class="text-l text-gray-700 uppercase dark:bg-gray-700">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">프로필 사진</th>
+                        <th scope="col" class="px-6 py-3">성함</th>
+                        <th scope="col" class="px-6 py-3">성별</th>
+                        <th scope="col" class="px-6 py-3">전화번호</th>
+                        <th scope="col" class="px-6 py-3">이메일</th>
+                        <th scope="col" class="px-6 py-3">키 (cm) </th>
+                        <th scope="col" class="px-6 py-3">몸무게 (kg)</th>
+                        <th scope="col" class="px-6 py-3">상세 조회</th>
+                        <th scope="col" class="px-6 py-3">운동 할당</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="trainee in trainees" :key="trainee.id">
+                        <td><img :src="trainee.profileImage" style="height: 100px; width: auto;"></td>
+                        <td>{{ trainee.name }}</td>
+                        <td>{{ trans(trainee.gender) }}</td>
+                        <td>{{ trainee.phoneNumber }}</td>
+                        <td>{{ trainee.email }}</td>
+                        <td>{{ trainee.cmHeight }}</td>
+                        <td>{{ trainee.kgWeight }}</td>
+                        <td>
+                            <button @click="navigateToTraineeCalendar(trainee.email)"
+                                class="bg-gray-500 hover:bg-teal-700 text-white font-bold py-2 px-2 rounded">
+                                회원 해빗 트래커 바로가기
+                            </button>
+                        </td>
+                        <td>
+                            <button @click="navigateToTraineeCalendar(email)"
+                                class="bg-gray-500 hover:bg-teal-700 text-white font-bold py-2 px-2 rounded">
+                                운동 할당하기
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </template>
@@ -46,6 +60,13 @@ export default {
         this.fetchTrainees();
     },
     methods: {
+        navigateToTraineeCalendar(accessEmail) {
+            localStorage.setItem("accessEmail", accessEmail);
+            window.location.href = "/calendar";
+        },
+        trans(gender) {
+            return gender === "MALE" ? "남성" : "여성";
+        },
         async fetchTrainees() {
             try {
                 const token = localStorage.getItem('token');
@@ -74,8 +95,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: start;
-    height: 1024px; /* Adjust height as needed */
+    height: 1024px;
     overflow: hidden;
 }
 
@@ -97,13 +117,16 @@ export default {
 table {
     margin-left: auto;
     margin-right: auto;
-    width: auto; /* Or specific width */
+    width: auto;
+    /* Or specific width */
     min-width: 0;
     border-collapse: collapse;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Optional */
 }
 
-th, td {
+th,
+td {
     padding: 12px 15px;
     text-align: left;
 }
