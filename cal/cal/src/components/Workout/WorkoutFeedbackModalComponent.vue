@@ -1,6 +1,7 @@
 <template>
-  <div class="modal">
+  <div  v-if="showModal" class="modal">
     <div class="modal-content">
+      <span class="close" @click="closeModal">&times;</span>
         <div class="flex gap-4">
           <img :src="trainerInfo.profileImage" class="rounded-lg h-20 w-20" alt="Trainer Image" loading="lazy">
           <div class="flex flex-col w-full">
