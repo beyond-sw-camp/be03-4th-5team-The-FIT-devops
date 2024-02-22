@@ -1,27 +1,18 @@
 <template>
-  <div  v-if="showModal" class="modal">
+  <div v-if="showModal" class="modal">
     <div class="modal-content">
       <span class="close" @click="closeModal">&times;</span>
-        <div class="flex gap-4">
-          <img :src="trainerInfo.profileImage" class="rounded-lg h-20 w-20" alt="Trainer Image" loading="lazy">
-          <div class="flex flex-col w-full">
-            <div class="flex flex-row justify-between">
-              <p class="text-xl whitespace-nowrap truncate overflow-hidden">{{ trainerInfo.name }}</p>
-              <a href="#" class="text-gray-500 text-xl"><i class="fa-solid fa-trash"></i></a>
-            </div>
-            <p class="text-gray-400 text-sm">{{ feedback.uploadDate }}</p>
-          </div>
-        </div>
+      <div class="modal-header">
+        <img :src="trainerInfo.profileImage" class="rounded-lg h-24 w-24 mx-auto" alt="Trainer Image">
+        <h3 class="modal-title"><span class="trainer-prefix">트레이너 : </span> {{ trainerInfo.name }}</h3>
+        <p class="upload-date">{{ feedback.uploadDate }}</p>
       </div>
-      <div class="border-t pt-4 mt-4">
-        <p class="text-gray-500 mt-2">
-          {{ feedback.feedBack ? feedback.feedBack : '아직 피드백을 작성하지 않았네요!' }}
-        </p>
-        <p class="text-gray-500 mt-2">
-          {{ feedback.rating ? feedback.rating : 0 }} / 10 점
-        </p>
+      <div class="modal-body">
+        <p class="feedback-content">{{ feedback.feedBack || '아직 피드백을 작성하지 않았네요!' }}</p>
+        <div class="rating">평점: {{ feedback.rating || 0 }} / 10</div>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -45,38 +36,64 @@ export default {
 
 <style scoped>
 .modal {
-position: fixed;
-z-index: 1000; /* Ensure modal is above other content */
-left: 0;
-top: 0;
-width: 100%;
-height: 100%;
-display: flex;
-justify-content: center;
-align-items: center;
-background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
 }
+
 .modal-content {
-padding: 20px;
-background-color: #fff;
-border-radius: 10px;
-box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-width: auto;
-min-width: 300px;
-text-align: center;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  width: 500px;
+  text-align: center;
+}
+
+.modal-header h3 {
+  margin-top: 20px;
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.upload-date {
+  font-size: 0.875rem;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.feedback-content {
+  margin-top: 20px;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #333;
+}
+
+.rating {
+  margin-top: 20px;
+  font-weight: bold;
+  font-size: 1.25rem;
+  color: #4a90e2;
 }
 
 .close {
-float: right;
-font-size: 1.5rem;
-font-weight: bold;
-cursor: pointer;
-}
-
-.close:hover,
-.close:focus {
-color: #000;
-text-decoration: none;
-cursor: pointer;
-}
+  float: right;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  }
+  
+  .close:hover,
+  .close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+  }
 </style>

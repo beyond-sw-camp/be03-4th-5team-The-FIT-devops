@@ -72,20 +72,23 @@
                 </table>
             </div>
             <br>
-            <div class="flex justify-center -ml-44 relative top-1/3">
-                <button @click="openWorkoutFeedbackModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                피드백 보기
-                 </button>
-                 <WorkoutFeedbackModalComponent ref="workoutfeedbackmodal" :feedback="feedback" :trainerInfo="trainerInfo" :showModal="showModal" @close-modal="closeModal" />
-            </div>
-            <div class="flex justify-center -ml-44 relative top-1/3" v-if="role == 'TRAINER' || role == 'ADMIN'">
-                <button @click="openWorkoutFeedbackRegisterModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    피드백 등록
+            <div class="flex justify-end space-x-2 mt-10">
+                <!-- 조건부 렌더링을 사용하여 'TRAINER' 또는 'ADMIN' 역할일 때만 피드백 등록 버튼 표시 -->
+                <button v-if="role == 'TRAINER' || role == 'ADMIN'" @click="openWorkoutFeedbackRegisterModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                  피드백 등록
                 </button>
-                <WorkoutFeedbackRegisterModalComponent ref="workoutfeedbackentrymodal" />
+                
+                <!-- 피드백 보기 버튼 -->
+                <button @click="openWorkoutFeedbackModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                  피드백 보기
+                </button>
+              </div>
+            
+              <!-- 모달 컴포넌트 -->
+              <WorkoutFeedbackModalComponent ref="workoutfeedbackmodal" :feedback="feedback" :trainerInfo="trainerInfo" :showModal="showModal" @close-modal="closeModal" />
+              <WorkoutFeedbackRegisterModalComponent ref="workoutfeedbackentrymodal" />
             </div>
         </div>
-    </div>
 </template>
 <script>
 import WorkoutModalComponent from "@/components/Workout/WorkoutModalComponent.vue";
