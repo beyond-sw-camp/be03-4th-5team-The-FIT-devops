@@ -1,29 +1,35 @@
 <template>
-    <div v-if="showModal" class="modal">
-      <div class="modal-content">
-        <span class="close" @click="closeModal">&times;</span>
-        <h2>피드백 등록</h2>
-        <div>
-            <label for="comment" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">코멘트</label>
-            <input type="text" name="comment" id="comment" v-model="comment" placeholder="텍스트 입력">
+  <div  v-if="showModal" class="modal">
+    <div class="modal-content">
+      <span class="close" @click="closeModal">&times;</span>
+        <div class="flex gap-4">
+          <img :src="trainerInfo.profileImage" class="rounded-lg h-20 w-20" alt="Trainer Image" loading="lazy">
+          <div class="flex flex-col w-full">
+            <div class="flex flex-row justify-between">
+              <p class="text-xl whitespace-nowrap truncate overflow-hidden">{{ trainerInfo.name }}</p>
+              <a href="#" class="text-gray-500 text-xl"><i class="fa-solid fa-trash"></i></a>
+            </div>
+            <p class="text-gray-400 text-sm">{{ feedback.uploadDate }}</p>
+          </div>
         </div>
-        <div>
-            <label for="comment" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">평점</label>
-            <input type="number" id="ratingInput" v-model.number="rating" min="1" max="10">
-        </div>
-        <button @click="submitForm">제출</button>
+      </div>
+      <div class="border-t pt-4 mt-4">
+        <p class="text-gray-500 mt-2">
+          {{ feedback.feedBack ? feedback.feedBack : '아직 피드백을 작성하지 않았네요!' }}
+        </p>
+        <p class="text-gray-500 mt-2">
+          {{ feedback.rating ? feedback.rating : 0 }} / 10 점
+        </p>
       </div>
     </div>
-  </template>
-  
-  <script>
-import axios from 'axios';
+</template>
+
+<script>
 export default {
+  props: ['feedback', 'trainerInfo'],
   data() {
     return {
       showModal: false,
-      comment: '',
-      rating:10,
     };
   },
   methods: {
@@ -32,63 +38,45 @@ export default {
     },
     closeModal() {
       this.showModal = false;
-      this.textInput = '';
-      this.imageInput = null;
     },
-    async submitForm() {
-      try { 
-            const token = localStorage.getItem('token');
-            const refreshToken = localStorage.getItem('refreshToken');
-            const headers = token ? {Authorization: `Bearer ${token}`,refreshToken:`${refreshToken}`}:{};
-            const urlParams = new URLSearchParams(window.location.search);
-            const date = urlParams.get('date');
-            const body = {feedBack:this.comment,rating:this.rating,uploadDate:date};
-            console.log(date);
-            await axios.post("http://localhost:8080/workout/feedback/create",body,{headers});
-        }catch(error){
-            console.log(error.response.data.message);
-            alert(error.response.data.message);
-        }
-        this.closeModal();
-    }
   }
 };
 </script>
-  
-  <style scoped>
-  .modal {
-  position: fixed;
-  z-index: 1000; /* Ensure modal is above other content */
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+
+<style scoped>
+.modal {
+position: fixed;
+z-index: 1000; /* Ensure modal is above other content */
+left: 0;
+top: 0;
+width: 100%;
+height: 100%;
+display: flex;
+justify-content: center;
+align-items: center;
+background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
 }
 .modal-content {
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: auto;
-  min-width: 300px;
-  text-align: center;
+padding: 20px;
+background-color: #fff;
+border-radius: 10px;
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+width: auto;
+min-width: 300px;
+text-align: center;
 }
- 
+
 .close {
-  float: right;
-  font-size: 1.5rem;
-  font-weight: bold;
-  cursor: pointer;
+float: right;
+font-size: 1.5rem;
+font-weight: bold;
+cursor: pointer;
 }
-  
+
 .close:hover,
 .close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
+color: #000;
+text-decoration: none;
+cursor: pointer;
 }
-  </style>
+</style>
