@@ -71,42 +71,26 @@
                     </tbody>
                 </table>
             </div>
-
+            <br>
             <div class="flex justify-center -ml-44 relative top-1/3">
-                <div class="relative grid grid-cols-1 gap-4 p-4 mb-8 border rounded-lg bg-white shadow-lg">
-                    <div class="relative flex gap-4">
-                        <img :src="trainerInfo.profileImage"
-                            class="relative rounded-lg -top-8 -mb-4 bg-white border h-20 w-20" alt="" loading="lazy">
-                        <div class="flex flex-col w-full">
-                            <div class="flex flex-row justify-between">
-                                <p class="relative text-xl whitespace-nowrap truncate overflow-hidden">{{ trainerInfo.name}}</p>
-                                <a class="text-gray-500 text-xl" href="#"><i class="fa-solid fa-trash"></i></a>
-                            </div>
-                            <p class="text-gray-400 text-sm">{{ feedback.uploadDate }}</p>
-                        </div>
-                    </div>
-                    <p class="-mt-4 text-gray-500">
-                        {{ feedback.feedBack ? feedback.feedBack : '아직 피드백을 작성하지 않았네요!' }}
-                    </p>
-                    <br>
-                    <p class="-mt-4 text-gray-500">
-                        {{ feedback.rating ? feedback.rating : 0 }} / 10 점
-                    </p>
-                </div>
+                <button @click="openWorkoutFeedbackModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                피드백 보기
+                 </button>
+                 <WorkoutFeedbackModalComponent ref="workoutfeedbackmodal" :feedback="feedback" :trainerInfo="trainerInfo" :showModal="showModal" @close-modal="closeModal" />
             </div>
-            <div class="flex justify-center -ml-44 relative top-1/3">
-                <button @click="openWorkoutFeedbackModal"
-                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <div class="flex justify-center -ml-44 relative top-1/3" v-if="role == 'TRAINER' || role == 'ADMIN'">
+                <button @click="openWorkoutFeedbackRegisterModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     피드백 등록
                 </button>
-                <WorkoutFeedbackModalComponent ref="workoutfeedbackmodal" />
+                <WorkoutFeedbackRegisterModalComponent ref="workoutfeedbackentrymodal" />
             </div>
         </div>
     </div>
 </template>
 <script>
 import WorkoutModalComponent from "@/components/Workout/WorkoutModalComponent.vue";
-import WorkoutFeedbackModalComponent from "@/components/Workout/WorkoutFeedbackModalComponent.vue";
+import WorkoutFeedbackRegisterModalComponent from "@/components/Workout/WorkoutRegsiterFeedbackModalComponent.vue";
+import WorkoutFeedbackModalComponent from "@/components/Workout/WorkoutFeedbackModalComponent";
 import axios from 'axios';
 
 export default {
@@ -114,6 +98,7 @@ export default {
     components: {
         WorkoutModalComponent,
         WorkoutFeedbackModalComponent,
+        WorkoutFeedbackRegisterModalComponent,
     },
     data() {
         return {
@@ -121,20 +106,30 @@ export default {
             selectedWorkoutId: null,
             feedback: [],
             trainerInfo: [],
+            showModal: false,
+            role:"",
         }
     },
     created() {
         this.loadWorkouts();
         this.fetchFeedback();
         this.fetchTrainer();
+        this.role = localStorage.getItem('role');
     },
     methods: {
         openWorkoutModal(workoutId) {
-            this.$refs.workoutmodal[0].openModal();
+            this.$refs.workoutmodal.openModal();
             this.selectedWorkoutId = workoutId;
+        },
+        openWorkoutFeedbackRegisterModal() {
+            this.$refs.workoutfeedbackentrymodal.openModal();
         },
         openWorkoutFeedbackModal() {
             this.$refs.workoutfeedbackmodal.openModal();
+        },
+        closeModal() {
+            // 모달을 닫도록 showModal 변수를 false로 설정
+            this.showModal = false;
         },
         async loadWorkouts() {
             try {

@@ -14,6 +14,7 @@ import MyPageTrainerComponent from '@/components/MyPage/MyPageTrainerComponent.v
 import TraineeViewComponent from '@/components/Trainees/TraineeViewComponent.vue';
 import WorkoutAssignComponent from "@/components/Workout/WorkoutAssignComponent.vue";
 
+
 const routes = [
   {
     // URL 경로 지정
@@ -97,6 +98,11 @@ const routes = [
     name: 'MyPageTrainerComponent',
     component : MyPageTrainerComponent,
     props: true,
+  },
+  {
+    path: '/users',
+    name: 'Users',
+    component: UserComponent,
   },
   {
     path: '/trainer/mytrainees',

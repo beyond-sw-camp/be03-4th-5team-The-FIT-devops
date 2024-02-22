@@ -39,6 +39,9 @@
                     <button v-if="isEditing" @click="updateMemberInfo" class="mt-4 ml-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                         저장
                     </button>
+                    <button @click="confirmDelete" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                        회원 탈퇴
+                      </button>
                 </div>
             </div>
         </section>
@@ -120,7 +123,25 @@ export default {
         },
         toggleEdit() {
             this.isEditing = !this.isEditing;
-        }
+        },
+        async confirmDelete() {
+      if (confirm('정말 탈퇴하시겠습니까?')) {
+        await this.deleteMember();
+      }
+    },
+    async deleteMember() {
+      try {
+        const token = localStorage.getItem('token');
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+        await axios.delete(`http://localhost:8080/trainer/delete/${this.id}`, { headers });
+        alert('회원 탈퇴가 성공적으로 처리되었습니다.');
+        // 탈퇴 성공 후 로그인 페이지 또는 홈으로 리다이렉트 처리
+        this.$router.push('/');
+      } catch (error) {
+        console.error('회원 탈퇴 중 에러가 발생했습니다.', error);
+        alert('회원 탈퇴에 실패했습니다.');
+      }
     }
+  }
 }
 </script>
