@@ -75,23 +75,22 @@
             <div class="flex justify-center -ml-44 relative top-1/3">
                 <div class="relative grid grid-cols-1 gap-4 p-4 mb-8 border rounded-lg bg-white shadow-lg">
                     <div class="relative flex gap-4">
-                        <img src="https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/charlie-chaplin-icon.png"
+                        <img :src="trainerInfo.profileImage"
                             class="relative rounded-lg -top-8 -mb-4 bg-white border h-20 w-20" alt="" loading="lazy">
                         <div class="flex flex-col w-full">
                             <div class="flex flex-row justify-between">
-                                <p class="relative text-xl whitespace-nowrap truncate overflow-hidden">트레이너 이름</p>
+                                <p class="relative text-xl whitespace-nowrap truncate overflow-hidden">{{ trainerInfo.name}}</p>
                                 <a class="text-gray-500 text-xl" href="#"><i class="fa-solid fa-trash"></i></a>
                             </div>
-                            <p class="text-gray-400 text-sm">작성시간</p>
+                            <p class="text-gray-400 text-sm">{{ feedback.uploadDate }}</p>
                         </div>
                     </div>
                     <p class="-mt-4 text-gray-500">
-                        트레이너가 남기는 피드백
-                        트레이너가 남기는 피드백
+                        {{ feedback.feedBack ? feedback.feedBack : '아직 피드백을 작성하지 않았네요!' }}
                     </p>
                     <br>
                     <p class="-mt-4 text-gray-500">
-                        평점
+                        {{ feedback.rating ? feedback.rating : 0 }} / 10 점
                     </p>
                 </div>
             </div>
@@ -120,10 +119,14 @@ export default {
         return {
             toTraineeWorkouts: [],
             selectedWorkoutId: null,
+            feedback: [],
+            trainerInfo: [],
         }
     },
     created() {
         this.loadWorkouts();
+        this.fetchFeedback();
+        this.fetchTrainer();
     },
     methods: {
         openWorkoutModal(workoutId) {
@@ -148,8 +151,33 @@ export default {
             } catch (error) {
                 console.log(error);
             }
-        }
-    },
+        },
+        async fetchFeedback(){
+            try{
+                const token = localStorage.getItem('token');
+                const refreshToken = localStorage.getItem('refreshToken');
+                const urlParams = new URLSearchParams(window.location.search);
+                const date = urlParams.get('date');
+                const headers = token ? {Authorization: `Bearer ${token}`,refreshToken:`${refreshToken}`}:{};
+                const response = await axios.get(`http://localhost:8080/workout/feedback/find?date=${date}`,{headers});
+                console.log(response);
+                this.feedback = response.data.result;
+            }catch(error){
+                console.log(error);
+            }
+        },async fetchTrainer() {
+            try {
+                const token = localStorage.getItem('token');
+                const refreshToken = localStorage.getItem('refreshToken');
+                const headers = token ? { Authorization: `Bearer ${token}`, refreshToken: `${refreshToken}` } : {};
+                const response = await axios.get("http://localhost:8080/trainer/find", { headers });
+                console.log(response);
+                this.trainerInfo = response.data.result;
+            } catch (error) {
+                console.log(error);
+            }
+        },
+  }
 }
 </script>
 

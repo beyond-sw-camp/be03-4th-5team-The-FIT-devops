@@ -1,42 +1,76 @@
 <template>
     <title>Diet</title>
     <div class="w-[1440px] h-[1024px] relative overflow-hidden animated-background">
-      <h2 class="dietTitle">오늘의 식단</h2>
-      <div class="content-wrapper">
-        <!-- Diet Table on the Left -->
-        <div class="diet-table">
-          <table class="ml-20 justify-center text-l text-left rtl:text-right text-gray-500">
-            <thead class="text-l text-gray-700 uppercase dark:bg-gray-700">
-              <tr>
-                <th scope="col" class="px-6 py-3">분류</th>
-                <th scope="col" class="px-6 py-3">사진</th>
-                <th scope="col" class="px-6 py-3">상세설명</th>
-                <th scope="col" class="px-6 py-3">업로드 시간</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="diet in addDietList" :key="diet.id">
-                <td>{{ diet.type }}</td>
-                <td><img :src="diet.imagePath" style="height: 100px; width: auto;"></td>
-                <td>{{ diet.comment }}</td>
-                <td>{{ diet.dietDate }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-  
-        <!-- Trainer Information and Actions on the Right -->
-        <div class="trainer-info">
-          <div class="relative grid grid-cols-1 gap-4 p-4 mb-8 mr-10 border rounded-lg bg-white shadow-lg">
-            <div class="relative flex gap-4">
-              <img :src="trainerInfo.profileImage" class="relative rounded-lg -top-8 -mb-4 bg-white border h-20 w-20" alt="" loading="lazy">
-              <div class="flex flex-col w-full">
-                <div class="flex flex-row justify-between">
-                  <p class="relative text-xl whitespace-nowrap truncate overflow-hidden">{{ trainerInfo.name }}</p>
-                  <a class="text-gray-500 text-xl" href="#"><i class="fa-solid fa-trash"></i></a>
+        <BackgroundComponent></BackgroundComponent>
+        <h2 class="dietTitle">
+            오늘의 식단
+        </h2>
+        <div class="content-wrapper">
+            <div class="record">
+                <table class="ml-20 justify-center text-l text-left rtl:text-right text-gray-500 ">
+                    <thead class="text-l text-gray-700 uppercase dark:bg-gray-700 ">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">
+                                분류
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                사진
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                상세설명
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                업로드 시간
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="diet in addDietList" :key="diet.id">
+                        <td>{{ diet.type }}</td>
+                        <td><img :src="diet.imagePath" style="height: 100px; width: auto;"></td>
+                        <td>{{ diet.comment }}</td>
+                        <td>{{ diet.dietDate }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="flex justify-center -ml-44 relative top-1/3">
+                <div class="relative grid grid-cols-1 gap-4 p-4 mb-8 border rounded-lg bg-white shadow-lg">
+                    <div class="relative flex gap-4">
+                        <img :src="trainerInfo.profileImage" class="relative rounded-lg -top-8 -mb-4 bg-white border h-20 w-20" alt="" loading="lazy">
+                        <div class="flex flex-col w-full">
+                            <div class="flex flex-row justify-between">
+                                <p class="relative text-xl whitespace-nowrap truncate overflow-hidden">{{ trainerInfo.name}}</p>
+                                <a class="text-gray-500 text-xl" href="#"><i class="fa-solid fa-trash"></i></a>
+                            </div>
+                            <p class="text-gray-400 text-sm">{{feedback.uploadDate}}</p>
+                        </div>
+                    </div>
+                    <p class="-mt-4 text-gray-500">
+                        {{ feedback.feedBack ? feedback.feedBack : '아직 피드백을 작성하지 않았네요!' }}
+                    </p>
+                    <br>
+                    <p class="-mt-4 text-gray-500">
+                        {{ feedback.rating }}
+                    </p>
                 </div>
                 <p class="text-gray-400 text-sm">{{ feedback.createdTime }}</p>
               </div>
+            </div>
+
+            <div class="flex justify-center -ml-44 relative top-1/3">
+                <button @click="openDietModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                  식단 등록
+                </button>
+                <ModalComponent ref="modal"/>
+            </div>
+            <div class="flex justify-center -ml-44 relative top-1/3">
+                <button @click="openDietModa2" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                  피드백 등록
+                </button>
+                <FeedbackComponent ref="moda2"/>
             </div>
             <p class="-mt-4 text-gray-500">
               {{ feedback.feedBack ? feedback.feedBack : '아직 피드백을 작성하지 않았네요!' }}
@@ -66,8 +100,8 @@ export default {
     data() {
         return {
             addDietList: [],
-            feedback: [],
-            trainerInfo: [],
+            feedback:[],
+            trainerInfo:[],
         };
     },
     name: 'app',
@@ -75,63 +109,59 @@ export default {
         ModalComponent,
         FeedbackComponent
     },
-    created() {
+    created(){
         this.fetchDiets();
         this.fetchFeedback();
         this.fetchTrainer();
-    },
+    },  
     methods: {
         openDietModal() {
-            this.$refs.modal.openModal();
-        },
-        openDietModa2() {
-            this.$refs.moda2.openModal();
-        },
-        async fetchDiets() {
-            try {
-                const urlParams = new URLSearchParams(window.location.search);
-                const memberEmail = urlParams.get('memberEmail');
-                const date = urlParams.get('date');
+        this.$refs.modal.openModal();
+    },
+    openDietModa2() {
+        this.$refs.moda2.openModal();
+    },
+        async fetchDiets(){
+            try{
                 const token = localStorage.getItem('token');
                 const refreshToken = localStorage.getItem('refreshToken');
-                const headers = token ? { Authorization: `Bearer ${token}`, refreshToken: `${refreshToken}` } : {};
-                const url = `http://localhost:8080/diet/list/member?memberEmail=${memberEmail}&date=${date}`;
-                // const response = await axios.get("http://localhost:8080/diet/list", { headers });
-                const response = await axios.get(url, { headers });
-                console.log(response);
+                const headers = token ? {Authorization: `Bearer ${token}`,refreshToken:`${refreshToken}`}:{};
+                const response = await axios.get("http://localhost:8080/diet/list",{headers});
+                // console.log(response);
                 this.addDietList = response.data.result;
-                console.log(this.addDietList);
-            } catch (error) {
+            }catch(error){
                 console.log(error);
             }
         },
-        async fetchFeedback() {
-            try {
+        async fetchFeedback(){
+            try{
                 const token = localStorage.getItem('token');
                 const refreshToken = localStorage.getItem('refreshToken');
-                const headers = token ? { Authorization: `Bearer ${token}`, refreshToken: `${refreshToken}` } : {};
-                const response = await axios.get("http://localhost:8080/diet/feedback/my", { headers });
+                const urlParams = new URLSearchParams(window.location.search);
+                const date = urlParams.get('date');
+                const headers = token ? {Authorization: `Bearer ${token}`,refreshToken:`${refreshToken}`}:{};
+                const response = await axios.get(`http://localhost:8080/diet/feedback/find?date=${date}`,{headers});
                 console.log(response);
                 this.feedback = response.data.result;
-            } catch (error) {
+            }catch(error){
                 console.log(error);
             }
         },
-        async fetchTrainer() {
-            try {
+        async fetchTrainer(){
+            try{
                 const token = localStorage.getItem('token');
                 const refreshToken = localStorage.getItem('refreshToken');
-                const headers = token ? { Authorization: `Bearer ${token}`, refreshToken: `${refreshToken}` } : {};
-                const response = await axios.get("http://localhost:8080/trainer/find", { headers });
+                const headers = token ? {Authorization: `Bearer ${token}`,refreshToken:`${refreshToken}`}:{};
+                const response = await axios.get("http://localhost:8080/trainer/find",{headers});
                 console.log(response);
                 this.trainerInfo = response.data.result;
                 console.log(this.trainerInfo.profileImage)
-            } catch (error) {
+            }catch(error){
                 console.log(error);
             }
         },
     }
-
+    
 }
 </script>
 <style>
