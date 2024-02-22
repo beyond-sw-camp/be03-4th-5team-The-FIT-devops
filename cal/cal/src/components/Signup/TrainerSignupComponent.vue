@@ -131,13 +131,13 @@ export default {
             registerData.append("role",this.role);
             registerData.append("profileImage",this.profileImage);
             try {
-                await axios.post("http://localhost:8080/trainer/create", registerData, {
+                await axios.post("http://3.34.156.188:8080/trainer/create", registerData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
                 });
                 alert("트레이너님 가입 완료!");
-                // window.location.href = "/";
+                window.location.href = "/";
             } catch (error) {
                 console.log(error);
                 console.log(this.name);
