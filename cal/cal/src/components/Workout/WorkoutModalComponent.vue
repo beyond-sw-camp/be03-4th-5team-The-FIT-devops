@@ -1,88 +1,99 @@
-
 <template>
-    <div v-if="showModal" class="modal">
-      <div class="modal-content">
-        <span class="close" @click="closeModal">&times;</span>
-        <h2>식단 등록</h2>
-        <!-- 디폴트 값 생성 -->
-        <label for="mealType">식사 유형:</label>
-        <select id="mealType" v-model="selectedMealType">
-          <option value="아침">아침</option>
-          <option value="점심">점심</option>
-          <option value="저녁">저녁</option>
-          <option value="간식">간식</option>
-          <option value="야식">야식</option>
-        </select>
-        <div>
-            <label for="image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">사진</label>
-            <input type="file" name="image" id="image" @change="handleFileUpload" accept="image/*">
-        </div>
-        <div>
-            <label for="comment" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">코멘트</label>
-            <input type="text" name="comment" id="comment" v-model="comment" placeholder="텍스트 입력">
-        </div>
-        <button @click="submitForm">제출</button>
+  <div v-if="showModal" class="modal">
+    <div class="modal-content">
+      <span class="close" @click="closeModal">&times;</span>
+      <h2 class="modalTitle">운동 등록</h2>
+      <div>
+        <label for="sets">세트</label>
+        <br>
+        <input type="number" id="sets" v-model="sets" placeholder="세트 수">
       </div>
+      <div>
+        <label for="weight">무게</label>
+        <br>
+        <input type="number" id="weight" v-model="weight" placeholder="(kg)">
+      </div>
+      <div>
+        <label for="reps">횟수</label>
+        <br>
+        <input type="number" id="reps" v-model="reps" placeholder="횟수">
+      </div>
+      <div>
+        <label for="restTime">쉬는시간</label>
+        <br>
+        <input type="text" id="restTime" v-model="restTime" placeholder="(초)">
+      </div>
+      <div>
+        <label for="performance">수행도</label>
+        <br>
+        <input type="text" id="performance" v-model="performance" placeholder="(%)">
+      </div>
+      <button @click="submitForm">제출</button>
     </div>
-  </template>
-  
-  <script>
+  </div>
+</template>
+
+<script>
 import axios from 'axios';
+
 export default {
+  props: ['workoutId'],
   data() {
     return {
       showModal: false,
-      comment: '',
-      imagePath: null,
-      selectedMealType: '',
+      sets: '',
+      weight: '',
+      reps: '',
+      restTime: '',
+      performance: '',
     };
   },
   methods: {
     openModal() {
       this.showModal = true;
+      console.log(this.workoutId)
     },
     closeModal() {
       this.showModal = false;
-      // 모달이 닫힐 때 입력값 초기화
-      this.textInput = '';
-      this.imageInput = null;
-    },
-    handleFileUpload(event) {
-      // 이미지 파일을 업로드하는 핸들러
-      this.imagePath = event.target.files[0];
+      this.sets = '';
+      this.weight = '';
+      this.reps = '';
+      this.restTime = '';
+      this.performance = '';
     },
     async submitForm() {
-      try { 
-            const token = localStorage.getItem('token');
-            const refreshToken = localStorage.getItem('refreshToken');
-            const headers = token ? {Authorization: `Bearer ${token}`,refreshToken:`${refreshToken},'Content-Type': 'multipart/form-data'`}:{};
-            const registerData = new FormData();
-            const date = new Date();
-            const year = date.getFullYear();
-            const month = ('0' + (date.getMonth() + 1)).slice(-2);
-            const day = ('0' + date.getDate()).slice(-2);
-            const dateStr = year + '-' + month + '-' + day;
-            console.log(dateStr);
-            registerData.append("dietDate",dateStr);
-            registerData.append("category",this.category);
-            registerData.append("comment",this.comment);
-            registerData.append("image",this.imagePath);
-            registerData.append("type",this.selectedMealType);
-            await axios.post("http://localhost:8080/diet/create", registerData,{headers});
-        }catch(error){
-            console.log(error);
-        }
+      try {
+        const token = localStorage.getItem('token');
+        const headers = token ? { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' } : {};
+        const workoutData = {
+          sets: this.sets,
+          weight: this.weight,
+          reps: this.reps,
+          restTime: this.restTime,
+          performance: this.performance,
+          workOutStatus: "COMPLETED",
+        };
+        await axios.patch(`http://localhost:8080/workout/update/${this.workoutId}`, workoutData, { headers });
         this.closeModal();
-      
-    }
-  }
+        this.$emit('workoutUpdated');
+        
+        window.location.href=window.location.search;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  },
 };
 </script>
-  
-  <style scoped>
-  .modal {
+
+<style scoped>
+label{
+  color: black;
+}
+
+.modal {
   position: fixed;
-  z-index: 1000; /* Ensure modal is above other content */
+  z-index: 1000;
   left: 0;
   top: 0;
   width: 100%;
@@ -90,29 +101,29 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  background-color: rgba(0, 0, 0, 0.5);
 }
+
 .modal-content {
-  padding: 20px;
   background-color: #fff;
+  padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   width: auto;
   min-width: 300px;
   text-align: center;
 }
- 
+
 .close {
-  float: right;
+  cursor: pointer;
+  position: absolute;
+  top: 15px;
+  right: 20px;
   font-size: 1.5rem;
   font-weight: bold;
-  cursor: pointer;
 }
-  
-.close:hover,
-.close:focus {
+
+.close:hover {
   color: #000;
-  text-decoration: none;
-  cursor: pointer;
 }
-  </style>
+</style>

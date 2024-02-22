@@ -33,7 +33,10 @@
                                 수행도
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                완료여부
+                                완료 여부
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                운동 등록
                             </th>
                         </tr>
                     </thead>
@@ -54,76 +57,84 @@
                                     {{ workout.workOutStatus === 'COMPLETED' ? '완료' : '미완료' }}
                                 </div>
                             </td>
+                            <td>
+                                <button @click="openWorkoutModal(workout.id)" class="text-white font-bold py-2 px-2 rounded"
+                                    :disabled="workout.workOutStatus === 'COMPLETED'" :class="{
+                                        'bg-teal-500': workout.workOutStatus !== 'COMPLETED',
+                                        'bg-gray-500': workout.workOutStatus === 'COMPLETED'
+                                    }">
+                                    운동 등록
+                                </button>
+                            </td>
+                            <!-- Make sure to bind the selectedWorkoutId to the workoutId prop -->
+                            <WorkoutModalComponent ref="workoutmodal" :workoutId="selectedWorkoutId" />
                         </tr>
                     </tbody>
                 </table>
-                <div class="flex justify-center mt-4">
-                    <button @click="updateWorkouts" class="modal-button">운동 완료</button>
-                </div>
             </div>
 
             <div class="flex justify-center -ml-44 relative top-1/3">
                 <div class="relative grid grid-cols-1 gap-4 p-4 mb-8 border rounded-lg bg-white shadow-lg">
                     <div class="relative flex gap-4">
-                        <img :src="trainerInfo.profileImage" class="relative rounded-lg -top-8 -mb-4 bg-white border h-20 w-20" alt="" loading="lazy">
+                        <img src="https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/charlie-chaplin-icon.png"
+                            class="relative rounded-lg -top-8 -mb-4 bg-white border h-20 w-20" alt="" loading="lazy">
                         <div class="flex flex-col w-full">
                             <div class="flex flex-row justify-between">
-                                <p class="relative text-xl whitespace-nowrap truncate overflow-hidden">{{ trainerInfo.name}}</p>
+                                <p class="relative text-xl whitespace-nowrap truncate overflow-hidden">트레이너 이름</p>
                                 <a class="text-gray-500 text-xl" href="#"><i class="fa-solid fa-trash"></i></a>
                             </div>
-                            <p class="text-gray-400 text-sm">{{feedback.createdTime}}</p>
+                            <p class="text-gray-400 text-sm">작성시간</p>
                         </div>
                     </div>
                     <p class="-mt-4 text-gray-500">
-                        {{ feedback.feedBack ? feedback.feedBack : '아직 피드백을 작성하지 않았네요!' }}
+                        트레이너가 남기는 피드백
+                        트레이너가 남기는 피드백
                     </p>
                     <br>
                     <p class="-mt-4 text-gray-500">
-                        {{ feedback.rating }} / 10 점
+                        평점
                     </p>
                 </div>
             </div>
-            <!-- <div class="flex justify-center -ml-44 relative top-1/3">
-                <button @click="openDietModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                  식단 등록
-                </button>
-                <ModalComponent ref="modal"/>
-            </div> -->
             <div class="flex justify-center -ml-44 relative top-1/3">
-                <button @click="openDietModa2" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                  피드백 등록
+                <button @click="openWorkoutFeedbackModal"
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    피드백 등록
                 </button>
-                <WorkoutFeedbackModalComponent ref="moda2"/>
+                <WorkoutFeedbackModalComponent ref="workoutfeedbackmodal" />
             </div>
         </div>
     </div>
 </template>
 <script>
 // import BackgroundComponent from '../BackgroundComponent.vue';
+import WorkoutModalComponent from "@/components/Workout/WorkoutModalComponent.vue";
+import WorkoutFeedbackModalComponent from "@/components/Workout/WorkoutFeedbackModalComponent.vue";
 import axios from 'axios';
-import WorkoutFeedbackModalComponent from './WorkoutFeedbackModalComponent.vue';
+
 export default {
     name: 'app',
     components: {
-        uploaddiet
-        BackgroundComponent,
-        WorkoutFeedbackModalComponent
+        // BackgroundComponent
+        WorkoutModalComponent,
+        WorkoutFeedbackModalComponent,
     },
     data() {
         return {
             toTraineeWorkouts: [],
-            feedback:[],
-            trainerInfo:[],
+            selectedWorkoutId: null,
         }
     },
     created() {
         this.loadWorkouts();
-        this.fetchTrainer();
-        this.fetchFeedback();
     },
     methods: {
-        openDietModa2() {
-            this.$refs.moda2.openModal();
+        openWorkoutModal(workoutId) {
+            this.$refs.workoutmodal[0].openModal();
+            this.selectedWorkoutId = workoutId;
+        },
+        openWorkoutFeedbackModal() {
+            this.$refs.workoutfeedbackmodal.openModal();
         },
         async loadWorkouts() {
             try {
@@ -134,40 +145,13 @@ export default {
                 const headers = token ? { Authorization: `Bearer ${token}` } : {};
                 const url = `http://localhost:8080/workout/list/member?memberEmail=${memberEmail}&date=${date}`;
                 const response = await axios.get(url, { headers });
-                // console.log(response);
+                console.log(response);
                 this.toTraineeWorkouts = response.data.result;
-                // console.log(this.toTraineeWorkouts);
+                console.log(this.toTraineeWorkouts);
             } catch (error) {
                 console.log(error);
             }
-        },
-        async fetchTrainer(){
-            try{
-                const token = localStorage.getItem('token');
-                const refreshToken = localStorage.getItem('refreshToken');
-                const headers = token ? {Authorization: `Bearer ${token}`,refreshToken:`${refreshToken}`}:{};
-                const response = await axios.get("http://localhost:8080/trainer/find",{headers});
-                // console.log(response);
-                this.trainerInfo = response.data.result;
-                // console.log(this.trainerInfo.profileImage)
-            }catch(error){
-                console.log(error);
-            }
-        },
-        async fetchFeedback(){
-            try{
-                const token = localStorage.getItem('token');
-                const refreshToken = localStorage.getItem('refreshToken');
-                const urlParams = new URLSearchParams(window.location.search);
-                const date = urlParams.get('date');
-                const headers = token ? {Authorization: `Bearer ${token}`,refreshToken:`${refreshToken}`}:{};
-                const response = await axios.get(`http://localhost:8080/workout/feedback/find?date=${date}`,{headers});
-                console.log(response);
-                this.feedback = response.data.result;
-            }catch(error){
-                console.log(error);
-            }
-        },
+        }
     },
 }
 </script>
