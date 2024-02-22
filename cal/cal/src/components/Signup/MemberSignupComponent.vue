@@ -196,14 +196,14 @@ export default {
                                 <option value="FEMALE">여성</option>
                             </select>
                         </div>
-                        <!-- <div class="form-group block mb-2 text-sm font-medium text-gray-900">
+                        <div class="form-group block mb-2 text-sm font-medium text-gray-900">
                             <p>
-                                <label>
+                                <label for="image">
                                     프로필 사진
                                 </label>
                             </p>
-                            <input class="form-control" type="file" accept="image/*" @change="fileUpload">
-                        </div> -->
+                            <input type="file" name="image" id="image" @change="handleFileUpload" accept="image/*">
+                        </div>
                         <div>
                             <label for="trainerId" class="block mb-2 text-sm font-medium text-gray-900">담당 트레이너 선택</label>
                             <select type="dropdown" name="trainerId" id="trainerId" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
@@ -247,6 +247,7 @@ export default {
             gender: "genderchoice",
             role: "MEMBER",
             trainerId: "trainerchoice",
+            profileImage:"",
         }
     },
     created() {
@@ -261,6 +262,9 @@ export default {
         }
     },
     methods: {
+        handleFileUpload(event) {
+            this.profileImage = event.target.files[0];
+        },
         async loadTrainers() {
             try {
                 const response = await axios.get("http://localhost:8080/trainer/list");
@@ -272,23 +276,21 @@ export default {
             }
         },
         async userCreate() {
-            const registerData =
-            {
-                name: this.name,
-                email: this.email,
-                password: this.password,
-                phoneNumber: this.phoneNumber,
-                cmHeight: this.cmHeight,
-                kgWeight: this.kgWeight,
-                gender: this.gender,
-                role: this.role,
-                trainerId: this.trainerId,
-            }
-
+            const registerData = new FormData();
+            registerData.append("name",this.name);
+            registerData.append("email",this.email);
+            registerData.append("password",this.password);
+            registerData.append("phoneNumber",this.phoneNumber);
+            registerData.append("cmHeight",this.cmHeight);
+            registerData.append("kgWeight",this.kgWeight);
+            registerData.append("gender",this.gender);
+            registerData.append("role",this.role);
+            registerData.append("profileImage",this.profileImage);
+            registerData.append("trainerId", this.trainerId);
             try {
                 await axios.post("http://localhost:8080/member/create", registerData, {
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'multipart/form-data'
                     }
                 });
                 alert("회원님 가입 완료!");
