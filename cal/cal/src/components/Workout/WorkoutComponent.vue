@@ -62,25 +62,35 @@
             <div class="flex justify-center -ml-44 relative top-1/3">
                 <div class="relative grid grid-cols-1 gap-4 p-4 mb-8 border rounded-lg bg-white shadow-lg">
                     <div class="relative flex gap-4">
-                        <!-- <img src="https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/charlie-chaplin-icon.png" class="relative rounded-lg -top-8 -mb-4 bg-white border h-20 w-20" alt="" loading="lazy"> -->
-                        <div>트레이너 사진</div>
+                        <img :src="trainerInfo.profileImage" class="relative rounded-lg -top-8 -mb-4 bg-white border h-20 w-20" alt="" loading="lazy">
                         <div class="flex flex-col w-full">
                             <div class="flex flex-row justify-between">
-                                <p class="relative text-xl whitespace-nowrap truncate overflow-hidden">트레이너 이름</p>
+                                <p class="relative text-xl whitespace-nowrap truncate overflow-hidden">{{ trainerInfo.name}}</p>
                                 <a class="text-gray-500 text-xl" href="#"><i class="fa-solid fa-trash"></i></a>
                             </div>
-                            <p class="text-gray-400 text-sm">작성시간</p>
+                            <p class="text-gray-400 text-sm">{{feedback.createdTime}}</p>
                         </div>
                     </div>
                     <p class="-mt-4 text-gray-500">
-                        트레이너가 남기는 피드백
-                        트레이너가 남기는 피드백
+                        {{ feedback.feedBack ? feedback.feedBack : '아직 피드백을 작성하지 않았네요!' }}
                     </p>
                     <br>
                     <p class="-mt-4 text-gray-500">
-                        평점
+                        {{ feedback.rating }} / 10 점
                     </p>
                 </div>
+            </div>
+            <!-- <div class="flex justify-center -ml-44 relative top-1/3">
+                <button @click="openDietModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                  식단 등록
+                </button>
+                <ModalComponent ref="modal"/>
+            </div> -->
+            <div class="flex justify-center -ml-44 relative top-1/3">
+                <button @click="openDietModa2" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                  피드백 등록
+                </button>
+                <WorkoutFeedbackModalComponent ref="moda2"/>
             </div>
         </div>
     </div>
@@ -88,21 +98,29 @@
 <script>
 import BackgroundComponent from '../BackgroundComponent.vue';
 import axios from 'axios';
-
+import WorkoutFeedbackModalComponent from './WorkoutFeedbackModalComponent.vue';
 export default {
     name: 'app',
     components: {
-        BackgroundComponent
+        BackgroundComponent,
+        WorkoutFeedbackModalComponent
     },
     data() {
         return {
             toTraineeWorkouts: [],
+            feedback:[],
+            trainerInfo:[],
         }
     },
     created() {
         this.loadWorkouts();
+        this.fetchTrainer();
+        this.fetchFeedback();
     },
     methods: {
+        openDietModa2() {
+            this.$refs.moda2.openModal();
+        },
         async loadWorkouts() {
             try {
                 const urlParams = new URLSearchParams(window.location.search);
@@ -112,13 +130,40 @@ export default {
                 const headers = token ? { Authorization: `Bearer ${token}` } : {};
                 const url = `http://localhost:8080/workout/list/member?memberEmail=${memberEmail}&date=${date}`;
                 const response = await axios.get(url, { headers });
-                console.log(response);
+                // console.log(response);
                 this.toTraineeWorkouts = response.data.result;
-                console.log(this.toTraineeWorkouts);
+                // console.log(this.toTraineeWorkouts);
             } catch (error) {
                 console.log(error);
             }
-        }
+        },
+        async fetchTrainer(){
+            try{
+                const token = localStorage.getItem('token');
+                const refreshToken = localStorage.getItem('refreshToken');
+                const headers = token ? {Authorization: `Bearer ${token}`,refreshToken:`${refreshToken}`}:{};
+                const response = await axios.get("http://localhost:8080/trainer/find",{headers});
+                // console.log(response);
+                this.trainerInfo = response.data.result;
+                // console.log(this.trainerInfo.profileImage)
+            }catch(error){
+                console.log(error);
+            }
+        },
+        async fetchFeedback(){
+            try{
+                const token = localStorage.getItem('token');
+                const refreshToken = localStorage.getItem('refreshToken');
+                const urlParams = new URLSearchParams(window.location.search);
+                const date = urlParams.get('date');
+                const headers = token ? {Authorization: `Bearer ${token}`,refreshToken:`${refreshToken}`}:{};
+                const response = await axios.get(`http://localhost:8080/workout/feedback/find?date=${date}`,{headers});
+                console.log(response);
+                this.feedback = response.data.result;
+            }catch(error){
+                console.log(error);
+            }
+        },
     },
 }
 </script>

@@ -37,10 +37,8 @@
             </div>
 
             <div class="flex justify-center -ml-44 relative top-1/3">
-                <!-- This is an example component -->
                 <div class="relative grid grid-cols-1 gap-4 p-4 mb-8 border rounded-lg bg-white shadow-lg">
                     <div class="relative flex gap-4">
-                        <!-- <div>트레이너 사진</div> -->
                         <img :src="trainerInfo.profileImage" class="relative rounded-lg -top-8 -mb-4 bg-white border h-20 w-20" alt="" loading="lazy">
                         <div class="flex flex-col w-full">
                             <div class="flex flex-row justify-between">

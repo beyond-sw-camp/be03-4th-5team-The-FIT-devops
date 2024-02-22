@@ -73,6 +73,7 @@ export default {
             console.log(error);
         }
         this.closeModal();
+      
     }
   }
 };
