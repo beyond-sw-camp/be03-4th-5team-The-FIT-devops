@@ -11,6 +11,7 @@ import LoginSuccessComponent from "@/components/Login/LoginSuccessComponent.vue"
 import OAuthSigupComponent from "@/components/Signup/OAuthSigupComponent.vue";
 import MyPageComponent from '@/components/MyPage/MyPageComponent.vue';
 import MyPageTrainerComponent from '@/components/MyPage/MyPageTrainerComponent.vue';
+// import MyMemberComponent from '@/components/Header/MyMemberComponent.vue';
 
 const routes = [
   {
@@ -55,6 +56,7 @@ const routes = [
       memberId: route.query.memberId,
     }),
   },
+  
 
   // {
   //   path: "/workout",
@@ -89,6 +91,11 @@ const routes = [
     component : MyPageTrainerComponent,
     props: true,
   },
+  // {
+  //   path: 'trainer/my/members',
+  //   name: 'MyMembers',
+  //   component: MyMemberComponent
+  // },
 ];
 const router = createRouter({
   // vue-router는 내부적으로 두 가지 방식의 history 관리를 제공한다
