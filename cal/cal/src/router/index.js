@@ -12,6 +12,7 @@ import OAuthSigupComponent from "@/components/Signup/OAuthSigupComponent.vue";
 import MyPageComponent from '@/components/MyPage/MyPageComponent.vue';
 import MyPageTrainerComponent from '@/components/MyPage/MyPageTrainerComponent.vue';
 import TraineeViewComponent from '@/components/Trainees/TraineeViewComponent.vue';
+import UserComponent from '@/components/Header/UserComponent.vue';
 
 const routes = [
   {
@@ -91,6 +92,11 @@ const routes = [
     name: 'MyPageTrainerComponent',
     component : MyPageTrainerComponent,
     props: true,
+  },
+  {
+    path: '/users',
+    name: 'Users',
+    component: UserComponent,
   },
   {
     path: '/trainer/mytrainees',
