@@ -1,7 +1,6 @@
 <template>
     <title>Diet</title>
     <div class="w-[1440px] h-[1024px] relative overflow-hidden animated-background">
-        <BackgroundComponent></BackgroundComponent>
         <h2 class="dietTitle">
             오늘의 식단
         </h2>
@@ -77,7 +76,6 @@
 </template>
 
 <script>
-import BackgroundComponent from '../BackgroundComponent.vue';
 import ModalComponent from './DietModalComponent.vue';
 import FeedbackComponent from './DietFeedbackModalComponent.vue';
 import axios from 'axios';
@@ -91,7 +89,6 @@ export default {
     },
     name: 'app',
     components: {
-        BackgroundComponent,
         ModalComponent,
         FeedbackComponent
     },
