@@ -42,13 +42,9 @@ export default {
         const token = localStorage.getItem('token');
         const refreshToken = localStorage.getItem('refreshToken');
         const headers = token ? { Authorization: `Bearer ${token}`, refreshToken: `${refreshToken}` } : {};
-        const date = new Date();
-        const year = date.getFullYear();
-        const month = ('0' + (date.getMonth() + 1)).slice(-2);
-        const day = ('0' + date.getDate()).slice(-2);
-        const dateStr = year + '-' + month + '-' + day;
-        const body = { feedBack: this.comment, rating: this.rating, uploadDate: dateStr };
-        console.log(dateStr);
+        const urlParams = new URLSearchParams(window.location.search);
+        const date = urlParams.get('date');
+        const body = { feedBack: this.comment, rating: this.rating, uploadDate: date };
         await axios.post("http://localhost:8080/diet/feedback/create", body, { headers });
       } catch (error) {
         console.log(error.response.data.message);
