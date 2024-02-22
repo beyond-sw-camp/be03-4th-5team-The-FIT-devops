@@ -5,7 +5,8 @@
         <button class="header-button" @click="goToCalendar" v-if="userRole === 'MEMBER'">캘린더</button>
         <button @click="goToMyTrainer" class="header-button" v-if="userRole === 'MEMBER'">나의 트레이너 보기</button>
         <button @click="viewMemberInfo" class="header-button" v-if="userRole === 'TRAINER'">나의 트레이니 관리</button>
-        <button @click="userInfo" class="header-button" v-if="userRole === 'ADMIN'">회원 조회</button>
+        <button @click="userInfo" class="header-button" v-if="userRole === 'ADMIN'">전체 회원 관리</button>
+        <button @click="totalworkoutsInfo" class="header-button" v-if="userRole === 'ADMIN'">운동 목록 관리</button>
       </div>
 
       <h1 class="header-title cursor-pointer" @click="goHome">THE FIT</h1>
@@ -75,6 +76,10 @@ export default {
       router.push({ name: 'Users' });
       }
 
+      function totalworkoutsInfo() {
+      router.push({ name: 'TotalWorkouts' });
+      }
+
     function viewMemberInfo() {
       router.push({ name: 'TraineeViewComponent' });
     }
@@ -104,6 +109,7 @@ export default {
       viewTrainerInfo,
       viewMemberInfo,
       userInfo,
+      totalworkoutsInfo,
       closeModal,
       goHome,
       isLogin,

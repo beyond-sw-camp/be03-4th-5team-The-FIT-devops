@@ -16,7 +16,7 @@ import TraineeViewComponent from '@/components/Trainees/TraineeViewComponent.vue
 import UserComponent from '@/components/Admin/UserComponent.vue';
 import MyTrainerComponent from '../components/Header/MyTrainerComponent.vue';
 import WorkoutAssignComponent from "@/components/Workout/WorkoutAssignComponent.vue";
-
+import WorkoutsComponent from "@/components/Admin/WorkoutsComponent.vue";
 
 
 const routes = [
@@ -107,6 +107,11 @@ const routes = [
     path: '/users',
     name: 'Users',
     component: UserComponent,
+  },
+  {
+    path: '/totalworkouts',
+    name: 'TotalWorkouts',
+    component: WorkoutsComponent,
   },
   {
     path: '/trainer/mytrainees',
