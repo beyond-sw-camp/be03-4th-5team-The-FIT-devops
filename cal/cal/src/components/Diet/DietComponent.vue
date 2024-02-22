@@ -56,7 +56,10 @@
                         {{ feedback.rating }}
                     </p>
                 </div>
+                <p class="text-gray-400 text-sm">{{ feedback.createdTime }}</p>
+              </div>
             </div>
+
             <div class="flex justify-center -ml-44 relative top-1/3">
                 <button @click="openDietModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                   식단 등록
@@ -69,12 +72,27 @@
                 </button>
                 <FeedbackComponent ref="moda2"/>
             </div>
+            <p class="-mt-4 text-gray-500">
+              {{ feedback.feedBack ? feedback.feedBack : '아직 피드백을 작성하지 않았네요!' }}
+            </p>
+            <br>
+            <p class="-mt-4 text-gray-500">{{ feedback.rating }}</p>
+          </div>
+         
         </div>
+      </div>
+      <div class="flex justify-center">
+        <button @click="openDietModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">식단 등록</button>
+        <ModalComponent ref="modal" />
+      
+      
+        <button @click="openDietModa2" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">피드백 등록</button>
+        <FeedbackComponent ref="moda2" />
+      </div>
     </div>
-</template>
+  </template>
 
 <script>
-import BackgroundComponent from '../BackgroundComponent.vue';
 import ModalComponent from './DietModalComponent.vue';
 import FeedbackComponent from './DietFeedbackModalComponent.vue';
 import axios from 'axios';
@@ -88,7 +106,6 @@ export default {
     },
     name: 'app',
     components: {
-        BackgroundComponent,
         ModalComponent,
         FeedbackComponent
     },
@@ -147,79 +164,67 @@ export default {
     
 }
 </script>
-
 <style>
 * {
-    font-family: "Jua", sans-serif;
-    font-weight: 400;
-    font-style: normal;
+  font-family: "Jua", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .dietTitle {
-    margin-top: 30px;
-    text-align: center;
-    font-size: 24px;
-    margin-bottom: -50px;
-    letter-spacing: 15px;
-    font-size: 80px;
-    color: teal;
+  margin-top: 30px;
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: -50px;
+  letter-spacing: 15px;
+  font-size: 80px;
+  color: teal;
 }
 
-/* Ensuring grid layout is correctly applied */
 .content-wrapper {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    /* This will allocate more space to the 'record' section */
-    gap: 20px;
-    /* Space between the two sections */
-    margin: 30px 0;
-    /* Top and bottom margin for spacing, adjust as needed */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin: 30px 0;
 }
 
-table {
-    margin-top: 100px;
-    width: auto;
-    min-width: 0;
-    border-collapse: collapse;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease-in-out;
+.table, .trainer-info {
+  margin-top: 100px;
+  width: auto;
+  min-width: 0;
+  border-collapse: collapse;
 }
 
-table:hover {
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-}
-
-th,
-td {
-    padding: 12px 15px;
-    text-align: left;
+th, td {
+  padding: 12px 15px;
+  text-align: left;
 }
 
 thead {
-    background-color: #f4f4f4;
-    color: #333;
+  background-color: #f4f4f4;
+  color: #333;
 }
 
 tbody tr:nth-child(odd) {
-    background-color: #fff;
+  background-color: #fff;
 }
 
 tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
+  background-color: #f9f9f9;
 }
 
 tbody tr:hover {
-    background-color: #f1f1f1;
+  background-color: #f1f1f1;
 }
 
 .circle-gradient {
-    animation: rotate 10s linear infinite;
-    transform-origin: center;
+  animation: rotate 10s linear infinite;
+  transform-origin: center;
 }
 
 @keyframes rotate {
-    100% {
-        transform: rotate(360deg);
-    }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>

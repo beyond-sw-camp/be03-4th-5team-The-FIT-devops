@@ -1,7 +1,6 @@
 <template>
     <title>Workout</title>
     <div class="w-[1440px] h-[1024px] relative overflow-hidden animated-background">
-        <!-- <BackgroundComponent></BackgroundComponent> -->
         <h2 class="workoutTitle">
             <span class="highlight">💪</span><span class="highlight">오</span>늘 <span class="highlight">운</span>동 <span
                 class="highlight">완</span>료<span class="highlight">💪</span>
@@ -106,7 +105,6 @@
     </div>
 </template>
 <script>
-// import BackgroundComponent from '../BackgroundComponent.vue';
 import WorkoutModalComponent from "@/components/Workout/WorkoutModalComponent.vue";
 import WorkoutFeedbackModalComponent from "@/components/Workout/WorkoutFeedbackModalComponent.vue";
 import axios from 'axios';
@@ -114,7 +112,6 @@ import axios from 'axios';
 export default {
     name: 'app',
     components: {
-        // BackgroundComponent
         WorkoutModalComponent,
         WorkoutFeedbackModalComponent,
     },
