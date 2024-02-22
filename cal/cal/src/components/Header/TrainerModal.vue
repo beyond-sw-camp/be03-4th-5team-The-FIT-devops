@@ -16,14 +16,17 @@
 export default {
   props: {
     isVisible: Boolean,
-    trainer: Object, // 단일 트레이너 객체를 받습니다.
+    trainer: {
+      type: Object,
+      default: () => ({ name: '', email: '' }), // 단일 트레이너 객체를 받습니다.
   },
   methods: {
     closeModal() {
       this.$emit('close');
     },
   },
-};
+}
+}
 </script>
 
 <style>
@@ -37,6 +40,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000
 }
 
 .modal-content {
