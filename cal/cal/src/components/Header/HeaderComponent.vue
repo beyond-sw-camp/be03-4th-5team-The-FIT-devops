@@ -2,69 +2,67 @@
   <header v-if="isLogin" class="header">
     <div class="header-content">
       <div class="header-buttons-left">
-        <button class="header-button" @click="goToCalendar">캘린더</button>
+        <button class="header-button" @click="goToCalendar" v-if="userRole === 'MEMBER'">캘린더</button>
         <button @click="viewTrainerInfo" class="header-button" v-if="userRole === 'MEMBER'">나의 트레이너 보기</button>
         <button @click="viewMemberInfo" class="header-button" v-if="userRole === 'TRAINER'">나의 트레이니 보기</button>
-        <!-- <button @click="userInfo" class="header-button" v-if="userRole === 'ADMIN'">회원 조회</button> -->
       </div>
-      
+
       <h1 class="header-title">THE FIT</h1>
-      
-      <!-- 로그아웃 및 내정보 버튼을 감싸는 div 추가 가능 -->
+
       <div class="header-buttons-right">
         <button class="header-button" @click="goToMyInfo">내정보</button>
         <button class="header-button" @click="logout">로그아웃</button>
       </div>
     </div>
   </header>
-  <TrainerModal :isVisible="isModalVisible" :trainer="trainer" @close="closeModal"/>
-  <MemberListModal :isVisible="isModalVisible" :members="members" @close="isModalVisible = false"/>
+  <TrainerModal :isVisible="isModalVisible" :trainer="trainer" @close="closeModal" />
+  <MemberListModal :isVisible="isModalVisible" :members="members" @close="isModalVisible = false" />
 </template>
   
-  <script>
-  import { ref } from 'vue'; 
-  import { useRouter } from 'vue-router'; 
-  import TrainerModal from './TrainerModal.vue';
-  import MemberListModal from './MemberListModal.vue';
-  import axios from 'axios'; // Axios import 추가
-  
-  export default {
-    name: 'HeaderComponents',
-    components: {
-      TrainerModal,
-      MemberListModal
-    },
-      setup() {
-      const router = useRouter();
-      const isLogin = ref(!!localStorage.getItem("token"));
-      const userRole = ref(localStorage.getItem("role"));
-      const isModalVisible = ref(false);
-      const trainers = ref([]);
-      const members = ref([]); // 회원 목록을 위한 상태도 ref를 사용하여 선언
-  
-      function goToCalendar() {
-        router.push({ name: 'CalendarComponent' });
-      }
-    
-      function goToMyInfo() {
-        if (userRole.value === 'TRAINER') {
-          router.push({ name: 'MyPageTrainerComponent' });
-        } else if (userRole.value === 'MEMBER') {
-          router.push({ name: 'MyPageComponent' });
-        }
-      }
-    
-      function logout() {
-        localStorage.removeItem("token");
-        localStorage.removeItem("role");
-        localStorage.removeItem("email");
-        localStorage.removeItem("refreshToken");
-        isLogin.value = false;
-        userRole.value = null;
-        router.push({ name: 'HOME' });
-      }
+<script>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import TrainerModal from './TrainerModal.vue';
+import MemberListModal from './MemberListModal.vue';
+import axios from 'axios'; // Axios import 추가
 
-      async function userInfo() {
+export default {
+  name: 'HeaderComponents',
+  components: {
+    TrainerModal,
+    MemberListModal
+  },
+  setup() {
+    const router = useRouter();
+    const isLogin = ref(!!localStorage.getItem("token"));
+    const userRole = ref(localStorage.getItem("role"));
+    const isModalVisible = ref(false);
+    const trainers = ref([]);
+    const members = ref([]); // 회원 목록을 위한 상태도 ref를 사용하여 선언
+
+    function goToCalendar() {
+      router.push({ name: 'CalendarComponent' });
+    }
+
+    function goToMyInfo() {
+      if (userRole.value === 'TRAINER') {
+        router.push({ name: 'MyPageTrainerComponent' });
+      } else if (userRole.value === 'MEMBER') {
+        router.push({ name: 'MyPageComponent' });
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem("token");
+      localStorage.removeItem("role");
+      localStorage.removeItem("email");
+      localStorage.removeItem("refreshToken");
+      isLogin.value = false;
+      userRole.value = null;
+      router.push({ name: 'HOME' });
+    }
+
+    async function userInfo() {
       try {
         const token = localStorage.getItem('token');
         const headers = token ? { Authorization: `Bearer ${token}` } : {};
@@ -79,7 +77,7 @@
       }
     }
 
-        function viewMemberInfo() {
+    function viewMemberInfo() {
       router.push({ name: 'MyMembers' });
     }
 
@@ -96,64 +94,82 @@
       }
     }
 
-      function closeModal() {
-        isModalVisible.value = false; // 모달 닫기
-      }
-    
-      return {
-        goToCalendar,
-        goToMyInfo,
-        logout,
-        viewTrainerInfo,
-        viewMemberInfo,
-        userInfo,
-        closeModal,
-        isLogin,
-        userRole,
-        isModalVisible,
-        trainers,
-        members,
-      
-      };
-    },
-  }
-  </script>
+    function closeModal() {
+      isModalVisible.value = false; // 모달 닫기
+    }
+
+    return {
+      goToCalendar,
+      goToMyInfo,
+      logout,
+      viewTrainerInfo,
+      viewMemberInfo,
+      userInfo,
+      closeModal,
+      isLogin,
+      userRole,
+      isModalVisible,
+      trainers,
+      members,
+
+    };
+  },
+}
+</script>
+<style scoped>
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  /* Lighter shade for header background */
+  padding: 20px 0;
+  /* Increased padding for more space */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* Soft shadow for depth */
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  /* Restrict content width for better layout */
+}
+
+.header-title {
+  color: #BC96FB;
+  /* Matching button color */
+  font-size: 36px;
+  /* Increased size for prominence */
+  font-weight: bold;
+  /* Bolder font weight */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  /* Soft shadow for depth */
+}
+
+.header-button {
+  background-color: #BC96FB;
+  /* Primary button color */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 0 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.header-button:hover {
+  background-color: #A17FE0;
+  /* Darker shade on hover */
+  transform: translateY(-2px);
+  /* Slight lift effect */
+}
+
+.header-buttons-left,
+.header-buttons-right {
+  display: flex;
+}</style>
   
-  <style scoped>
-  .header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(255, 255, 255, 0.8); 
-    padding: 10px;
-    position: relative; 
-  }
-  
-  .header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    max-width: 1200px; 
-  }
-  
-  .header-title {
-    color: #ABECD6; 
-    font-size: 24px;
-  }
-  
-  .header-button {
-    background-color: #BC96FB; 
-    color: white; 
-    border: none;
-    padding: 10px 20px;
-    margin: 0 10px;
-    cursor: pointer;
-    border-radius: 5px; 
-    transition: background-color 0.3s ease; 
-  }
-  
-  .header-button:hover {
-    background-color: #ABECD6; 
-  }
-  </style>
