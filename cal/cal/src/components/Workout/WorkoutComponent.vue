@@ -1,7 +1,7 @@
 <template>
     <title>Workout</title>
     <div class="w-[1440px] h-[1024px] relative overflow-hidden animated-background">
-        <BackgroundComponent></BackgroundComponent>
+        <!-- <BackgroundComponent></BackgroundComponent> -->
         <h2 class="workoutTitle">
             <span class="highlight">💪</span><span class="highlight">오</span>늘 <span class="highlight">운</span>동 <span
                 class="highlight">완</span>료<span class="highlight">💪</span>
@@ -49,14 +49,17 @@
                             <td class="px-6 py-4">{{ workout.performance }}</td>
                             <td class="px-6 py-4">
                                 <div class="flex items-center">
-                                    <div :class="{ 'bg-green-500': workout.workOutStatus, 'bg-red-500': !workout.workOutStatus }"
+                                    <div :class="{ 'bg-green-500': workout.workOutStatus === 'COMPLETED', 'bg-red-500': workout.workOutStatus !== 'COMPLETED' }"
                                         class="h-2.5 w-2.5 rounded-full me-2"></div>
-                                    {{ workout.workOutStatus ? '완료' : '미완료' }}
+                                    {{ workout.workOutStatus === 'COMPLETED' ? '완료' : '미완료' }}
                                 </div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+                <div class="flex justify-center mt-4">
+                    <button @click="updateWorkouts" class="modal-button">운동 완료</button>
+                </div>
             </div>
 
             <div class="flex justify-center -ml-44 relative top-1/3">
@@ -86,13 +89,13 @@
     </div>
 </template>
 <script>
-import BackgroundComponent from '../BackgroundComponent.vue';
+// import BackgroundComponent from '../BackgroundComponent.vue';
 import axios from 'axios';
 
 export default {
     name: 'app',
     components: {
-        BackgroundComponent
+        // BackgroundComponent
     },
     data() {
         return {
