@@ -49,7 +49,7 @@ export default {
     },
     computed: {
         isDisabled() {
-            return localStorage.getItem('email');
+            return localStorage.getItem('token');
         }
     },
 

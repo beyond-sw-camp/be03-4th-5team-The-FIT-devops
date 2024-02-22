@@ -89,6 +89,7 @@ export default {
                     localStorage.setItem("refreshToken", refreshToken);
                     localStorage.setItem("role", decoded.role);
                     localStorage.setItem("email", decoded.sub);
+                    localStorage.setItem("accessEmail", decoded.sub);
                     alert("환영합니다, " + decoded.userName + " 회원님!");
                     window.location.href = "/";
                 }

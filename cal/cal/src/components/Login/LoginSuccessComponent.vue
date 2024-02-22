@@ -18,7 +18,8 @@ export default {
         localStorage.setItem('refreshToken', refreshToken);
         localStorage.setItem('role',role);
         localStorage.setItem('email', email);
-        this.$router.push('/calendar');
+        localStorage.setItem('accessEmail', email);
+        window.location.href="/";
       }
     },
   },

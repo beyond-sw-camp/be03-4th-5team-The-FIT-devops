@@ -67,7 +67,7 @@ function taskByDateClick(date) {
 }
 
 function navigateToWorkout() {
-  const memberEmail = localStorage.getItem('email');
+  const memberEmail = localStorage.getItem('accessEmail');
   if (memberEmail && selectedDate.value) {
     router.push(`/workout?memberEmail=${memberEmail}&date=${selectedDate.value}`);
   } else {
@@ -76,7 +76,7 @@ function navigateToWorkout() {
 }
 
 function navigateToDiet() {
-  const memberEmail = localStorage.getItem('email');
+  const memberEmail = localStorage.getItem('accessEmail');
   if (memberEmail && selectedDate.value) {
     router.push(`/diet?memberEmail=${memberEmail}&date=${selectedDate.value}`);
   } else {

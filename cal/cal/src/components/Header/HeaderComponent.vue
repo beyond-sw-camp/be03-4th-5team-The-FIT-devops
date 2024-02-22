@@ -4,7 +4,7 @@
       <div class="header-buttons-left">
         <button class="header-button" @click="goToCalendar" v-if="userRole === 'MEMBER'">캘린더</button>
         <button @click="viewTrainerInfo" class="header-button" v-if="userRole === 'MEMBER'">나의 트레이너 보기</button>
-        <button @click="viewMemberInfo" class="header-button" v-if="userRole === 'TRAINER'">나의 트레이니 보기</button>
+        <button @click="viewMemberInfo" class="header-button" v-if="userRole === 'TRAINER'">나의 트레이니 관리</button>
       </div>
 
       <h1 class="header-title">THE FIT</h1>
@@ -57,9 +57,10 @@ export default {
       localStorage.removeItem("role");
       localStorage.removeItem("email");
       localStorage.removeItem("refreshToken");
+      localStorage.removeItem("accessEmail");
       isLogin.value = false;
       userRole.value = null;
-      router.push({ name: 'HOME' });
+      window.location.href="/";
     }
 
     async function userInfo() {
@@ -78,7 +79,7 @@ export default {
     }
 
     function viewMemberInfo() {
-      router.push({ name: 'MyMembers' });
+      router.push({ name: 'TraineeViewComponent' });
     }
 
     async function viewTrainerInfo() {
