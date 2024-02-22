@@ -60,13 +60,13 @@
             </div>
           </div>
 
-          <div class="flex justify-center -ml-44 relative top-1/3">
+          <div class="flex justify-center -ml-44 relative top-1/3" v-if="role=='MEMBER' || role == 'ADMIN'">
               <button @click="openDietModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 식단 등록
               </button>
               <ModalComponent ref="modal"/>
           </div>
-          <div class="flex justify-center -ml-44 relative top-1/3">
+          <div class="flex justify-center -ml-44 relative top-1/3" v-if="role == 'TRAINER' || role == 'ADMIN'">
               <button @click="openDietModa2" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 피드백 등록
               </button>
@@ -85,6 +85,7 @@ export default {
           addDietList: [],
           feedback:[],
           trainerInfo:[],
+          role:"",
       };
   },
   name: 'app',
@@ -96,6 +97,7 @@ export default {
       this.fetchDiets();
       this.fetchFeedback();
       this.fetchTrainer();
+        this.role = localStorage.getItem("role");
   },  
   methods: {
       openDietModal() {

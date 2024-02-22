@@ -78,7 +78,7 @@
                  </button>
                  <WorkoutFeedbackModalComponent ref="workoutfeedbackmodal" :feedback="feedback" :trainerInfo="trainerInfo" :showModal="showModal" @close-modal="closeModal" />
             </div>
-            <div class="flex justify-center -ml-44 relative top-1/3">
+            <div class="flex justify-center -ml-44 relative top-1/3" v-if="role == 'TRAINER' || role == 'ADMIN'">
                 <button @click="openWorkoutFeedbackRegisterModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     피드백 등록
                 </button>
@@ -106,13 +106,15 @@ export default {
             selectedWorkoutId: null,
             feedback: [],
             trainerInfo: [],
-            showModal: false
+            showModal: false,
+            role:"",
         }
     },
     created() {
         this.loadWorkouts();
         this.fetchFeedback();
         this.fetchTrainer();
+        this.role = localStorage.getItem('role');
     },
     methods: {
         openWorkoutModal(workoutId) {
