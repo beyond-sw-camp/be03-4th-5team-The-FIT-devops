@@ -79,17 +79,8 @@
       }
     }
 
-        async function viewMemberInfo() {
-      try {
-        const token = localStorage.getItem('token');
-        const headers = token ? { Authorization: `Bearer ${token}` } : {};
-        const response = await axios.get(`http://localhost:8080/trainer/my/members`, { headers });
-        members.value = response.data.result; // 'members' 상태를 직접 업데이트
-        isModalVisible.value = true; // 모달 표시
-      } catch (error) {
-        console.error('회원 정보 불러오기 중 에러가 발생했습니다.', error);
-        alert('회원 정보 불러오기에 실패했습니다.');
-      }
+        function viewMemberInfo() {
+      router.push({ name: 'MyMembers' });
     }
 
     async function viewTrainerInfo() {
