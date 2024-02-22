@@ -58,13 +58,11 @@
                                 </div>
                             </td>
                             <td>
-                                <button @click="openWorkoutModal(workout.id)"
-                                        class="text-white font-bold py-2 px-2 rounded"
-                                        :disabled="workout.workOutStatus === 'COMPLETED'"
-                                        :class="{
-                                          'bg-teal-500': workout.workOutStatus !== 'COMPLETED', 
-                                          'bg-gray-500': workout.workOutStatus === 'COMPLETED'
-                                        }">
+                                <button @click="openWorkoutModal(workout.id)" class="text-white font-bold py-2 px-2 rounded"
+                                    :disabled="workout.workOutStatus === 'COMPLETED'" :class="{
+                                        'bg-teal-500': workout.workOutStatus !== 'COMPLETED',
+                                        'bg-gray-500': workout.workOutStatus === 'COMPLETED'
+                                    }">
                                     운동 등록
                                 </button>
                             </td>
@@ -75,10 +73,11 @@
                 </table>
             </div>
 
-            <!-- <div class="flex justify-center -ml-44 relative top-1/3">
+            <div class="flex justify-center -ml-44 relative top-1/3">
                 <div class="relative grid grid-cols-1 gap-4 p-4 mb-8 border rounded-lg bg-white shadow-lg">
                     <div class="relative flex gap-4">
-                        <img src="https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/charlie-chaplin-icon.png" class="relative rounded-lg -top-8 -mb-4 bg-white border h-20 w-20" alt="" loading="lazy">
+                        <img src="https://icons.iconarchive.com/icons/diversity-avatars/avatars/256/charlie-chaplin-icon.png"
+                            class="relative rounded-lg -top-8 -mb-4 bg-white border h-20 w-20" alt="" loading="lazy">
                         <div class="flex flex-col w-full">
                             <div class="flex flex-row justify-between">
                                 <p class="relative text-xl whitespace-nowrap truncate overflow-hidden">트레이너 이름</p>
@@ -96,13 +95,21 @@
                         평점
                     </p>
                 </div>
-            </div> -->
+            </div>
+            <div class="flex justify-center -ml-44 relative top-1/3">
+                <button @click="openWorkoutFeedbackModal"
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    피드백 등록
+                </button>
+                <WorkoutFeedbackModalComponent ref="workoutfeedbackmodal" />
+            </div>
         </div>
     </div>
 </template>
 <script>
 // import BackgroundComponent from '../BackgroundComponent.vue';
-import WorkoutModalComponent from "@/components/Workout/WorkoutModalComponent.vue"
+import WorkoutModalComponent from "@/components/Workout/WorkoutModalComponent.vue";
+import WorkoutFeedbackModalComponent from "@/components/Workout/WorkoutFeedbackModalComponent.vue";
 import axios from 'axios';
 
 export default {
@@ -110,7 +117,7 @@ export default {
     components: {
         // BackgroundComponent
         WorkoutModalComponent,
-
+        WorkoutFeedbackModalComponent,
     },
     data() {
         return {
@@ -124,7 +131,10 @@ export default {
     methods: {
         openWorkoutModal(workoutId) {
             this.$refs.workoutmodal[0].openModal();
-            this.selectedWorkoutId = workoutId; // Set the selected workout ID
+            this.selectedWorkoutId = workoutId;
+        },
+        openWorkoutFeedbackModal() {
+            this.$refs.workoutfeedbackmodal.openModal();
         },
         async loadWorkouts() {
             try {

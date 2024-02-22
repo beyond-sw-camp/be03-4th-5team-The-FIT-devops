@@ -1,4 +1,3 @@
-
 <template>
     <div v-if="showModal" class="modal">
       <div class="modal-content">
