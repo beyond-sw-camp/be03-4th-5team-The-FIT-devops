@@ -33,12 +33,11 @@
                             </button>
                         </td>
                         <td>
-                            <button @click="assignWorkout(trainee.id)"
+                            <button @click="assignWorkout(trainee.email, trainee.id)"
                                 class="bg-gray-500 hover:bg-teal-700 text-white font-bold py-2 px-2 rounded">
                                 운동 할당하기
                             </button>
-                            <TraineeAssignModal ref="assignmodal" :memberId="selectedMemberId" />
-
+                            <TraineeListModalComponent ref="assignmodal" :memberId="selectedMemberId" />
                         </td>
                     </tr>
                 </tbody>
@@ -49,7 +48,7 @@
 
 <script>
 import axios from 'axios';
-
+import TraineeListModalComponent from "@/components/Trainees/TraineeListModalComponent.vue";
 export default {
     data() {
         return {
@@ -58,6 +57,7 @@ export default {
     },
     name: 'app',
     components: {
+        TraineeListModalComponent
     },
     created() {
         this.fetchTrainees();
@@ -70,9 +70,13 @@ export default {
         trans(gender) {
             return gender === "MALE" ? "남성" : "여성";
         },
-        // assignWorkout(accessEmail){
-
-        // }
+        assignWorkout(accessEmail, memberId) {
+            this.$refs.assignmodal[0].openModal();
+            this.selectedMemberId = memberId;
+            localStorage.setItem("accessEmail", accessEmail);
+            localStorage.setItem("memberId", this.selectedMemberId);
+            // console.log("Selected MemberId:"+this.selectedMemberId);
+        },
         async fetchTrainees() {
             try {
                 const token = localStorage.getItem('token');
@@ -81,7 +85,6 @@ export default {
                 const response = await axios.get("http://localhost:8080/trainer/my/members", { headers });
                 console.log(response);
                 this.trainees = response.data.result;
-                console.log(this.trainees);
             } catch (error) {
                 console.log(error);
             }

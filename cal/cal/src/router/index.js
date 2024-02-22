@@ -12,7 +12,8 @@ import OAuthSigupComponent from "@/components/Signup/OAuthSigupComponent.vue";
 import MyPageComponent from '@/components/MyPage/MyPageComponent.vue';
 import MyPageTrainerComponent from '@/components/MyPage/MyPageTrainerComponent.vue';
 import TraineeViewComponent from '@/components/Trainees/TraineeViewComponent.vue';
-import UserComponent from '@/components/Header/UserComponent.vue';
+import WorkoutAssignComponent from "@/components/Workout/WorkoutAssignComponent.vue";
+
 
 const routes = [
   {
@@ -56,6 +57,11 @@ const routes = [
       date: route.query.date,
       memberId: route.query.memberId,
     }),
+  },
+  {
+    path: "/workout/assign",
+    name: "WorkoutAssignComponent",
+    component: WorkoutAssignComponent,
   },
   
 
