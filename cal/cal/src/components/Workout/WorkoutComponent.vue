@@ -72,7 +72,7 @@
                 </table>
             </div>
             <br>
-            <div class="flex justify-end space-x-2 mt-10">
+            <div class="flex justify-end space-x-2 mt-10 mr-100">
                 <!-- 조건부 렌더링을 사용하여 'TRAINER' 또는 'ADMIN' 역할일 때만 피드백 등록 버튼 표시 -->
                 <button v-if="role == 'TRAINER' || role == 'ADMIN'" @click="openWorkoutFeedbackRegisterModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                   피드백 등록
@@ -121,7 +121,7 @@ export default {
     },
     methods: {
         openWorkoutModal(workoutId) {
-            this.$refs.workoutmodal[0].openModal();
+            this.$refs.workoutmodal.openModal();
             this.selectedWorkoutId = workoutId;
         },
         openWorkoutFeedbackRegisterModal() {
