@@ -15,7 +15,6 @@
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th scope="col" class="py-3 px-6">운동고유ID</th>
               <th scope="col" class="py-3 px-6">운동명</th>
               <th scope="col" class="py-3 px-6">부위</th>
             </tr>
@@ -23,7 +22,6 @@
           <tbody>
             <tr v-for="work in totalworkouts" :key="work.id"
               class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-              <td class="py-4 px-6">{{ work.id }}</td>
               <td class="py-4 px-6">{{ work.name }}</td>
               <td class="py-4 px-6">{{ work.target }}</td>
               <td class="py-4 px-6">
