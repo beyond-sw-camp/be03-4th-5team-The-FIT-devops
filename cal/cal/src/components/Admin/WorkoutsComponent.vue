@@ -2,6 +2,15 @@
   <div>
     <div class="p-4">
       <h1 class="text-2xl font-bold mb-4">운동 목록</h1>
+      <div class="mb-4">
+        <label for="workoutName" class="block mb-2 text-sm font-medium text-gray-900">운동명</label>
+        <input type="text" id="workoutName" v-model="newWorkout.name" placeholder="운동명을 입력하세요" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" required>
+
+        <label for="workoutTarget" class="block mt-4 mb-2 text-sm font-medium text-gray-900">부위</label>
+        <input type="text" id="workoutTarget" v-model="newWorkout.target" placeholder="부위를 입력하세요" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" required>
+
+        <button @click="addWorkout" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">등록</button>
+      </div>
       <div class="mb-8">
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -36,12 +45,20 @@ export default {
   data() {
     return {
       totalworkouts: [],
+      newWorkout: {
+        id: '',
+        name: '',
+        target: ''
+      },
     };
   },
   async created() {
     await this.fetchMembers();
   },
   methods: {
+    getCurrentUserId() {
+      return localStorage.getItem('userId');
+    },
     async fetchMembers() {
       const token = localStorage.getItem('token');
       const refreshToken = localStorage.getItem('refreshToken');
@@ -69,6 +86,17 @@ export default {
         }
       }
     },
+    async addWorkout() {
+      const token = localStorage.getItem('token');
+      const headers = { Authorization: `Bearer ${token}` };
+      try {
+        await axios.post('http://localhost:8080/totalworkouts/create/', this.newWorkout, { headers });
+        alert('운동이 성공적으로 등록되었습니다.');
+        // 운동 목록 새로고침 로직 추가
+      } catch (error) {
+        console.error('운동 등록 중 오류 발생:', error);
+      }
+    }
   },
 };
 </script>
