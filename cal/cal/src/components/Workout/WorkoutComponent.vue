@@ -111,6 +111,7 @@ export default {
             trainerInfo: [],
             showModal: false,
             role:"",
+            doneFeedback:false,
         }
     },
     created() {
@@ -121,11 +122,17 @@ export default {
     },
     methods: {
         openWorkoutModal(workoutId) {
-            this.$refs.workoutmodal.openModal();
+            this.$refs.workoutmodal[0].openModal();
             this.selectedWorkoutId = workoutId;
         },
         openWorkoutFeedbackRegisterModal() {
-            this.$refs.workoutfeedbackentrymodal.openModal();
+            if(this.doneFeedback){
+                confirm("수정 하시겠어요?");
+                this.$refs.workoutfeedbackentrymodal.openModal();
+            }else{
+                this.$refs.workoutfeedbackentrymodal.openModal();
+            }
+            
         },
         openWorkoutFeedbackModal() {
             this.$refs.workoutfeedbackmodal.openModal();
@@ -157,9 +164,19 @@ export default {
                 const urlParams = new URLSearchParams(window.location.search);
                 const date = urlParams.get('date');
                 const headers = token ? {Authorization: `Bearer ${token}`,refreshToken:`${refreshToken}`}:{};
-                const response = await axios.get(`http://localhost:8080/workout/feedback/find?date=${date}`,{headers});
-                console.log(response);
-                this.feedback = response.data.result;
+                if(localStorage.getItem('role')==="MEMBER"){
+                    const response = await axios.get(`http://localhost:8080/workout/feedback/member/find?date=${date}`,{headers});
+                    this.feedback = response.data.result;
+                    this.doneFeedback =true;
+                    console.log(response);
+                }else if(localStorage.getItem('role')==="TRAINER"){
+                    const memberEmail = localStorage.getItem('accessEmail')
+                    const response = await axios.get(`http://localhost:8080/workout/feedback/trainer/find?date=${date}&memberEmail=${memberEmail}`,{headers});
+                    this.feedback = response.data.result;
+                    this.doneFeedback =true;
+                    console.log(response);
+                }
+                this.doneFeedback =true;
             }catch(error){
                 console.log(error);
             }

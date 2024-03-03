@@ -39,16 +39,18 @@ export default {
       try { 
             const token = localStorage.getItem('token');
             const refreshToken = localStorage.getItem('refreshToken');
+            const memberEmail = localStorage.getItem('accessEmail');
             const headers = token ? {Authorization: `Bearer ${token}`,refreshToken:`${refreshToken}`}:{};
             const urlParams = new URLSearchParams(window.location.search);
             const date = urlParams.get('date');
-            const body = {feedBack:this.comment,rating:this.rating,uploadDate:date};
+            const body = {feedBack:this.comment,rating:this.rating,uploadDate:date,memberEmail:memberEmail};
             console.log(date);
             await axios.post("http://localhost:8080/workout/feedback/create",body,{headers});
         }catch(error){
             console.log(error.response.data.message);
             alert(error.response.data.message);
         }
+        alert("피드백 등록 완료!")
         this.closeModal();
     }
   }

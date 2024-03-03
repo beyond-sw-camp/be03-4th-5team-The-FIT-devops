@@ -53,10 +53,8 @@ export default {
             const token = localStorage.getItem('token');
             const refreshToken = localStorage.getItem('refreshToken');
             const headers = token ? { Authorization: `Bearer ${token}`, refreshToken: `${refreshToken}` } : {};
-
             const memberEmail = localStorage.getItem("accessEmail");
             const date = localStorage.getItem("date");
-
             const url = `http://localhost:8080/workout_list/getid?memberEmail=${memberEmail}&date=${date}`
             const response = await axios.get(url, { headers });
             this.workoutlistId = response.data.result;
@@ -80,7 +78,8 @@ export default {
                     console.error(`Failed to assign workout ${id}:`, error);
                 }
             }
-            alert("Selected workouts assigned successfully.");
+            alert("운동 등록이 완료되었습니다.");
+            window.location.href = "/trainer/mytrainees"
         },
     },
 }

@@ -45,7 +45,7 @@
                               <p class="relative text-xl whitespace-nowrap truncate overflow-hidden">{{ trainerInfo.name}}</p>
                               <a class="text-gray-500 text-xl" href="#"><i class="fa-solid fa-trash"></i></a>
                           </div>
-                          <p class="text-gray-400 text-sm">{{feedback.uploadDate}}</p>
+                          <p class="text-gray-400 text-sm">{{ feedback.createdTime }}</p>
                       </div>
                   </div>
                   <p class="-mt-4 text-gray-500">
@@ -56,7 +56,6 @@
                       {{ feedback.rating }}
                   </p>
               </div>
-              <p class="text-gray-400 text-sm">{{ feedback.createdTime }}</p>
             </div>
           </div>
 
@@ -86,6 +85,7 @@ export default {
           feedback:[],
           trainerInfo:[],
           role:"",
+          doneFeedbak:false,
       };
   },
   name: 'app',
@@ -104,16 +104,22 @@ export default {
       this.$refs.modal.openModal();
   },
   openDietModa2() {
-      this.$refs.moda2.openModal();
+    if(this.doneFeedbak){
+        confirm("피드백을 수정하시겠습니까?")
+    }
+    this.$refs.moda2.openModal();
   },
       async fetchDiets(){
           try{
-              const token = localStorage.getItem('token');
-              const refreshToken = localStorage.getItem('refreshToken');
-              const headers = token ? {Authorization: `Bearer ${token}`,refreshToken:`${refreshToken}`}:{};
-              const response = await axios.get("http://localhost:8080/diet/list",{headers});
-              // console.log(response);
-              this.addDietList = response.data.result;
+            const urlParams = new URLSearchParams(window.location.search);
+            const memberEmail = urlParams.get('memberEmail');
+            const date = urlParams.get('date');
+            const token = localStorage.getItem('token');
+            const refreshToken = localStorage.getItem('refreshToken');
+            const headers = token ? {Authorization: `Bearer ${token}`,refreshToken:`${refreshToken}`}:{};
+            const response = await axios.get(`http://localhost:8080/diet/list/member?memberEmail=${memberEmail}&date=${date}`,{headers});
+            // console.log(response);
+            this.addDietList = response.data.result;
           }catch(error){
               console.log(error);
           }
@@ -125,9 +131,18 @@ export default {
               const urlParams = new URLSearchParams(window.location.search);
               const date = urlParams.get('date');
               const headers = token ? {Authorization: `Bearer ${token}`,refreshToken:`${refreshToken}`}:{};
-              const response = await axios.get(`http://localhost:8080/diet/feedback/find?date=${date}`,{headers});
-              console.log(response);
-              this.feedback = response.data.result;
+              if(localStorage.getItem('role')==="MEMBER"){
+                const response = await axios.get(`http://localhost:8080/diet/feedback/member/find?date=${date}`,{headers});
+                console.log(response);
+                this.feedback = response.data.result;
+                this.doneFeedbak = true;
+              }else{
+                const memberEmail = localStorage.getItem('accessEmail')
+                const response = await axios.get(`http://localhost:8080/diet/feedback/trainer/find?date=${date}&memberEmail=${memberEmail}`,{headers});
+                console.log(response);
+                this.feedback = response.data.result;
+                this.doneFeedbak = true;
+              }
           }catch(error){
               console.log(error);
           }

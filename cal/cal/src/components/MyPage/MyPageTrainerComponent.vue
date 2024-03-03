@@ -13,6 +13,14 @@
                             <div class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white">{{ role }}</div>
                         </div>
                         <div>
+                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">프로필 사진</label>
+                            <img :src="profileImage" class="relative rounded-lg -top-8 -mb-4 bg-white border h-20 w-20" alt="" loading="lazy">
+                        </div>
+                        <div>
+                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">프로필 사진 수정</label>
+                            <input type="file" name="image" id="image" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white" @change="handleFileUpload" accept="image/*">
+                        </div>
+                        <div>
                             <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">성함</label>
                             <div class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white">{{ name }}</div>
                         </div>
@@ -74,12 +82,16 @@ export default {
             isEditing: false,
             isModalVisible: false,
             members: [],
+            updateImage : null,
         }
     },
     created(){
         this.fetchMember();
     },
     methods:{
+        handleFileUpload(event) {
+                this.updateImage = event.target.files[0];
+            },
         async fetchMember(){
             const token = localStorage.getItem('token');
             const refreshToken = localStorage.getItem('refreshToken');
@@ -100,25 +112,30 @@ export default {
         async updateMemberInfo() {
             try {
                 const token = localStorage.getItem('token');
-                const headers = token ? { Authorization: `Bearer ${token}` } : {};
-                const response = await axios.patch(`http://localhost:8080/trainer/update/${this.id}`, {
-                    name: this.name,
-                    email: this.email, 
-                    phoneNumber: this.phoneNumber,
-                    gender: this.gender, 
-                    role: this.role, 
-                    profileImage: this.profileImage, 
-                    trainerId: this.trainerId,
-                    cmHeight: this.cmHeight,
-                    kgWeight: this.kgWeight
-                }, { headers });
+                const refreshToken = localStorage.getItem('refreshToken');
+                const headers = token ? { Authorization: `Bearer ${token}`, refreshToken: `${refreshToken}`,'Content-Type': 'multipart/form-data'} : {};
+                if(this.updateImage != null){
+                    this.profileImage = this.updateImage;
+                }
+                const registerData = new FormData();
+                registerData.append("name", this.name);
+                registerData.append("email", this.email);
+                registerData.append("phoneNumber", this.phoneNumber);
+                registerData.append("gender", this.gender);
+                registerData.append("role", this.role);
+                registerData.append("profileImage", this.profileImage);
+                registerData.append("trainerId", this.trainerId);
+                registerData.append("cmHeight", this.cmHeight);
+                registerData.append("kgWeight", this.kgWeight);
+                registerData.append("gender", this.gender);
+                const response = await axios.patch(`http://localhost:8080/trainer/update`,registerData, { headers });
                 console.log(response.data);
                 alert('정보가 성공적으로 업데이트되었습니다.');
                 this.isEditing = false;
+                location.reload();
             } catch (error) {
                 console.error('정보 업데이트 중 에러가 발생했습니다.', error);
                 alert('정보 업데이트에 실패했습니다.');
-                window.location.reload();
             }
         },
         toggleEdit() {

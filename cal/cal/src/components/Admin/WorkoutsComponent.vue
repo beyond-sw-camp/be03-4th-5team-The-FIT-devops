@@ -17,6 +17,7 @@
             <tr>
               <th scope="col" class="py-3 px-6">운동명</th>
               <th scope="col" class="py-3 px-6">부위</th>
+              <th scope="col" class="py-3 px-6">삭제</th>
             </tr>
           </thead>
           <tbody>
@@ -45,8 +46,8 @@ export default {
       totalworkouts: [],
       newWorkout: {
         id: '',
-        name: '',
-        target: ''
+        name: null,
+        target: null
       },
     };
   },
@@ -90,8 +91,9 @@ export default {
       try {
         await axios.post('http://localhost:8080/totalworkouts/create/', this.newWorkout, { headers });
         alert('운동이 성공적으로 등록되었습니다.');
-        // 운동 목록 새로고침 로직 추가
+        location.reload();
       } catch (error) {
+        alert(error.response.data.message);
         console.error('운동 등록 중 오류 발생:', error);
       }
     }

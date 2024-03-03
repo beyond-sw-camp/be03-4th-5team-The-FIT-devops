@@ -130,6 +130,7 @@
                     console.log(response.data);
                     alert('정보가 성공적으로 업데이트되었습니다.');
                     this.isEditing = false;
+                    location.reload();
                 } catch (error) {
                     console.error('정보 업데이트 중 에러가 발생했습니다.', error);
                     alert('정보 업데이트에 실패했습니다.');

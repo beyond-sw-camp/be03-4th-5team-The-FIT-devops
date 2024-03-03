@@ -64,7 +64,7 @@
         async fetchAllTrainers() {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get('http://localhost:8080/trainer/list', {
+            const response = await axios.get('http://localhost:8080/trainer/available/list', {
             headers: { Authorization: `Bearer ${token}` },
             });
             this.trainersList = response.data.result;

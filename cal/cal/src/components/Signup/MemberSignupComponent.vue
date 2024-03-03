@@ -136,7 +136,7 @@ export default {
         },
         async loadTrainers() {
             try {
-                const response = await axios.get("http://localhost:8080/trainer/list");
+                const response = await axios.get("http://localhost:8080/trainer/available/list");
                 this.trainersList = response.data.result;
                 console.log(this.trainersList);
             }
@@ -175,7 +175,7 @@ export default {
                 console.log(this.kgWeight);
                 console.log(this.role);
                 console.log(this.gender);
-                alert("오류! 다시 시도하세요!");
+                alert(error.response.data.message);
             }
         }
     },

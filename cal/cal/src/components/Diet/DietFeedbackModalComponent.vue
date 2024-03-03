@@ -44,7 +44,7 @@ export default {
         const headers = token ? { Authorization: `Bearer ${token}`, refreshToken: `${refreshToken}` } : {};
         const urlParams = new URLSearchParams(window.location.search);
         const date = urlParams.get('date');
-        const body = { feedBack: this.comment, rating: this.rating, uploadDate: date };
+        const body = { feedBack: this.comment, rating: this.rating, uploadDate: date ,memberEmail : localStorage.getItem('accessEmail')};
         await axios.post("http://localhost:8080/diet/feedback/create", body, { headers });
       } catch (error) {
         console.log(error.response.data.message);
