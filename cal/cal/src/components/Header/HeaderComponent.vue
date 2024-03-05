@@ -27,6 +27,7 @@ import { useRouter } from 'vue-router';
 import TrainerModal from './TrainerModal.vue';
 import MemberListModal from './MemberListModal.vue';
 import axios from 'axios'; // Axios import 추가
+import {EventSourcePolyfill } from 'event-source-polyfill';
 
 export default {
   name: 'HeaderComponents',
@@ -34,6 +35,27 @@ export default {
     TrainerModal,
     MemberListModal
   },
+
+  async created() {
+      // const id = document.getElementById('id').value;
+      // const eventSource = new EventSource(`/subscribe`);
+const token = localStorage.getItem('token');
+var sse = new EventSourcePolyfill('http://localhost:8080/connect', {
+  headers: {
+    Authorization: `Bearer ${token}`
+  }
+});
+sse.addEventListener('connect', (e) => {
+  const { data: receivedConnectData } = e;
+  console.log('connect event data: ',receivedConnectData);  // "connected!"
+});
+sse.addEventListener('count', e => {  
+    const { data: receivedCount } = e;  
+    console.log("count event data",receivedCount);  
+    // setCount(receivedCount);  
+});
+  },
+
   setup() {
     const router = useRouter();
     const isLogin = ref(!!localStorage.getItem("token"));
