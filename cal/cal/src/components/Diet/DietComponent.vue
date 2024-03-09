@@ -100,15 +100,15 @@ export default {
         this.role = localStorage.getItem("role");
   },  
   methods: {
-      openDietModal() {
+    openDietModal() {
       this.$refs.modal.openModal();
-  },
-  openDietModa2() {
-    if(this.doneFeedbak){
-        confirm("피드백을 수정하시겠습니까?")
-    }
-    this.$refs.moda2.openModal();
-  },
+    },
+    openDietModa2() {
+        if(this.doneFeedbak){
+            confirm("피드백을 수정하시겠습니까?")
+        }
+        this.$refs.moda2.openModal();
+    },
       async fetchDiets(){
           try{
             const urlParams = new URLSearchParams(window.location.search);

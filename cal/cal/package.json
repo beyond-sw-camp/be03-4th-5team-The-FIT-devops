@@ -16,7 +16,12 @@
     "vue-axios": "^3.5.2",
     "vue-google-signin-button": "^1.0.4",
     "vue-google-signin-button-directive": "^1.0.3",
-    "vue-router": "^4.2.5"
+    "vue-router": "^4.2.5",
+    "@fortawesome/fontawesome-svg-core": "6.2.0",
+    "@fortawesome/free-brands-svg-icons": "6.2.0",
+    "@fortawesome/free-regular-svg-icons": "6.2.0",
+    "@fortawesome/free-solid-svg-icons": "6.2.0",
+    "@fortawesome/vue-fontawesome": "3.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

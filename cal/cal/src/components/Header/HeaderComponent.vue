@@ -4,6 +4,13 @@
       <div class="header-buttons-left">
         <button class="header-button" @click="goToCalendar" v-if="userRole === 'MEMBER'">캘린더</button>
         <button @click="goToMyTrainer" class="header-button" v-if="userRole === 'MEMBER'">나의 트레이너 보기</button>
+        <button @click="openFeedtModal">
+            <font-awesome-layers full-width class="fa-3x">
+              <font-awesome-icon icon="fa-regular fa-bell" style="cursor: pointer" />
+              <font-awesome-layers-text id="alarm" counter :value="memberAction" position="top-right" v-if="memberAction != 0 && userRole==='TRAINER'" />
+              <font-awesome-layers-text id="alarm" counter :value="myFeedBack" position="top-right" v-if="myFeedBack != 0 && userRole==='MEMBER'" />
+            </font-awesome-layers>
+        </button>
         <button @click="viewMemberInfo" class="header-button" v-if="userRole === 'TRAINER'">나의 트레이니 관리</button>
         <button @click="userInfo" class="header-button" v-if="userRole === 'ADMIN'">전체 회원 관리</button>
         <button @click="totalworkoutsInfo" class="header-button" v-if="userRole === 'ADMIN'">운동 목록 관리</button>
@@ -17,6 +24,7 @@
       </div>
     </div>
   </header>
+  <ModalComponent ref="modal" :feedback="feedback" :actions="actions" @clearFeedback="clearFeedbackHandler" @clearAction="clearAction"/>
   <TrainerModal :isVisible="isModalVisible" :trainer="trainer" @close="closeModal" />
   <MemberListModal :isVisible="isModalVisible" :members="members" @close="isModalVisible = false" />
 </template>
@@ -28,41 +36,71 @@ import TrainerModal from './TrainerModal.vue';
 import MemberListModal from './MemberListModal.vue';
 import axios from 'axios'; // Axios import 추가
 import {EventSourcePolyfill } from 'event-source-polyfill';
+import ModalComponent from './MyfeedModalComponent.vue';
 
 export default {
   name: 'HeaderComponents',
   components: {
     TrainerModal,
-    MemberListModal
+    MemberListModal,
+    ModalComponent,
   },
-
+  data(){
+    return{
+      myFeedBack : 0,
+      memberAction: 0,
+      actions:[],
+      isToggleDropdown: false,
+      feedback:[],
+    }
+  },
   async created() {
-      // const id = document.getElementById('id').value;
-      // const eventSource = new EventSource(`/subscribe`);
-const token = localStorage.getItem('token');
-var sse = new EventSourcePolyfill('http://localhost:8080/connect', {
-  headers: {
-    Authorization: `Bearer ${token}`
-  }
-});
-sse.addEventListener('connect', (e) => {
-  const { data: receivedConnectData } = e;
-  console.log('connect event data: ',receivedConnectData);  // "connected!"
-});
-sse.addEventListener('count', e => {  
-    const { data: receivedCount } = e;  
-    console.log("count event data",receivedCount);  
-    // setCount(receivedCount);  
-});
+    if(localStorage.getItem('token') != null){
+      const token = localStorage.getItem('token');
+      var sse = new EventSourcePolyfill('http://localhost:8080/connect', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+    sse.addEventListener('connect', (e) => {
+    const { data: receivedConnectData } = e;
+    console.log('connect event data: ',receivedConnectData);  // "connected!"
+    });
+    sse.addEventListener('feedback', e => { 
+        const obj = JSON.parse(e.data);
+        this.myFeedBack = this.myFeedBack+1;
+        this.feedback.push(obj) 
+        console.log(this.feedback[0].type); 
+    });
+    sse.addEventListener('action', e => { 
+        const obj = JSON.parse(e.data);
+        this.memberAction = this.memberAction+1;
+        this.actions.push(obj) 
+        console.log(this.actions[0].type); 
+    });
+    }
+    
   },
-
+  methods:{
+    openFeedtModal() {
+      this.$refs.modal.openModal();
+      this.myFeedBack = 0;
+      this.memberAction = 0;
+   },
+   clearFeedbackHandler(){
+      this.feedback = [];
+   },
+   clearAction(){
+      this.actions =[];
+   }
+  },
   setup() {
     const router = useRouter();
     const isLogin = ref(!!localStorage.getItem("token"));
     const userRole = ref(localStorage.getItem("role"));
     const isModalVisible = ref(false);
     const trainers = ref([]);
-    const members = ref([]); // 회원 목록을 위한 상태도 ref를 사용하여 선언
+    const members = ref([]); 
 
     function goToCalendar() {
       router.push({ name: 'CalendarComponent' });
@@ -194,5 +232,6 @@ sse.addEventListener('count', e => {
 .header-buttons-left,
 .header-buttons-right {
   display: flex;
-}</style>
+}
+</style>
   
