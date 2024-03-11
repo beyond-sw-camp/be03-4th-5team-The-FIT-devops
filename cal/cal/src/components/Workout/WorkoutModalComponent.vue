@@ -63,6 +63,8 @@ export default {
     },
     async submitForm() {
       try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const date = urlParams.get('date');
         const token = localStorage.getItem('token');
         const headers = token ? { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' } : {};
         const workoutData = {
@@ -72,7 +74,9 @@ export default {
           restTime: this.restTime,
           performance: this.performance,
           workOutStatus: "COMPLETED",
+          upLoadDate : date
         };
+        console.log(date);
         await axios.patch(`http://localhost:8080/workout/update/${this.workoutId}`, workoutData, { headers });
         this.closeModal();
         this.$emit('workoutUpdated');

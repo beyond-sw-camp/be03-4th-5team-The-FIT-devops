@@ -66,20 +66,20 @@ export default {
     const { data: receivedConnectData } = e;
     console.log('connect event data: ',receivedConnectData);  // "connected!"
     });
-    sse.addEventListener('feedback', e => { 
+      sse.addEventListener('sendToMember', e => { 
         const obj = JSON.parse(e.data);
         this.myFeedBack = this.myFeedBack+1;
         this.feedback.push(obj) 
         console.log(this.feedback[0].type); 
     });
-    sse.addEventListener('action', e => { 
+      sse.addEventListener('sendToTrainer', e => { 
         const obj = JSON.parse(e.data);
         this.memberAction = this.memberAction+1;
         this.actions.push(obj) 
         console.log(this.actions[0].type); 
-    });
+        console.log(this.memberAction);
+        });
     }
-    
   },
   methods:{
     openFeedtModal() {
@@ -117,7 +117,7 @@ export default {
       }
     }
 
-    function logout() {
+      function logout() {
       localStorage.removeItem("token");
       localStorage.removeItem("role");
       localStorage.removeItem("email");
