@@ -49,11 +49,39 @@ export default {
 import { ref, computed } from 'vue';
 import BackgroundComponent from '../BackgroundComponent.vue';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
 
 const router = useRouter(); // Use Vue Router's useRouter hook
 const isModalVisible = ref(false);
 const selectedDateDetails = ref('');
 const selectedDate = ref('');
+const workouts = ref([]);
+const diets = ref([]);
+
+async function loadDates() {
+  try {
+    const role = localStorage.getItem('role');
+    const token = localStorage.getItem('token');
+    const headers = token ? { Authorization: `Bearer ${token}` } : {};
+    if (role == 'MEMBER') {
+      const response = await axios.get(`http://localhost:8080/workout_list/list/`, { headers });
+      const response2 = await axios.get(`http://localhost:8080/diet/list/`, { headers });
+      workouts.value = response.data.result;
+      diets.value = response2.data.result;
+    } else if (role == 'TRAINER') {
+      const email = localStorage.getItem('accessEmail');
+      console.log(email);
+      const response = await axios.get(`http://localhost:8080/workout_list/list/${email}`, { headers });
+      const response2 = await axios.get(`http://localhost:8080/diet/list/${email}`, { headers });
+      workouts.value = response.data.result;
+      diets.value = response2.data.result;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+loadDates();
 
 function taskByDateClick(date) {
   const dateObj = new Date(date.fullDate);
@@ -89,15 +117,7 @@ const now = new Date();
 let viewMonth = ref(now.getMonth());
 let viewYear = ref(now.getFullYear());
 
-const tasks = ref([
-  {
-    date: '2024-02-16', tasks: [{ color: 'lightpink' },
-    { color: 'lightgreen' }]
-  },
-  {
-    date: '2024-02-17', tasks: [{ color: 'lightpink' }]
-  },
-]);
+const tasks = ref([]);
 
 const changeMonth = (num) => {
   viewMonth.value += num;
@@ -147,12 +167,22 @@ function addDate(day, dates, isCurrentMonth) {
     String(day.getMonth() + 1).padStart(2, '0') + '-' +
     String(day.getDate()).padStart(2, '0');
   const taskForDate = tasks.value.find(task => task.date === dayStr);
+  const dietForDate = diets.value.find(diet => diet.dietDate === dayStr);
+  const workoutForDate = workouts.value.find(workout => workout.workOutDate === dayStr);
+
+  const tasksList = taskForDate ? taskForDate.tasks : [];
+  const dietsList = dietForDate ? [{ color: 'lightgreen' }] : []; // Add color for diet
+  const workoutsList = workoutForDate ? [{ color: 'lightpink' }] : []; // Add color for workout
+
+  // Combine tasks, diets, and workouts for the date
+  const combinedTasks = tasksList.concat(dietsList, workoutsList);
+
   dates.push({
     day: day.getDate(),
     fullDate: dayStr,
     isPast: day < now && day.toDateString() !== now.toDateString(),
     isToday: day.toDateString() === now.toDateString(),
-    tasks: taskForDate ? taskForDate.tasks : [],
+    tasks: combinedTasks, // Use combined tasks list
     isCurrentMonth
   });
 }
