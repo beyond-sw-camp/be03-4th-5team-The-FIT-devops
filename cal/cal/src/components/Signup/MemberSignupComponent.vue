@@ -136,7 +136,7 @@ export default {
         },
         async loadTrainers() {
             try {
-                const response = await axios.get("http://localhost:8080/trainer/available/list");
+                const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/trainer/available/list`);
                 this.trainersList = response.data.result;
                 console.log(this.trainersList);
             }
@@ -157,7 +157,7 @@ export default {
             registerData.append("profileImage",this.profileImage);
             registerData.append("trainerId", this.trainerId);
             try {
-                await axios.post("http://localhost:8080/member/create", registerData, {
+                await axios.post(`${process.env.VUE_APP_API_BASE_URL}/member/create`, registerData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }

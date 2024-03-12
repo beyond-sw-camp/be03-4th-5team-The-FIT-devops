@@ -117,7 +117,7 @@ export default {
             const token = localStorage.getItem('token');
             const refreshToken = localStorage.getItem('refreshToken');
             const headers = token ? {Authorization: `Bearer ${token}`,refreshToken:`${refreshToken}`}:{};
-            const response = await axios.get(`http://localhost:8080/diet/list/member?memberEmail=${memberEmail}&date=${date}`,{headers});
+            const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/diet/list/member?memberEmail=${memberEmail}&date=${date}`,{headers});
             // console.log(response);
             this.addDietList = response.data.result;
           }catch(error){
@@ -132,13 +132,13 @@ export default {
               const date = urlParams.get('date');
               const headers = token ? {Authorization: `Bearer ${token}`,refreshToken:`${refreshToken}`}:{};
               if(localStorage.getItem('role')==="MEMBER"){
-                const response = await axios.get(`http://localhost:8080/diet/feedback/member/find?date=${date}`,{headers});
+                const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/diet/feedback/member/find?date=${date}`,{headers});
                 console.log(response);
                 this.feedback = response.data.result;
                 this.doneFeedbak = true;
               }else{
                 const memberEmail = localStorage.getItem('accessEmail')
-                const response = await axios.get(`http://localhost:8080/diet/feedback/trainer/find?date=${date}&memberEmail=${memberEmail}`,{headers});
+                const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/diet/feedback/trainer/find?date=${date}&memberEmail=${memberEmail}`,{headers});
                 console.log(response);
                 this.feedback = response.data.result;
                 this.doneFeedbak = true;
@@ -152,7 +152,7 @@ export default {
               const token = localStorage.getItem('token');
               const refreshToken = localStorage.getItem('refreshToken');
               const headers = token ? {Authorization: `Bearer ${token}`,refreshToken:`${refreshToken}`}:{};
-              const response = await axios.get("http://localhost:8080/trainer/find",{headers});
+              const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/trainer/find`,{headers});
               console.log(response);
               this.trainerInfo = response.data.result;
               console.log(this.trainerInfo.profileImage)

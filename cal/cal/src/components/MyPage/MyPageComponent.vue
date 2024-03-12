@@ -94,7 +94,7 @@
                 const token = localStorage.getItem('token');
                 const refreshToken = localStorage.getItem('refreshToken');
                 const headers = token ? { Authorization: `Bearer ${token}`, refreshToken: `${refreshToken}` } : {};
-                const response = await axios.get(`http://localhost:8080/member/my/info`, { headers });
+                const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/member/my/info`, { headers });
                 this.member = response.data.result;
                 this.id = this.member.id;
                 this.trainerId = this.member.trainerId;
@@ -126,7 +126,7 @@
                     registerData.append("cmHeight", this.cmHeight);
                     registerData.append("kgWeight", this.kgWeight);
                     registerData.append("gender", this.gender);
-                    const response = await axios.patch(`http://localhost:8080/member/update`,registerData, { headers });
+                    const response = await axios.patch(`${process.env.VUE_APP_API_BASE_URL}/member/update`,registerData, { headers });
                     console.log(response.data);
                     alert('정보가 성공적으로 업데이트되었습니다.');
                     this.isEditing = false;
@@ -149,7 +149,7 @@
             const token = localStorage.getItem('token');
             const refreshToken = localStorage.getItem('refreshToken');
             const headers = token ? { Authorization: `Bearer ${token}`, refreshToken: `${refreshToken}` } : {};
-            await axios.delete(`http://localhost:8080/member/delete/${this.id}`, { headers });
+            await axios.delete(`${process.env.VUE_APP_API_BASE_URL}/member/delete/${this.id}`, { headers });
             alert('회원 탈퇴가 성공적으로 처리되었습니다.');
             // 탈퇴 성공 후 로그인 페이지 또는 홈으로 리다이렉트 처리
             this.$router.push('/');

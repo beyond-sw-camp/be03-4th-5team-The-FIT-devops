@@ -45,7 +45,7 @@ export default {
             const date = urlParams.get('date');
             const body = {feedBack:this.comment,rating:this.rating,uploadDate:date,memberEmail:memberEmail};
             console.log(date);
-            await axios.post("http://localhost:8080/workout/feedback/create",body,{headers});
+            await axios.post(`${process.env.VUE_APP_API_BASE_URL}/workout/feedback/create`,body,{headers});
         }catch(error){
             console.log(error.response.data.message);
             alert(error.response.data.message);

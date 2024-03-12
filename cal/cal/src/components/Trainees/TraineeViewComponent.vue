@@ -82,7 +82,7 @@ export default {
                 const token = localStorage.getItem('token');
                 const refreshToken = localStorage.getItem('refreshToken');
                 const headers = token ? { Authorization: `Bearer ${token}`, refreshToken: `${refreshToken}` } : {};
-                const response = await axios.get("http://localhost:8080/trainer/my/members", { headers });
+                const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/trainer/my/members`, { headers });
                 console.log(response);
                 this.trainees = response.data.result;
             } catch (error) {

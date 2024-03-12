@@ -131,7 +131,7 @@ export default {
             registerData.append("role",this.role);
             registerData.append("profileImage",this.profileImage);
             try {
-                await axios.post("http://localhost:8080/trainer/create", registerData, {
+                await axios.post(`${process.env.VUE_APP_API_BASE_URL}/trainer/create`, registerData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }

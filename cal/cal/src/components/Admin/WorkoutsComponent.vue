@@ -63,7 +63,7 @@ export default {
       const refreshToken = localStorage.getItem('refreshToken');
       const headers = token ? { Authorization: `Bearer ${token}`, refreshToken: `${refreshToken}` } : {};
       try {
-        const response = await axios.get('http://localhost:8080/totalworkouts/list', { headers });
+        const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/totalworkouts/list`, { headers });
         console.log(response.data.result)
         this.totalworkouts = response.data.result ? response.data.result.filter(totalworkout => totalworkout.delYn !== 'Y') : [];
       } catch (error) {
@@ -77,7 +77,7 @@ export default {
         const refreshToken = localStorage.getItem('refreshToken');
         const headers = token ? { Authorization: `Bearer ${token}`, refreshToken: `${refreshToken}` } : {};
         try {
-          await axios.delete(`http://localhost:8080/totalworkouts/delete/${workoutId}`, { headers });
+          await axios.delete(`${process.env.VUE_APP_API_BASE_URL}/totalworkouts/delete/${workoutId}`, { headers });
           alert('해당 운동이 삭제되었습니다.');
           this.$router.go();
         } catch (error) {
@@ -89,7 +89,7 @@ export default {
       const token = localStorage.getItem('token');
       const headers = { Authorization: `Bearer ${token}` };
       try {
-        await axios.post('http://localhost:8080/totalworkouts/create/', this.newWorkout, { headers });
+        await axios.post(`${process.env.VUE_APP_API_BASE_URL}/totalworkouts/create/`, this.newWorkout, { headers });
         alert('운동이 성공적으로 등록되었습니다.');
         location.reload();
       } catch (error) {

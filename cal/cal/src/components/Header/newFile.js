@@ -17,7 +17,7 @@ methods: {
 async fetchTrainerInfo() {
 try {
 const token = localStorage.getItem('token');
-const response = await axios.get('http://localhost:8080/member/my/trainer', {
+const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/member/my/trainer`, {
 headers: { Authorization: `Bearer ${token}` },
 });
 this.trainer = response.data.result;

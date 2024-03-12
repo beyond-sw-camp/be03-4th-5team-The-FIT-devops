@@ -103,7 +103,7 @@
           const refreshToken = localStorage.getItem('refreshToken');
           const headers = token ? {Authorization: `Bearer ${token}`,refreshToken:`${refreshToken}`}:{};
         try {
-          const response = await axios.get('http://localhost:8080/member/list', { headers });
+          const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/member/list`, { headers });
           // del_yn이 'Y'가 아닌 회원만 필터링하여 할당
           console.log(response.data.result)
           this.members = response.data.result ? response.data.result.filter(member => member.delYn !== 'Y') : [];
@@ -118,7 +118,7 @@
           const refreshToken = localStorage.getItem('refreshToken');
           const headers = token ? {Authorization: `Bearer ${token}`,refreshToken:`${refreshToken}`}:{};
         try {
-          const response = await axios.get('http://localhost:8080/trainer/list', { headers });
+          const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/trainer/list`, { headers });
           // del_yn이 'Y'가 아닌 트레이너만 필터링하여 할당
           this.trainers = response.data.result ? response.data.result.filter(trainer => trainer.delYn !== 'Y') : [];
         } catch (error) {
@@ -133,7 +133,7 @@
           const refreshToken = localStorage.getItem('refreshToken');
           const headers = token ? {Authorization: `Bearer ${token}`,refreshToken:`${refreshToken}`}:{};
           try {
-            await axios.delete(`http://localhost:8080/member/delete/${memberId}`, { headers });
+            await axios.delete(`${process.env.VUE_APP_API_BASE_URL}/delete/${memberId}`, { headers });
             alert('회원이 삭제되었습니다.');
             this.$router.go(); // 현재 페이지를 새로고침하여 목록을 업데이트
           } catch (error) {
@@ -148,7 +148,7 @@
           const refreshToken = localStorage.getItem('refreshToken');
           const headers = token ? {Authorization: `Bearer ${token}`,refreshToken:`${refreshToken}`}:{};
           try {
-            await axios.delete(`http://localhost:8080/trainer/delete/${trainerId}`, { headers });
+            await axios.delete(`${process.env.VUE_APP_API_BASE_URL}/delete/${trainerId}`, { headers });
             alert('트레이너가 삭제되었습니다.');
             this.$router.go(); // 현재 페이지를 새로고침하여 목록을 업데이트
           } catch (error) {

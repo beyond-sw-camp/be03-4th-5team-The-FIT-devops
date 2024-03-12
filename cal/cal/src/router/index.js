@@ -130,6 +130,7 @@ const router = createRouter({
   // 2) createHashHistory
   history: createWebHistory(),
   routes,
-});
 
+
+});
 export default router;

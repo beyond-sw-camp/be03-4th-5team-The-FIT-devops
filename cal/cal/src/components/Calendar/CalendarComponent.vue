@@ -64,15 +64,15 @@ async function loadDates() {
     const token = localStorage.getItem('token');
     const headers = token ? { Authorization: `Bearer ${token}` } : {};
     if (role == 'MEMBER') {
-      const response = await axios.get(`http://localhost:8080/workout_list/list/`, { headers });
-      const response2 = await axios.get(`http://localhost:8080/diet/list/`, { headers });
+      const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/workout_list/list/`, { headers });
+      const response2 = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/diet/list/`, { headers });
       workouts.value = response.data.result;
       diets.value = response2.data.result;
     } else if (role == 'TRAINER') {
       const email = localStorage.getItem('accessEmail');
       console.log(email);
-      const response = await axios.get(`http://localhost:8080/workout_list/list/${email}`, { headers });
-      const response2 = await axios.get(`http://localhost:8080/diet/list/${email}`, { headers });
+      const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/workout_list/list/${email}`, { headers });
+      const response2 = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/diet/list/${email}`, { headers });
       workouts.value = response.data.result;
       diets.value = response2.data.result;
     }

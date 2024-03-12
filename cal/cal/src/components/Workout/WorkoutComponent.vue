@@ -148,7 +148,7 @@ export default {
                 const date = urlParams.get('date');
                 const token = localStorage.getItem('token');
                 const headers = token ? { Authorization: `Bearer ${token}` } : {};
-                const url = `http://localhost:8080/workout/list/member?memberEmail=${memberEmail}&date=${date}`;
+                const url = `${process.env.VUE_APP_API_BASE_URL}/workout/list/member?memberEmail=${memberEmail}&date=${date}`;
                 const response = await axios.get(url, { headers });
                 console.log(response);
                 this.toTraineeWorkouts = response.data.result;
@@ -165,13 +165,13 @@ export default {
                 const date = urlParams.get('date');
                 const headers = token ? {Authorization: `Bearer ${token}`,refreshToken:`${refreshToken}`}:{};
                 if(localStorage.getItem('role')==="MEMBER"){
-                    const response = await axios.get(`http://localhost:8080/workout/feedback/member/find?date=${date}`,{headers});
+                    const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/workout/feedback/member/find?date=${date}`,{headers});
                     this.feedback = response.data.result;
                     this.doneFeedback =true;
                     console.log(response);
                 }else if(localStorage.getItem('role')==="TRAINER"){
                     const memberEmail = localStorage.getItem('accessEmail')
-                    const response = await axios.get(`http://localhost:8080/workout/feedback/trainer/find?date=${date}&memberEmail=${memberEmail}`,{headers});
+                    const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/workout/feedback/trainer/find?date=${date}&memberEmail=${memberEmail}`,{headers});
                     this.feedback = response.data.result;
                     this.doneFeedback =true;
                     console.log(response);
@@ -185,7 +185,7 @@ export default {
                 const token = localStorage.getItem('token');
                 const refreshToken = localStorage.getItem('refreshToken');
                 const headers = token ? { Authorization: `Bearer ${token}`, refreshToken: `${refreshToken}` } : {};
-                const response = await axios.get("http://localhost:8080/trainer/find", { headers });
+                const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/trainer/find`, { headers });
                 console.log(response);
                 this.trainerInfo = response.data.result;
             } catch (error) {

@@ -135,7 +135,7 @@ export default {
                     memberId: localStorage.getItem("memberId"),
                     workOutDate: this.datechoice,
                 };
-                await axios.post("http://localhost:8080/workout_list/create", request, { headers });
+                await axios.post(`${process.env.VUE_APP_API_BASE_URL}/workout_list/create`, request, { headers });
                 // const url = `http://localhost:8080/workout_list/getid?memberEmail=${memberEmail}&date=${date}`
                 window.location.href = "/workout/assign";
             }
@@ -145,7 +145,7 @@ export default {
         },
         async loadTrainers() {
             try {
-                const response = await axios.get("http://localhost:8080/trainer/list");
+                const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/trainer/list`);
                 this.trainersList = response.data.result;
                 console.log(this.trainersList);
             }

@@ -43,7 +43,7 @@ export default {
                 const token = localStorage.getItem('token');
                 const refreshToken = localStorage.getItem('refreshToken');
                 const headers = token ? { Authorization: `Bearer ${token}`, refreshToken: `${refreshToken}` } : {};
-                const response = await axios.get("http://localhost:8080/totalworkouts/list", { headers });
+                const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/totalworkouts/list`, { headers });
                 this.totalworkouts = response.data.result;
             } catch (error) {
                 console.error('Failed to load workouts:', error);
@@ -55,7 +55,7 @@ export default {
             const headers = token ? { Authorization: `Bearer ${token}`, refreshToken: `${refreshToken}` } : {};
             const memberEmail = localStorage.getItem("accessEmail");
             const date = localStorage.getItem("date");
-            const url = `http://localhost:8080/workout_list/getid?memberEmail=${memberEmail}&date=${date}`
+            const url = `${process.env.VUE_APP_API_BASE_URL}/workout_list/getid?memberEmail=${memberEmail}&date=${date}`
             const response = await axios.get(url, { headers });
             this.workoutlistId = response.data.result;
             console.log("please = "+ this.workoutlistId);
@@ -72,7 +72,7 @@ export default {
                     workOutStatus: "INCOMPLETED",
                 };
                 try {
-                    await axios.post("http://localhost:8080/workout/create", workoutData, { headers });
+                    await axios.post(`${process.env.VUE_APP_API_BASE_URL}/workout/create`, workoutData, { headers });
                     console.log(`Workout ${id} assigned successfully.`);
                 } catch (error) {
                     console.error(`Failed to assign workout ${id}:`, error);

@@ -22,7 +22,7 @@
       try {
         const token = localStorage.getItem('token');
         const headers = token ? { Authorization: `Bearer ${token}` } : {};
-        const response = await axios.get(`http://localhost:8080/trainer/my/members`, { headers });
+        const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/trainer/my/members`, { headers });
         this.members = response.data.result; // 데이터 형식에 따라 조정이 필요할 수 있음
       } catch (error) {
         console.error('트레이니 정보 불러오기 중 에러가 발생했습니다.', error);

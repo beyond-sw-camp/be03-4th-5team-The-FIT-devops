@@ -64,7 +64,7 @@ export default {
         registerData.append("comment", this.comment);
         registerData.append("image", this.imagePath);
         registerData.append("type", this.selectedMealType);
-        await axios.post("http://localhost:8080/diet/create", registerData, { headers });
+        await axios.post(`${process.env.VUE_APP_API_BASE_URL}/diet/create`, registerData, { headers });
       } catch (error) {
         console.log(error);
       }

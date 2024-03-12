@@ -6,7 +6,7 @@
         <button @click="goToMyTrainer" class="header-button" v-if="userRole === 'MEMBER'">나의 트레이너 보기</button>
         <button @click="openFeedtModal">
             <font-awesome-layers full-width class="fa-3x">
-              <font-awesome-icon icon="fa-regular fa-bell" style="cursor: pointer" />
+              <font-awesome-icon icon="fa-solid fa-bell" style="cursor: pointer; color: #BC96FB; font-size: 24px;" />
               <font-awesome-layers-text id="alarm" counter :value="memberAction" position="top-right" v-if="memberAction != 0 && userRole==='TRAINER'" />
               <font-awesome-layers-text id="alarm" counter :value="myFeedBack" position="top-right" v-if="myFeedBack != 0 && userRole==='MEMBER'" />
             </font-awesome-layers>
@@ -57,7 +57,7 @@ export default {
   async created() {
     if(localStorage.getItem('token') != null){
       const token = localStorage.getItem('token');
-      var sse = new EventSourcePolyfill('http://localhost:8080/connect', {
+      var sse = new EventSourcePolyfill(`${process.env.VUE_APP_API_BASE_URL}/connect`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -148,7 +148,7 @@ export default {
       try {
         const token = localStorage.getItem('token');
         const headers = token ? { Authorization: `Bearer ${token}` } : {};
-        const response = await axios.get(`http://localhost:8080/member/my/trainer`, { headers });
+        const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/member/my/trainer`, { headers });
         trainers.value = response.data.result; // 'trainers' 상태를 직접 업데이트
         isModalVisible.value = true; // 모달 표시
       } catch (error) {

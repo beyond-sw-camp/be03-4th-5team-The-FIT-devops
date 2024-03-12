@@ -77,7 +77,7 @@ export default {
           upLoadDate : date
         };
         console.log(date);
-        await axios.patch(`http://localhost:8080/workout/update/${this.workoutId}`, workoutData, { headers });
+        await axios.patch(`${process.env.VUE_APP_API_BASE_URL}/workout/update/${this.workoutId}`, workoutData, { headers });
         this.closeModal();
         this.$emit('workoutUpdated');
         window.location.href=window.location.search;

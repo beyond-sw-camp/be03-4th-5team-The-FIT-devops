@@ -52,7 +52,7 @@
         async fetchTrainerInfo() {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get('http://localhost:8080/member/my/trainer', {
+            const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/member/my/trainer`, {
             headers: { Authorization: `Bearer ${token}` },
             });
             this.trainer = response.data.result;
@@ -64,7 +64,7 @@
         async fetchAllTrainers() {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get('http://localhost:8080/trainer/available/list', {
+            const response = await axios.get(`${process.env.VUE_APP_API_BASE_URL}/trainer/available/list`, {
             headers: { Authorization: `Bearer ${token}` },
             });
             this.trainersList = response.data.result;
@@ -78,7 +78,7 @@
             if (!confirmation) return;
             try {
                 const token = localStorage.getItem('token');
-                await axios.patch(`http://localhost:8080/member/update/mytrainer/${this.selectedTrainerId}`, {
+                await axios.patch(`${process.env.VUE_APP_API_BASE_URL}/member/update/mytrainer/${this.selectedTrainerId}`, {
                     profileImage: this.trainer.profileImage, // 멤버의 현재 이미지 경로
                     // 추가로 멤버의 다른 정보를 업데이트하려면 여기에 추가
                 }, { headers: { Authorization: `Bearer ${token}` } });

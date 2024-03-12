@@ -80,7 +80,7 @@ export default {
         async doLogin() {
             try {
                 const loginData = { email: this.email, password: this.password };
-                const response = await axios.post("http://localhost:8080/dologin", loginData);
+                const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/dologin`, loginData);
                 const token = response.data.result.token;
                 const refreshToken = response.data.result.refreshToken;
                 if (token) {
@@ -99,15 +99,9 @@ export default {
                 }
             }
             catch (error) {
-                const error_message = error.response.data.message;
-                if (error_message) {
-                    console.log(error_message);
-                    alert(error_message);
-                }
-                else {
                     console.log(error);
                     alert("로그인 실패!");
-                }
+
             }
         }
     },
