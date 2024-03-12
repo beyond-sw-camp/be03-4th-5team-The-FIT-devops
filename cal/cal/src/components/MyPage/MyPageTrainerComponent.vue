@@ -115,7 +115,7 @@ export default {
                 const refreshToken = localStorage.getItem('refreshToken');
                 const headers = token ? { Authorization: `Bearer ${token}`, refreshToken: `${refreshToken}`,'Content-Type': 'multipart/form-data'} : {};
                 if(this.updateImage != null){
-                    this.profileImage = this.updateImage;
+                registerData.append("profileImage", this.updateImage);
                 }
                 const registerData = new FormData();
                 registerData.append("name", this.name);
