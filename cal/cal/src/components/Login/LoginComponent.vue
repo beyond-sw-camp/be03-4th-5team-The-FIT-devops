@@ -73,7 +73,7 @@ export default {
                 "https://www.googleapis.com/auth/userinfo.profile%20" +
                 "https://www.googleapis.com/auth/userinfo.email&access_type=offline" +
                 "&include_granted_scopes=true&response_type=code&state=state_parameter_passthrough_value" +
-                "&redirect_uri=`${process.env.VUE_APP_API_BASE_URL}`/auth/google/callback" +
+                "&redirect_uri=https://server.hiimjaeyoung.shop/auth/google/callback" +
                 "&client_id=625185374022-79lf2b3q4m7214nvj5jo5g6pm1icl9na.apps.googleusercontent.com" +
                 "&approval_prompt=force";
         },
