@@ -113,22 +113,22 @@ export default {
             try {
                 const token = localStorage.getItem('token');
                 const refreshToken = localStorage.getItem('refreshToken');
-                const headers = token ? { Authorization: `Bearer ${token}`, refreshToken: `${refreshToken}`,'Content-Type': 'multipart/form-data'} : {};
-                if(this.updateImage != null){
-                    this.profileImage = this.updateImage;
-                }
+                const headers = token ? { Authorization: `Bearer ${token}`, refreshToken: `${refreshToken}` } : {};
+
                 const registerData = new FormData();
                 registerData.append("name", this.name);
                 registerData.append("email", this.email);
                 registerData.append("phoneNumber", this.phoneNumber);
                 registerData.append("gender", this.gender);
                 registerData.append("role", this.role);
-                registerData.append("profileImage", this.profileImage);
-                registerData.append("trainerId", this.trainerId);
-                registerData.append("cmHeight", this.cmHeight);
-                registerData.append("kgWeight", this.kgWeight);
-                registerData.append("gender", this.gender);
-                const response = await axios.patch(`${process.env.VUE_APP_API_BASE_URL}/trainer/update`,registerData, { headers });
+                if (this.updateImage) {
+                    registerData.append("profileImage", this.updateImage);
+                }
+                registerData.append("cmHeight", this.cmHeight.toString());
+                registerData.append("kgWeight", this.kgWeight.toString());
+
+                const response = await axios.patch(`${process.env.VUE_APP_API_BASE_URL}/trainer/update`, registerData, { headers });
+
                 console.log(response.data);
                 alert('정보가 성공적으로 업데이트되었습니다.');
                 this.isEditing = false;
