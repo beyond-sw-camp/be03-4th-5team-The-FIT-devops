@@ -164,7 +164,7 @@ ource="trainer.id"와 같이 점(.)을 사용하는 이유는, 복합 객체 내
 <summary>
 <b>구글 로그인</b>
 </summary>
-<img src="https://github.com/beyond-sw-camp-spring-project-The-fit/The-fit/blob/docs/%E1%84%83%E1%85%A6%E1%84%86%E1%85%A9%20%E1%84%8B%E1%85%A7%E1%86%BC%E1%84%89%E1%85%A1%E1%86%BC/0.%20%E1%84%80%E1%85%AE%E1%84%80%E1%85%B3%E1%86%AF%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3%E1%84%8B%E1%85%B5%E1%86%AB.gif?raw=true">
+<img src="[https://github.com/beyond-sw-camp-spring-project-The-fit/The-fit/blob/docs/%E1%84%83%E1%85%A6%E1%84%86%E1%85%A9%20%E1%84%8B%E1%85%A7%E1%86%BC%E1%84%89%E1%85%A1%E1%86%BC/0.%20%E1%84%80%E1%85%AE%E1%84%80%E1%85%B3%E1%86%AF%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3%E1%84%8B%E1%85%B5%E1%86%AB.gif?raw=true](https://github.com/beyond-sw-camp/be03-4th-5team-The-FIT-devops-front/blob/front/%EB%8D%B0%EB%AA%A8%20%EC%98%81%EC%83%81/0.%20%EA%B5%AC%EA%B8%80%EB%A1%9C%EA%B7%B8%EC%9D%B8.gif?raw=true)">
 </details>
 
 <details>
