@@ -86,12 +86,42 @@ The FIT은 트레이너와 트레이니(회원)가 상호작용하는 플랫폼�
 
 <img src="https://github.com/beyond-sw-camp/be03-4th-5team-The-FIT-devops-front/blob/8d085b767bab87ec7eb6362d8df4276b832f8b7a/The%20FIT%20%EC%82%AC%EC%A7%84%20%EC%9E%90%EB%A3%8C/The%20FIT%20%EB%85%BC%EB%A6%AC%EC%A0%81%20ERD.png">
 
-## :muscle: DB아키텍처
-
-<img src="https://github.com/beyond-sw-camp/be03-4th-5team-The-FIT-devops-front/blob/8d085b767bab87ec7eb6362d8df4276b832f8b7a/The%20FIT%20%EC%82%AC%EC%A7%84%20%EC%9E%90%EB%A3%8C/The%20FIT%20DB%20%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90.png">
 
 ## :muscle: API설계
 <img src="https://github.com/beyond-sw-camp/be03-4th-5team-The-FIT-devops-front/blob/8d085b767bab87ec7eb6362d8df4276b832f8b7a/The%20FIT%20%EC%82%AC%EC%A7%84%20%EC%9E%90%EB%A3%8C/The%20FIT%20API%EC%84%A4%EA%B3%84.png">
+
+## :muscle: 초기 배포 아키텍처
+
+<img src="https://github.com/beyond-sw-camp/be03-4th-5team-The-FIT-devops-front/blob/8d085b767bab87ec7eb6362d8df4276b832f8b7a/The%20FIT%20%EC%82%AC%EC%A7%84%20%EC%9E%90%EB%A3%8C/The%20FIT%20DB%20%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90.png">
+
+## :muscle: 최종 배포 아키텍쳐
+
+<img src="https://github.com/beyond-sw-camp/be03-4th-5team-The-FIT-devops-front/blob/fd0c864e2ebcdd75e33210d25e93e52a2a2c63de/The%20FIT%20%EC%82%AC%EC%A7%84%20%EC%9E%90%EB%A3%8C/The%20FIT%20%EC%B5%9C%EC%A2%85%20%EB%B0%B0%ED%8F%AC%20%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90.png">
+
+## :muscle: Script 
+<details>
+<summary>
+<b>git action script</b>
+</summary>
+```python
+print('hello')
+```
+</details>
+
+<details>
+<summary>
+<b>jenkins script</b>
+</summary>
+</details>
+
+<details>
+<summary>
+<b>dokcer spcript</b>
+</summary>
+</details>
+
+
+
 
 ## :muscle: 중점 기술 명세
 <details>
@@ -109,7 +139,6 @@ The FIT은 트레이너와 트레이니(회원)가 상호작용하는 플랫폼�
     1. 그 토큰을 사용자와 매핑되도록 데이터베이스에 저장
     2. Refresh Token 사용시 데이터베이스에 액세스
     3. 강제로 로그아웃 시키거나, 차단할 수 있게되고 또한 Refresh Token이 탈취되었을 경우 그 즉시 무효화시킬 수 있습니다.
-    4. 
 ## 구현 방식
 1. Access Token
     1. jwt 토큰 발급 : 페이 로더에 이메일과 유저의 role 담음
@@ -134,7 +163,6 @@ The FIT은 트레이너와 트레이니(회원)가 상호작용하는 플랫폼�
   - 권한 부여 승인을 위해 자체 생성한 Authorization Code를 전달하는 방식
   - 클라이언트가 사용자를 대신하여 특정 자원에 접근을 요청할 때 사용
   - Refresh Token의 사용이 가능한 방식
-  - 
 ## 유저에서 권한 서버까지
 1. 유저는 권한 부여 승인 요청
 2. 이후 클라이언트는 권한 서버 (구글)에서 제공하는 로그인 페이지를 브라우저를 띄움
@@ -162,6 +190,18 @@ Service 또는 Controller에서 Mapper 인스턴스를 사용하여 DTO와 엔�
 ource="trainer.id"와 같이 점(.)을 사용하는 이유는, 복합 객체 내부의 특정 필드를 지정하기 위함입니다.
 > 즉, trainer 객체의 id 필드를 대상 객체의 trainerId 필드와 매핑하겠다는 의미입니다.
 >  이렇게 되면 구현체는 자동으로 생성됩니다.
+</details>
+
+<details>
+<summary>
+<b>SSE</b>
+</summary>
+</details>
+
+<details>
+<summary>
+<b>Redis pub/subs</b>
+</summary>
 </details>
 
 
