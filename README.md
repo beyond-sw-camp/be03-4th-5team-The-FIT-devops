@@ -62,32 +62,36 @@ The FIT은 트레이너와 트레이니(회원)가 상호작용하는 플랫폼�
 
 <h3>AWS<h3>
 
-<img src="https://img.shields.io/badge/amazonaws-navy?style=for-the-badge&logo=amazonaws&logoColor=white">
+<img src="https://img.shields.io/badge/amazonecr-navy?style=for-the-badge&logo=amazonaws&logoColor=white">
 <img src="https://img.shields.io/badge/amazonec2-skyblue?style=for-the-badge&logo=amazonec2&logoColor=white">
 <img src="https://img.shields.io/badge/amazonrds-02303A?style=for-the-badge&logo=amazonrds&logoColor=white">
 <img src="https://img.shields.io/badge/amazons3-orange?style=for-the-badge&logo=amazons3&logoColor=white">
-<img src="https://img.shields.io/badge/amazonaws-yellow?style=for-the-badge&logo=amazonaws&logoColor=white">
+<img src="https://img.shields.io/badge/amazoneks-green?style=for-the-badge&logo=amazonaws&logoColor=white">
+<img src="https://img.shields.io/badge/amazonelastickcahe-pink?style=for-the-badge&logo=amazonaws&logoColor=white">
 
-<h3>COMMUNICATION</h3>
+<h3>TOOLS</h3>
 
-<img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white"><img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
+<img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
+<img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
+<img src="https://img.shields.io/badge/gitaction-181760?style=for-the-badge&logo=github&logoColor=white">
 <img src="https://img.shields.io/badge/slack-purple?style=for-the-badge&logo=slack&logoColor=white">
+<img src="https://img.shields.io/badge/jenkins-orange?style=for-the-badge&logo=jenkins&logoColor=white">
 </details>
 <br>
   
 ## :muscle: 요구사항명세서
-<img src="https://github.com/beyond-sw-camp-spring-project-The-fit/The-fit/blob/docs/The%20FIT%20%EC%82%AC%EC%A7%84%20%EC%9E%90%EB%A3%8C/The%20FIT%20%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD%20%EB%AA%85%EC%84%B8%EC%84%9C.png?raw=true">
+<img src="https://github.com/beyond-sw-camp/be03-4th-5team-The-FIT-devops-front/blob/8d085b767bab87ec7eb6362d8df4276b832f8b7a/The%20FIT%20%EC%82%AC%EC%A7%84%20%EC%9E%90%EB%A3%8C/The%20FIT%20%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD%20%EB%AA%85%EC%84%B8%EC%84%9C.png">
 
 ## :muscle: ERD
 
-<img src="https://github.com/beyond-sw-camp-spring-project-The-fit/The-fit/blob/docs/The%20FIT%20%EC%82%AC%EC%A7%84%20%EC%9E%90%EB%A3%8C/The%20FIT%20%EB%85%BC%EB%A6%AC%EC%A0%81%20ERD.png?raw=true">
+<img src="https://github.com/beyond-sw-camp/be03-4th-5team-The-FIT-devops-front/blob/8d085b767bab87ec7eb6362d8df4276b832f8b7a/The%20FIT%20%EC%82%AC%EC%A7%84%20%EC%9E%90%EB%A3%8C/The%20FIT%20%EB%85%BC%EB%A6%AC%EC%A0%81%20ERD.png">
 
 ## :muscle: DB아키텍처
 
-<img src="https://github.com/beyond-sw-camp-spring-project-The-fit/The-fit/blob/docs/The%20FIT%20%EC%82%AC%EC%A7%84%20%EC%9E%90%EB%A3%8C/The%20FIT%20DB%20%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90.png?raw=true">
+<img src="https://github.com/beyond-sw-camp/be03-4th-5team-The-FIT-devops-front/blob/8d085b767bab87ec7eb6362d8df4276b832f8b7a/The%20FIT%20%EC%82%AC%EC%A7%84%20%EC%9E%90%EB%A3%8C/The%20FIT%20DB%20%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90.png">
 
 ## :muscle: API설계
-<img src="https://github.com/beyond-sw-camp-spring-project-The-fit/The-fit/blob/docs/The%20FIT%20%EC%82%AC%EC%A7%84%20%EC%9E%90%EB%A3%8C/The%20FIT%20API%EC%84%A4%EA%B3%84.png?raw=true">
+<img src="https://github.com/beyond-sw-camp/be03-4th-5team-The-FIT-devops-front/blob/8d085b767bab87ec7eb6362d8df4276b832f8b7a/The%20FIT%20%EC%82%AC%EC%A7%84%20%EC%9E%90%EB%A3%8C/The%20FIT%20API%EC%84%A4%EA%B3%84.png">
 
 ## :muscle: 중점 기술 명세
 <details>
